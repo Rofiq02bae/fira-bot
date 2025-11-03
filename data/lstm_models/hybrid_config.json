@@ -1,0 +1,25 @@
+{
+  "model_type": "lstm",
+  "vocab_size": 631,
+  "max_sequence_length": 10,
+  "embedding_dim": 64,
+  "lstm_units": 32,
+  "num_classes": 44,
+  "tokenizer_info": {
+    "oov_token": "<oov>",
+    "num_words": 5000
+  },
+  "training_info": {
+    "epochs_trained": 82,
+    "final_train_accuracy": 0.993852436542511,
+    "final_val_accuracy": 0.984438955783844,
+    "final_train_loss": 0.03584498539566994,
+    "final_val_loss": 0.056499458849430084
+  },
+  "lstm_model": "data/lstm_models/chatbot_model.h5",
+  "label_encoder": "data/lstm_models/label_encoder.pkl",
+  "tokenizer": "data/lstm_models/tokenizer.pkl",
+  "bert_model": "indobenchmark/indobert-lite-base-p1",
+  "training_strategy": "LSTM + IndoBERT Hybrid",
+  "timestamp": "2025-10-29 12:30:43"
+}

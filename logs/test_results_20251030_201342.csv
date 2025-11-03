@@ -1,0 +1,18 @@
+text,expected_intent,predicted_intent,confidence,method_used,response,processing_time_ms,success,status,pattern_similarity
+halo,salam,error,0.0,error,"Maaf, terjadi kesalahan dalam memproses pertanyaan Anda.",1849.03,False,success,1.0
+hai,salam,error,0.0,error,"Maaf, terjadi kesalahan dalam memproses pertanyaan Anda.",2189.31,False,success,1.0
+hi,salam,error,0.0,error,"Maaf, terjadi kesalahan dalam memproses pertanyaan Anda.",1267.0,False,success,1.0
+hello,salam,error,0.0,error,"Maaf, terjadi kesalahan dalam memproses pertanyaan Anda.",2021.71,False,success,1.0
+selamat pagi,salam,error,0.0,error,"Maaf, terjadi kesalahan dalam memproses pertanyaan Anda.",2363.2,False,success,1.0
+assalamualaikum,salam,error,0.0,error,"Maaf, terjadi kesalahan dalam memproses pertanyaan Anda.",748.83,False,success,1.0
+terimakasih,terimakasih,error,0.0,error,"Maaf, terjadi kesalahan dalam memproses pertanyaan Anda.",3050.58,False,success,1.0
+makasih,terimakasih,error,0.0,error,"Maaf, terjadi kesalahan dalam memproses pertanyaan Anda.",165.78,False,success,1.0
+terima kasih banyak,terimakasih,error,0.0,error,"Maaf, terjadi kesalahan dalam memproses pertanyaan Anda.",1442.37,False,success,1.0
+bappenda buka jam berapa,bappenda_info,error,0.0,error,"Maaf, terjadi kesalahan dalam memproses pertanyaan Anda.",1684.07,False,success,0.8
+jam buka dinsos,dinsos_jam_operasional,error,0.0,error,"Maaf, terjadi kesalahan dalam memproses pertanyaan Anda.",941.19,False,success,0.0
+cara buat ktp,ktp_info,error,0.0,error,"Maaf, terjadi kesalahan dalam memproses pertanyaan Anda.",1118.8,False,success,1.0
+bapenda,bappenda_info,error,0.0,error,"Maaf, terjadi kesalahan dalam memproses pertanyaan Anda.",2707.32,False,success,0.3333333333333333
+dinsoss,dinsos_info,error,0.0,error,"Maaf, terjadi kesalahan dalam memproses pertanyaan Anda.",550.65,False,success,0.3333333333333333
+apa kabar,,error,0.0,error,"Maaf, terjadi kesalahan dalam memproses pertanyaan Anda.",2537.04,True,success,
+cuaca hari ini,,error,0.0,error,"Maaf, terjadi kesalahan dalam memproses pertanyaan Anda.",356.85,True,success,
+saran,,error,0.0,error,"Maaf, terjadi kesalahan dalam memproses pertanyaan Anda.",2873.27,True,success,

@@ -1,0 +1,33 @@
+# lstm requirements for the project
+tensorflow
+pandas
+scikit-learn
+nltk
+fastapi
+uvicorn
+python-telegram-bot==20.7
+requests
+pydantic
+torch
+
+# bert requirements for the project
+transformers==4.35.2
+psutil
+python-multipart
+accelerate
+sentence-transformers==2.2.2
+matplotlib
+seaborn
+jupyter
+ipython
+
+# fine tune pip
+datasets 
+accelerate 
+evaluate
+
+# telegram bot and environment management
+python-telegram-bot 
+python-dotenv 
+requests
+aiohttp

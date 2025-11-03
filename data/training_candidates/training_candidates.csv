@@ -1,0 +1,7 @@
+text,predicted_intent,confidence,method_used,fallback_reason,logged_at,evaluated,suggested_intent,suggested_response,notes
+cuaca hari ini,dlh_info,0.0868891179561615,bert_direct,both_patterns_mismatch,2025-10-30T20:15:02.094089,True,out_of_topic,"Maaf, saya hanya chatbot untuk menjawab seputar pemerintahan. mohon hubungi 123 untuk saran, kritik, dan pertanyaan 😄",
+apa kabar,salam,0.2400096803903579,bert_direct,both_patterns_mismatch,2025-10-30T20:15:02.697247,True,kabar,"Halo! Apa kabar? 😊 Saya baik-baik saja, terima kasih! Sebagai asisten AI, saya selalu siap membantu Anda. Ada yang bisa saya bantu hari ini?",
+siapa kamu,loakk_info,0.2650916278362274,bert_direct,both_patterns_mismatch,2025-10-31T09:05:18.840427,True,bot_info,Saya adalah chatbot CS untuk menjawab berbagai kebutuhan masyarakat tentang layanan pemerintah 😄,
+cuaca dong,salam,0.1081918105483055,bert_direct,both_patterns_mismatch,2025-10-31T09:27:53.371848,True,out_of_topic,"Maaf, saya hanya chatbot untuk menjawab seputar pemerintahan. mohon hubungi 123 untuk saran, kritik, dan pertanyaan 😄",
+bjirr,salam,0.1173823401331901,bert_direct,both_patterns_mismatch,2025-10-31T09:29:26.692325,True,out_of_topic,"Maaf, saya hanya chatbot untuk menjawab seputar pemerintahan. mohon hubungi 123 untuk saran, kritik, dan pertanyaan 😄",
+kominfo tegallll,dinsos_info,0.2564272880554199,bert_direct,both_patterns_mismatch,2025-10-31T09:30:03.338866,True,miss_info,"maaf, bisa tuliskan pertanyaan dengan bahasa yang lebih sederhana?😅🥲",

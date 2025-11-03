@@ -1,0 +1,18 @@
+text,expected_intent,predicted_intent,confidence,method_used,response,processing_time_ms,success,status,pattern_similarity
+halo,salam,salam,0.464007705450058,bert_with_pattern,"Hai, ada yang bisa saya bantu?",1852.96,True,success,
+hai,salam,salam,0.4639524817466736,bert_with_pattern,"Halo, ada yang bisa saya bantu?",2149.22,True,success,
+hi,salam,salam,0.8643407821655273,lstm_direct,"Halo, ada yang bisa saya bantu?",801.47,True,success,
+hello,salam,salam,0.8552544116973877,lstm_direct,"Hai, ada yang bisa saya bantu?",2624.64,True,success,
+selamat pagi,salam,salam,0.9236347675323486,lstm_direct,"Selamat pagi, ada yang bisa saya bantu?",1999.09,True,success,
+assalamualaikum,salam,salam,0.8253556489944458,lstm_direct,"Waalaikumsalam, ada yang bisa saya bantu?",489.77,True,success,
+terimakasih,terimakasih,terimakasih,0.8731536269187927,lstm_direct,Sama-sama.,2776.16,True,success,
+makasih,terimakasih,terimakasih,0.5639902949333191,lstm_direct,Sama-sama.,168.76,True,success,
+terima kasih banyak,terimakasih,terimakasih,0.9740332365036011,lstm_direct,Sama-sama.,647.25,True,success,
+bappenda buka jam berapa,bappenda_info,bappenda_info,0.9999449253082275,lstm_direct,jam layanan Bappenda setiap hari senin-jumat pukul 08.00 - 14.00 WIB,2475.01,True,success,
+jam buka dinsos,dinsos_jam_operasional,dinsos_info,0.999997615814209,lstm_direct,jam layanan DINAS SOSIAL setiap hari Senin - Jumat pukul 08.00 - 14.00 WIB,1250.69,False,success,0.0
+cara buat ktp,ktp_info,ktp_info,0.5485092997550964,bert_with_pattern,"Pembuatan KTP-el Baru.|Telah berusia 17 ( tujuh belas ) tahun atau sudah nikah atau pernah nikah.|Mengisi formulir F1.21 Permohonan pembuatan KTP-el.|Foto Copy Akta Kelahiran/Ijazah/STTB.|Foto Copy KK, Surat Nikah/Perkawinan/Perceraian dan dokumen pendukung lainnya.",328.33,True,success,
+bapenda,bappenda_info,bappenda_info,0.999625563621521,lstm_direct,jam layanan Bappenda setiap hari senin-jumat pukul 08.00 - 14.00 WIB,2309.89,True,success,
+dinsoss,dinsos_info,dinsos_info,0.9999973773956299,lstm_direct,jam layanan DINAS SOSIAL setiap hari Senin - Jumat pukul 08.00 - 14.00 WIB,981.68,True,success,
+apa kabar,,salam,0.24000968039035797,bert_direct,"Hai, ada yang bisa saya bantu?",1578.46,True,success,
+cuaca hari ini,,dlh_info,0.0868891179561615,bert_direct,jam layanan Dinas Lingkungan Hidup setiap hari Senin - Jumat pukul 08.00 - 14.00 WIB,1421.1,True,success,
+saran,,saran,0.5821419358253479,lstm_direct,"Terima kasih atas sarannya, kami akan menampungnya.",1703.88,True,success,
