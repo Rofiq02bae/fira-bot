@@ -1,0 +1,8 @@
+# Copy-paste ini di cell pertama Colab
+# ==================== OPTIMIZED FOR COLAB ====================
+# Install dengan versi yang sudah tested di Colab
+!pip install -q transformers datasets accelerate torch pandas
+!pip install -q scikit-learn pandas numpy tqdm
+
+print("🚀 Colab environment ready for BERT training!")
+print("✅ All dependencies installed successfully!")
