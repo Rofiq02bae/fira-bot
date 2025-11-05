@@ -29,7 +29,6 @@ Jika Anda **tidak memiliki GPU**, gunakan **Google Colab** dengan GPU **Tesla T4
 4. Pilih GPU Type: **T4** (gratis)
 5. Klik **Save**
 
-![GPU Setup](https://i.imgur.com/example.png)
 
 ✅ **Verifikasi GPU:** Jalankan `!nvidia-smi` untuk memastikan GPU aktif
 
