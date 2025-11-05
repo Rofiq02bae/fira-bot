@@ -1,8 +1,17 @@
+# ==================== INSTALL DEPENDENCIES ====================
 # Copy-paste ini di cell pertama Colab
-# ==================== OPTIMIZED FOR COLAB ====================
+
+print("🔄 Installing dependencies...")
+print("⏱️  Estimasi waktu: 2-3 menit\n")
+
 # Install dengan versi yang sudah tested di Colab
 !pip install -q transformers datasets accelerate torch pandas
-!pip install -q scikit-learn pandas numpy tqdm
+!pip install -q scikit-learn numpy tqdm
 
+print("\n" + "="*60)
 print("🚀 Colab environment ready for BERT training!")
 print("✅ All dependencies installed successfully!")
+print("="*60)
+print("\n⚠️  PENTING: Restart Session sekarang!")
+print("    Klik: Runtime > Restart session")
+print("="*60)

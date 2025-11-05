@@ -55,7 +55,6 @@ htmlcov/
 # Jupyter Notebook
 .ipynb_checkpoints
 COLAB_TRAINING.ipynb 
-COLAB_GUIDE.md
 # PyCharm
 .mypy_cache/
 .dmypy.json
