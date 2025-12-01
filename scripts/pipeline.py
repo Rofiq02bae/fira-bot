@@ -17,12 +17,12 @@ SCRIPTS_DIR = Path(__file__).parent
 # Define pipeline steps in order
 PIPELINE_STEPS = [
     "add_to_dataset.py",
+    "conver_json.py",
     "1hapus_duplikat.py",
     "2fix_csv.py",
     "3fix_csv_malformed.py",
     "4validate_csv.py",
-    "5data_splitter.py",
-    "6data_leak.py"
+    "5data_splitter.py"
 ]
 
 def run_script(script_name: str, python_path: str = None) -> bool:

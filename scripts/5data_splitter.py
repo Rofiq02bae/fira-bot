@@ -5,13 +5,12 @@ Script untuk split data patterns.
 """
 
 # Fix encoding HARUS di awal
-import encoding_fix
 from encoding_fix import get_data_path
 
 import pandas as pd
 
 # Baca file CSV awal
-df = pd.read_csv(get_data_path("data_jadi.csv"))
+df = pd.read_csv(get_data_path("dataset_clean.csv"))
 
 # Buat list baru untuk menampung baris hasil split
 new_rows = []

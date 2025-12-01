@@ -10,7 +10,6 @@ from encoding_fix import get_data_path
 
 import pandas as pd
 import numpy as np
-from collections import defaultdict
 
 
 def remove_duplicate_patterns(input_file, output_file):
@@ -133,7 +132,7 @@ def analyze_duplicates_per_intent(input_file):
     # Analisis duplikasi per intent
     intent_analysis = {}
     
-    for index, row in df.iterrows():
+    for _, row in df.iterrows():
         intent = str(row['intent'])
         patterns = str(row['patterns']).split('|')
         
@@ -223,7 +222,7 @@ def validate_output_file(output_file):
 
 if __name__ == "__main__":
     # Konfigurasi file
-    input_file = get_data_path("data_mentah.csv")
+    input_file = get_data_path("dataset_clean.csv")
     output_file = get_data_path("data_tanpa_duplikat.csv")
     
     print("=" * 80)

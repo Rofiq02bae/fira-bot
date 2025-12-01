@@ -1,0 +1,19 @@
+text,expected_intent,predicted_intent,confidence,method_used,response,processing_time_ms,success,status,pattern_similarity
+halo,salam,salam,0.7216411232948303,lstm_direct,"Hai, ada yang bisa saya bantu?",5117.28,True,success,
+hai,salam,salam,0.6361407041549683,lstm_direct,"Halo, ada yang bisa saya bantu?",4477.84,True,success,
+hi,salam,salam,0.5805577039718628,bert_with_pattern,"Halo, ada yang bisa saya bantu?",2244.52,True,success,
+hello,salam,salam,0.6749240159988403,lstm_direct,"Hai, ada yang bisa saya bantu?",2606.29,True,success,
+selamat pagi,salam,salam,0.9013420343399048,lstm_direct,"Selamat pagi, ada yang bisa saya bantu?",4767.75,True,success,
+assalamualaikum,salam,salam,0.497891366481781,bert_with_pattern,"Waalaikumsalam, ada yang bisa saya bantu?",3220.25,True,success,
+terimakasih,terimakasih,terimakasih,0.5575846433639526,lstm_direct,Sama-sama.,4113.02,True,success,
+makasih,terimakasih,terimakasih,0.5685657858848572,lstm_direct,Sama-sama.,766.23,True,success,
+terima kasih banyak,terimakasih,terimakasih,0.14441026747226715,lstm_direct,Sama-sama.,1926.91,True,success,
+bappenda buka jam berapa,bappenda_info,bappenda_info,0.9999516010284424,lstm_direct,jam layanan Bappenda setiap hari senin-jumat pukul 08.00 - 14.00 WIB,5481.0,True,success,
+jam buka dinsos,dinsos_jam_operasional,dinsos_info,0.9999895095825195,lstm_direct,jam layanan DINAS SOSIAL setiap hari Senin - Jumat pukul 08.00 - 14.00 WIB,5862.97,False,success,0.0
+cara buat ktp,ktp_info,loakk_info,0.13270707428455353,lstm_direct,"Surat Keterangan Kelahiran dari Fasilitas Kesehatan|Formulir Pelaporan Pencatatan Sipil di dalam Wilayah NKRI (F-2.01) Link https://sipandu.tegalkab.go.id/formulir/pelayanan/loakk|Buku Nikah|Kartu Keluarga|Keterangan: Semua berkas yang difoto/scan adalah berkas asli, bukan fotocopy.",1299.92,False,success,1.0
+bapenda,bappenda_info,bappenda_info,0.9998706579208374,lstm_direct,jam layanan Bappenda setiap hari senin-jumat pukul 08.00 - 14.00 WIB,5289.2,True,success,
+dinsoss,dinsos_info,dinsos_info,0.9999878406524658,lstm_direct,jam layanan DINAS SOSIAL setiap hari Senin - Jumat pukul 08.00 - 14.00 WIB,3814.03,True,success,
+apa kabar,,salam,0.2290923148393631,bert_direct,"Hai, ada yang bisa saya bantu?",5667.19,True,success,
+cuaca hari ini,,salam,0.1573122888803482,bert_direct,"Hai, ada yang bisa saya bantu?",3466.5,True,success,
+saran,,saran,0.27036750316619873,lstm_direct,"Terima kasih atas sarannya, kami akan menampungnya.",4945.04,True,success,
+siapa kamu,,bot_info,0.20591376721858978,bert_with_pattern,"Saya adalah Firaa, saya hadir untuk menjawab berbagai kebutuhan masyarakat tentang layanan pemerintah 😄",2890.6,True,success,
