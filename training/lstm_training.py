@@ -12,15 +12,28 @@ from tensorflow.keras.callbacks import EarlyStopping, ReduceLROnPlateau
 import pickle
 from datetime import datetime
 import json
+import os
+from pathlib import Path
+
+# Get absolute paths
+SCRIPT_DIR = Path(__file__).parent
+PROJECT_ROOT = SCRIPT_DIR.parent
+DATASET_FILE = PROJECT_ROOT / "data" / "dataset" / "dataset_training.csv"
+MODEL_DIR = PROJECT_ROOT / "data" / "lstm_models"
+LOG_DIR = PROJECT_ROOT / "logs"
+
+# Buat folder jika belum ada
+MODEL_DIR.mkdir(parents=True, exist_ok=True)
+LOG_DIR.mkdir(parents=True, exist_ok=True)
 
 # === MUAT DATASET ===
 print("📂 Memuat dataset...")
 try:
-    df = pd.read_csv('../data/dataset/dataset_training.csv')
+    df = pd.read_csv(DATASET_FILE)
     print(f"✅ Dataset berhasil dimuat! Shape: {df.shape}")
     print(f"📊 Distribusi intent: {df['intent'].value_counts()}")
 except FileNotFoundError:
-    print("❌ Error: File ../data/dataset/dataset_training.csv tidak ditemukan!")
+    print(f"❌ Error: File {DATASET_FILE} tidak ditemukan!")
     exit()
 
 # === PREPROCESSING DENGAN VALIDASI ===
@@ -172,15 +185,11 @@ print(f"Training - Loss: {train_accuracy[0]:.4f}, Accuracy: {train_accuracy[1]:.
 print(f"Validation - Loss: {val_accuracy[0]:.4f}, Accuracy: {val_accuracy[1]:.4f}")
 
 # === SIMPAN MODEL ===
-# Buat folder jika belum ada
-import os
-os.makedirs('../data/models', exist_ok=True)
-
-model.save('../data/lstm_models/chatbot_model.h5')
-with open('../data/lstm_models/tokenizer.pkl', 'wb') as f:
+model.save(MODEL_DIR / 'chatbot_model.h5')
+with open(MODEL_DIR / 'tokenizer.pkl', 'wb') as f:
     pickle.dump({'tokenizer': tokenizer, 'max_len': max_len, 'vocab_size': vocab_size}, f)
 
-with open('../data/lstm_models/label_encoder.pkl', 'wb') as f:
+with open(MODEL_DIR / 'label_encoder.pkl', 'wb') as f:
     pickle.dump(le, f)
 
 print("💾 Model dan tokenizer berhasil disimpan!")
@@ -212,7 +221,7 @@ hybrid_config = {
     "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 }
 
-with open('../data/lstm_models/hybrid_config.json', 'w') as f:
+with open(MODEL_DIR / 'hybrid_config.json', 'w') as f:
     json.dump(hybrid_config, f, indent=2)
 
 print("🔧 Konfigurasi hybrid system disimpan!")
@@ -233,11 +242,11 @@ log_data = {
     "bert_available": bert_info is not None  # PERBAIKAN: tambah info BERT availability
 }
 
-with open('../logs/training_log.json', 'a') as f:
+with open(LOG_DIR / 'training_log.json', 'a') as f:
     json.dump(log_data, f)
     f.write('\n')
 
-print("🧾 Hasil training dicatat ke ../logs/training_log.json")
+print(f"🧾 Hasil training dicatat ke {LOG_DIR / 'training_log.json'}")
 
 # === INFORMASI NEXT STEPS ===
 print("\n" + "="*60)

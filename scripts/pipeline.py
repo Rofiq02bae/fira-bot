@@ -16,8 +16,6 @@ SCRIPTS_DIR = Path(__file__).parent
 
 # Define pipeline steps in order
 PIPELINE_STEPS = [
-    "add_to_dataset.py",
-    "conver_json.py",
     "1hapus_duplikat.py",
     "2fix_csv.py",
     "3fix_csv_malformed.py",

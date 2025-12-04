@@ -6,10 +6,10 @@ Script untuk menghapus duplikasi pattern dalam dataset.
 
 # Fix encoding HARUS di awal sebelum import lain
 import encoding_fix
-from encoding_fix import get_data_path
 
 import pandas as pd
 import numpy as np
+from pathlib import Path
 
 
 def remove_duplicate_patterns(input_file, output_file):
@@ -221,9 +221,11 @@ def validate_output_file(output_file):
         print(f"❌ Error validasi file output: {e}")
 
 if __name__ == "__main__":
-    # Konfigurasi file
-    input_file = get_data_path("dataset_clean.csv")
-    output_file = get_data_path("data_tanpa_duplikat.csv")
+    # Konfigurasi file dengan path absolut
+    SCRIPT_DIR = Path(__file__).parent
+    PROJECT_ROOT = SCRIPT_DIR.parent
+    input_file = str(PROJECT_ROOT / "data" / "dataset" / "dataset_clean.csv")
+    output_file = str(PROJECT_ROOT / "data" / "dataset" / "data_tanpa_duplikat.csv")
     
     print("=" * 80)
     print("🛠️  TOOL PENGHAPUS DUPLIKASI PATTERN")

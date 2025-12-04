@@ -6,15 +6,15 @@ Script untuk fix malformed CSV.
 
 # Fix encoding HARUS di awal
 import encoding_fix
-from encoding_fix import get_data_path
 
 import csv
 import shutil
 from pathlib import Path
 
-
-# Use Path object for cross-platform compatibility
-CSV_PATH = Path(get_data_path("data_jadi.csv"))
+# Get absolute paths
+SCRIPT_DIR = Path(__file__).parent
+PROJECT_ROOT = SCRIPT_DIR.parent
+CSV_PATH = PROJECT_ROOT / "data" / "dataset" / "data_jadi.csv"
 BACKUP_PATH = CSV_PATH.with_suffix('.csv.bak')
 
 

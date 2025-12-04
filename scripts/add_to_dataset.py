@@ -7,8 +7,20 @@ import pandas as pd
 import sys
 import os
 
-def add_to_dataset(updates_file: str, dataset_file: str = "../data/dataset/data_mentah.csv"):
+# Get absolute paths
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+PROJECT_ROOT = os.path.dirname(SCRIPT_DIR)
+TRAINING_CANDIDATES_FILE = os.path.join(PROJECT_ROOT, "data", "training_candidates", "training_candidates.csv")
+DATASET_FILE = os.path.join(PROJECT_ROOT, "data", "dataset", "data_mentah.csv")
+
+def add_to_dataset(updates_file: str = None, dataset_file: str = None):
     """Add evaluated candidates ke dataset utama"""
+    
+    # Use default paths if not provided
+    if updates_file is None:
+        updates_file = TRAINING_CANDIDATES_FILE
+    if dataset_file is None:
+        dataset_file = DATASET_FILE
     
     if not os.path.exists(updates_file):
         print(f"❌ Updates file not found: {updates_file}")
@@ -64,10 +76,13 @@ def add_to_dataset(updates_file: str, dataset_file: str = "../data/dataset/data_
         print(f"❌ Error adding to dataset: {e}")
 
 if __name__ == "__main__":
-    if len(sys.argv) != 2:
-        print("Usage: python add_to_dataset.py <updates_file>")
-        print("Example: python add_to_dataset.py data/training_candidates/dataset_updates.csv")
-        sys.exit(1)
-    
-    updates_file = sys.argv[1]
-    add_to_dataset(updates_file)
+    if len(sys.argv) > 1:
+        # Allow custom file if provided
+        updates_file = sys.argv[1]
+        add_to_dataset(updates_file)
+    else:
+        # Use default paths
+        print(f"📂 Using default files:")
+        print(f"   Updates: {TRAINING_CANDIDATES_FILE}")
+        print(f"   Dataset: {DATASET_FILE}\n")
+        add_to_dataset()

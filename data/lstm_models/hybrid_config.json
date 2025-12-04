@@ -1,25 +1,25 @@
 {
   "model_type": "lstm",
-  "vocab_size": 644,
-  "max_sequence_length": 10,
+  "vocab_size": 650,
+  "max_sequence_length": 9,
   "embedding_dim": 64,
   "lstm_units": 32,
-  "num_classes": 48,
+  "num_classes": 50,
   "tokenizer_info": {
     "oov_token": "<oov>",
     "num_words": 5000
   },
   "training_info": {
-    "epochs_trained": 45,
-    "final_train_accuracy": 0.9928454756736755,
-    "final_val_accuracy": 0.9672935605049133,
-    "final_train_loss": 0.05268150568008423,
-    "final_val_loss": 0.11824644356966019
+    "epochs_trained": 46,
+    "final_train_accuracy": 0.9922154545783997,
+    "final_val_accuracy": 0.9806973934173584,
+    "final_train_loss": 0.05011076480150223,
+    "final_val_loss": 0.07735347002744675
   },
   "lstm_model": "data/lstm_models/chatbot_model.h5",
   "label_encoder": "data/lstm_models/label_encoder.pkl",
   "tokenizer": "data/lstm_models/tokenizer.pkl",
   "bert_model": "indobenchmark/indobert-lite-base-p1",
   "training_strategy": "LSTM + IndoBERT Hybrid",
-  "timestamp": "2025-11-12 10:32:09"
+  "timestamp": "2025-12-02 18:48:05"
 }

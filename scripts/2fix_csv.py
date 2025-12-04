@@ -6,14 +6,20 @@ Script untuk fix CSV formatting.
 
 # Fix encoding HARUS di awal
 import encoding_fix
-from encoding_fix import get_data_path
 
 import pandas as pd
 import re
 import csv
+from pathlib import Path
+
+# Get absolute paths
+SCRIPT_DIR = Path(__file__).parent
+PROJECT_ROOT = SCRIPT_DIR.parent
+INPUT_FILE = PROJECT_ROOT / "data" / "dataset" / "data_tanpa_duplikat.csv"
+OUTPUT_FILE = PROJECT_ROOT / "data" / "dataset" / "data_jadi.csv"
 
 # Read the original file line by line and manually parse it
-with open(get_data_path("data_tanpa_duplikat.csv"), 'r', encoding='utf-8') as f:
+with open(INPUT_FILE, 'r', encoding='utf-8') as f:
     lines = f.readlines()
 
 fixed_data = []
@@ -107,7 +113,7 @@ for i, line in enumerate(lines):
     fixed_data.append([intent, pattern, response_type, response])
 
 # Write the fixed CSV
-with open(get_data_path("data_jadi.csv"), 'w', encoding='utf-8', newline='') as f:
+with open(OUTPUT_FILE, 'w', encoding='utf-8', newline='') as f:
     writer = csv.writer(f)
     writer.writerow(header)
     writer.writerows(fixed_data)
@@ -116,7 +122,7 @@ print(f"Fixed CSV created with {len(fixed_data)} rows")
 
 # Test if the fixed file can be parsed
 try:
-    df = pd.read_csv(get_data_path("data_jadi.csv"))
+    df = pd.read_csv(OUTPUT_FILE)
     print(f"✅ Fixed CSV parsed successfully!")
     print(f"Shape: {df.shape}")
     print(f"Columns: {list(df.columns)}")

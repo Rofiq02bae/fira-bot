@@ -106,8 +106,10 @@
     "lstm_confidence": 0.13270707428455353,
     "bert_confidence": 0.2217746376991272,
     "logged_at": "2025-11-13T10:28:09.114992",
-    "evaluated": false,
-    "added_to_dataset": false
+    "evaluated": true,
+    "added_to_dataset": false,
+    "suggested_intent": "ktp_info",
+    "suggested_response": "\"untuk syarat membuat Kartu tanda penduduk (KTP) adalah sebagai berikut :|Telah berusia 17 ( tujuh belas ) tahun atau sudah nikah atau pernah nikah.|Mengisi formulir F1.21 Permohonan pembuatan KTP-el.|Foto Copy Akta Kelahiran/Ijazah/STTB.|Foto Copy KK, Surat Nikah/Perkawinan/Perceraian dan dokumen pendukung lainnya.\""
   },
   {
     "text": "terima kasih banyak",
@@ -120,7 +122,7 @@
     "lstm_confidence": 0.14441026747226715,
     "bert_confidence": 0.5615573525428772,
     "logged_at": "2025-11-13T10:28:09.900408",
-    "evaluated": false,
+    "evaluated": true,
     "added_to_dataset": false
   },
   {
@@ -134,7 +136,7 @@
     "lstm_confidence": 0.27036750316619873,
     "bert_confidence": 0.13844344019889832,
     "logged_at": "2025-11-13T10:28:12.945051",
-    "evaluated": false,
+    "evaluated": true,
     "added_to_dataset": false
   },
   {
@@ -148,8 +150,10 @@
     "lstm_confidence": 0.0677366554737091,
     "bert_confidence": 0.20636898279190063,
     "logged_at": "2025-11-14T09:31:53.964937",
-    "evaluated": false,
-    "added_to_dataset": false
+    "evaluated": true,
+    "added_to_dataset": false,
+    "suggested_intent": "ktp_info",
+    "suggested_response": "\"untuk syarat membuat Kartu tanda penduduk (KTP) adalah sebagai berikut :|Telah berusia 17 ( tujuh belas ) tahun atau sudah nikah atau pernah nikah.|Mengisi formulir F1.21 Permohonan pembuatan KTP-el.|Foto Copy Akta Kelahiran/Ijazah/STTB.|Foto Copy KK, Surat Nikah/Perkawinan/Perceraian dan dokumen pendukung lainnya.\""
   },
   {
     "text": "pembuatan ktp",
@@ -162,8 +166,10 @@
     "lstm_confidence": 0.06273191422224045,
     "bert_confidence": 0.22987528145313263,
     "logged_at": "2025-11-14T09:32:09.008084",
-    "evaluated": false,
-    "added_to_dataset": false
+    "evaluated": true,
+    "added_to_dataset": false,
+    "suggested_intent": "ktp_info",
+    "suggested_response": "\"untuk syarat membuat Kartu tanda penduduk (KTP) adalah sebagai berikut :|Telah berusia 17 ( tujuh belas ) tahun atau sudah nikah atau pernah nikah.|Mengisi formulir F1.21 Permohonan pembuatan KTP-el.|Foto Copy Akta Kelahiran/Ijazah/STTB.|Foto Copy KK, Surat Nikah/Perkawinan/Perceraian dan dokumen pendukung lainnya.\""
   },
   {
     "text": "kamu siapa",
@@ -176,8 +182,10 @@
     "lstm_confidence": 0.10349895805120468,
     "bert_confidence": 0.1979244500398636,
     "logged_at": "2025-11-14T09:34:02.800861",
-    "evaluated": false,
-    "added_to_dataset": false
+    "evaluated": true,
+    "added_to_dataset": false,
+    "suggested_intent": "bot_info",
+    "suggested_response": "\"Saya adalah Firaa, saya hadir untuk menjawab berbagai kebutuhan masyarakat tentang layanan pemerintah 😄\""
   },
   {
     "text": "apa kaar",
@@ -190,8 +198,10 @@
     "lstm_confidence": 0.04997280612587929,
     "bert_confidence": 0.22436480224132538,
     "logged_at": "2025-11-16T21:55:03.041890",
-    "evaluated": false,
-    "added_to_dataset": false
+    "evaluated": true,
+    "added_to_dataset": false,
+    "suggested_intent": "kabar",
+    "suggested_response": "\"Halo! Apa kabar? 😊 Saya baik-baik saja, terima kasih! Sebagai asisten AI, saya selalu siap membantu Anda. Ada yang bisa saya bantu hari ini?\""
   },
   {
     "text": "hkdhdkbdbdjdbd",
@@ -204,8 +214,10 @@
     "lstm_confidence": 0.06293416768312454,
     "bert_confidence": 0.18315117061138153,
     "logged_at": "2025-11-17T08:30:34.137959",
-    "evaluated": false,
-    "added_to_dataset": false
+    "evaluated": true,
+    "added_to_dataset": false,
+    "suggested_intent": "miss_info",
+    "suggested_response": "\"maaf, bisa tuliskan pertanyaan dengan bahasa yang lebih sederhana?😅🥲\""
   },
   {
     "text": "alamat diskominfo kab tegal",
@@ -218,8 +230,10 @@
     "lstm_confidence": 0.176419198513031,
     "bert_confidence": 0.19381876289844513,
     "logged_at": "2025-11-17T09:44:41.053862",
-    "evaluated": false,
-    "added_to_dataset": false
+    "evaluated": true,
+    "added_to_dataset": false,
+    "suggested_intent": "kominfo_info",
+    "suggested_response": "Diskominfo Kabupaten Tegal berada di sebelah selatan komplek alun alun slawi, tepatnya berada di Jl. DR. Soetomo No.1, Dukuh Ringin, Dukuhwringin, Kec. Slawi, Kabupaten Tegal, Jawa Tengah 52415."
   },
   {
     "text": "Jam buka",
@@ -232,8 +246,10 @@
     "lstm_confidence": 0.14887839555740356,
     "bert_confidence": 0.10201022028923035,
     "logged_at": "2025-11-17T09:57:27.110477",
-    "evaluated": false,
-    "added_to_dataset": false
+    "evaluated": true,
+    "added_to_dataset": false,
+    "suggested_intent": "miss_info",
+    "suggested_response": "\"maaf, bisa tuliskan pertanyaan dengan bahasa yang lebih sederhana?😅🥲\""
   },
   {
     "text": "Alamat",
@@ -246,8 +262,10 @@
     "lstm_confidence": 0.08817300945520401,
     "bert_confidence": 0.11963644623756409,
     "logged_at": "2025-11-17T09:57:42.992577",
-    "evaluated": false,
-    "added_to_dataset": false
+    "evaluated": true,
+    "added_to_dataset": false,
+    "suggested_intent": "miss_info",
+    "suggested_response": "\"maaf, bisa tuliskan pertanyaan dengan bahasa yang lebih sederhana?😅🥲\""
   },
   {
     "text": "cara membuat",
@@ -260,8 +278,10 @@
     "lstm_confidence": 0.05303933471441269,
     "bert_confidence": 0.10576480627059937,
     "logged_at": "2025-11-17T10:48:34.702125",
-    "evaluated": false,
-    "added_to_dataset": false
+    "evaluated": true,
+    "added_to_dataset": false,
+    "suggested_intent": "miss_info",
+    "suggested_response": "\"maaf, bisa tuliskan pertanyaan dengan bahasa yang lebih sederhana?😅🥲\""
   },
   {
     "text": "start",
@@ -274,7 +294,9 @@
     "lstm_confidence": 0.06293416768312454,
     "bert_confidence": 0.19273869693279266,
     "logged_at": "2025-12-01T15:26:09.007562",
-    "evaluated": false,
-    "added_to_dataset": false
+    "evaluated": true,
+    "added_to_dataset": false,
+    "suggested_intent": "miss_info",
+    "suggested_response": "\"maaf, bisa tuliskan pertanyaan dengan bahasa yang lebih sederhana?😅🥲\""
   }
 ]

@@ -5,12 +5,19 @@ Script untuk split data patterns.
 """
 
 # Fix encoding HARUS di awal
-from encoding_fix import get_data_path
+import encoding_fix
 
 import pandas as pd
+from pathlib import Path
+
+# Get absolute paths
+SCRIPT_DIR = Path(__file__).parent
+PROJECT_ROOT = SCRIPT_DIR.parent
+INPUT_FILE = PROJECT_ROOT / "data" / "dataset" / "dataset_clean.csv"
+OUTPUT_FILE = PROJECT_ROOT / "data" / "dataset" / "dataset_training.csv"
 
 # Baca file CSV awal
-df = pd.read_csv(get_data_path("dataset_clean.csv"))
+df = pd.read_csv(INPUT_FILE)
 
 # Buat list baru untuk menampung baris hasil split
 new_rows = []
@@ -31,5 +38,5 @@ for _, row in df.iterrows():
 df_new = pd.DataFrame(new_rows)
 
 # Simpan ke CSV baru
-df_new.to_csv(get_data_path("dataset_training.csv"), index=False)
-print("Selesai! File 'dataset_training.csv' sudah dibuat.")
+df_new.to_csv(OUTPUT_FILE, index=False)
+print(f"Selesai! File '{OUTPUT_FILE}' sudah dibuat.")

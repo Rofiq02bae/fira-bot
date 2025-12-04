@@ -95,7 +95,7 @@ yarn-error.log
 
 # data
 # Data files (optional - comment out if you want to track data)
-data/dataset/*.csv
+# data/dataset/*.csv
 data/models/
 data/bert_model/
 *.pkl
