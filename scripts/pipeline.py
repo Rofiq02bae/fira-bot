@@ -1,6 +1,5 @@
 import os
 import sys
-import subprocess
 import logging
 from pathlib import Path
 
@@ -11,69 +10,40 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
-# Get scripts directory
 SCRIPTS_DIR = Path(__file__).parent
 
-# Define pipeline steps in order
-PIPELINE_STEPS = [
-    "1hapus_duplikat.py",
-    "2fix_csv.py",
-    "3fix_csv_malformed.py",
-    "4validate_csv.py",
-    "5data_splitter.py"
-]
+# Use a consolidated pipeline implementation (new)
+try:
+    # Ensure project root is importable when run from anywhere
+    sys.path.insert(0, str(SCRIPTS_DIR.parent))
+    from scripts.dataset_pipeline import PipelinePaths, clean_dataset, deduplicate_patterns, split_patterns, validate_dataset
+except SystemExit as e:
+    # dataset_pipeline already prints a helpful message (e.g. missing pandas)
+    raise
+except Exception as e:
+    logger.error(
+        "❌ Failed to import dataset pipeline. "
+        "Pastikan dependency terinstall (contoh: 'python3 -m pip install pandas') dan jalankan dari project root. "
+        f"Detail: {e}"
+    )
+    raise
 
-def run_script(script_name: str, python_path: str = None) -> bool:
-    """
-    Run a single script in the pipeline.
-    
-    Args:
-        script_name: Name of the script to run
-        python_path: Path to Python executable (optional)
-        
-    Returns:
-        bool: True if successful, False otherwise
-    """
-    script_path = SCRIPTS_DIR / script_name
-    
-    if not script_path.exists():
-        logger.error(f"❌ Script not found: {script_path}")
-        return False
-    
-    logger.info(f"▶️  Running: {script_name}")
-    
+
+def _default_paths() -> PipelinePaths:
+    return PipelinePaths.defaults()
+
+
+def _run_step(label: str, fn) -> bool:
+    logger.info(f"▶️  {label}")
     try:
-        # Use provided Python path or current Python
-        python_cmd = python_path or sys.executable
-        
-        # Run the script with UTF-8 encoding
-        result = subprocess.run(
-            [python_cmd, str(script_path)],
-            capture_output=True,
-            text=True,
-            encoding='utf-8',
-            errors='replace',
-            cwd=SCRIPTS_DIR.parent  # Run from project root
-        )
-        
-        # Print output
-        if result.stdout:
-            print(result.stdout)
-        
-        if result.returncode == 0:
-            logger.info(f"✅ Completed: {script_name}")
-            return True
-        else:
-            logger.error(f"❌ Failed: {script_name}")
-            if result.stderr:
-                logger.error(f"Error output:\n{result.stderr}")
-            return False
-            
+        fn()
+        logger.info(f"✅ Completed: {label}")
+        return True
     except Exception as e:
-        logger.error(f"❌ Error running {script_name}: {e}")
+        logger.error(f"❌ Failed: {label} ({e})")
         return False
 
-def run_pipeline(continue_on_error: bool = False, python_path: str = None) -> dict:
+def run_pipeline(continue_on_error: bool = False) -> dict:
     """
     Run the complete data cleaning and validation pipeline.
     
@@ -84,25 +54,38 @@ def run_pipeline(continue_on_error: bool = False, python_path: str = None) -> di
     Returns:
         dict: Results summary with success/failure counts
     """
-    logger.info("🚀 Memulai pipeline pembersihan dan validasi data...")
-    logger.info(f"📋 Total steps: {len(PIPELINE_STEPS)}")
+    paths = _default_paths()
+    logger.info("🚀 Memulai pipeline pembersihan dan validasi data (ringkas)...")
+    logger.info(f"📂 Input : {paths.input_raw}")
+    logger.info(f"📄 Clean : {paths.output_clean}")
+    logger.info(f"📄 Dedup : {paths.output_dedup}")
+    logger.info(f"📄 Train : {paths.output_train}")
+
+    steps = [
+        ("Clean dataset", lambda: clean_dataset(paths.input_raw, paths.output_clean, convert_response_json=False)),
+        ("Deduplicate patterns", lambda: deduplicate_patterns(paths.output_clean, paths.output_dedup)),
+        ("Split patterns (training format)", lambda: split_patterns(paths.output_dedup, paths.output_train)),
+        ("Validate final dataset", lambda: validate_dataset(paths.output_train, validate_response_json=False)),
+    ]
+
+    logger.info(f"📋 Total steps: {len(steps)}")
     
     results = {
-        'total': len(PIPELINE_STEPS),
+        'total': len(steps),
         'success': 0,
         'failed': 0,
         'skipped': 0,
         'steps': {}
     }
-    
-    for i, script_name in enumerate(PIPELINE_STEPS, 1):
+
+    for i, (label, fn) in enumerate(steps, 1):
         logger.info(f"\n{'='*60}")
-        logger.info(f"Step {i}/{len(PIPELINE_STEPS)}: {script_name}")
+        logger.info(f"Step {i}/{len(steps)}: {label}")
         logger.info(f"{'='*60}")
-        
-        success = run_script(script_name, python_path)
-        
-        results['steps'][script_name] = 'success' if success else 'failed'
+
+        success = _run_step(label, fn)
+
+        results['steps'][label] = 'success' if success else 'failed'
         
         if success:
             results['success'] += 1
@@ -111,7 +94,7 @@ def run_pipeline(continue_on_error: bool = False, python_path: str = None) -> di
             if not continue_on_error:
                 logger.error(f"\n⚠️  Pipeline stopped at step {i} due to error")
                 logger.error(f"Use --continue-on-error flag to continue despite errors")
-                results['skipped'] = len(PIPELINE_STEPS) - i
+                results['skipped'] = len(steps) - i
                 break
     
     # Print summary
@@ -132,11 +115,14 @@ def run_pipeline(continue_on_error: bool = False, python_path: str = None) -> di
 
 def list_steps():
     """List all pipeline steps."""
-    logger.info("📋 Pipeline Steps:")
-    for i, step in enumerate(PIPELINE_STEPS, 1):
-        script_path = SCRIPTS_DIR / step
-        exists = "✅" if script_path.exists() else "❌"
-        logger.info(f"  {i}. {exists} {step}")
+    logger.info("📋 Pipeline Steps (ringkas):")
+    for i, label in enumerate([
+        "Clean dataset",
+        "Deduplicate patterns",
+        "Split patterns (training format)",
+        "Validate final dataset",
+    ], 1):
+        logger.info(f"  {i}. ✅ {label}")
 
 if __name__ == "__main__":
     import argparse
@@ -148,11 +134,6 @@ if __name__ == "__main__":
         '--continue-on-error',
         action='store_true',
         help='Continue pipeline even if a step fails'
-    )
-    parser.add_argument(
-        '--python',
-        type=str,
-        help='Path to Python executable'
     )
     parser.add_argument(
         '--list',
@@ -175,8 +156,7 @@ if __name__ == "__main__":
         logger.info("\nNo scripts will be executed.")
     else:
         results = run_pipeline(
-            continue_on_error=args.continue_on_error,
-            python_path=args.python
+            continue_on_error=args.continue_on_error
         )
         
         # Exit with error code if any step failed

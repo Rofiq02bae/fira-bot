@@ -102,3 +102,6 @@ data/bert_model/
 *.h5
 *.joblib
 *.safetensors
+
+data/bert_model.zip
+data/lstm_models.zip

@@ -4,11 +4,12 @@ from typing import Dict
 
 @dataclass
 class ModelConfig:
-    lstm_model_path: str = "../data/models/chatbot_model.h5"
-    lstm_tokenizer_path: str = "../data/models/tokenizer.pkl" 
-    lstm_label_encoder_path: str = "../data/models/label_encoder.pkl"
-    bert_model_path: str = "../data/bert_model"
-    dataset_path: str = "../data/dataset/dataset_training.csv"
+    # Read from env when available (works well in Docker), otherwise fallback.
+    lstm_model_path: str = os.getenv("LSTM_MODEL_PATH", "data/lstm_models/chatbot_model.h5")
+    lstm_tokenizer_path: str = os.getenv("LSTM_TOKENIZER_PATH", "data/lstm_models/tokenizer.pkl")
+    lstm_label_encoder_path: str = os.getenv("LSTM_LABEL_ENCODER_PATH", "data/lstm_models/label_encoder.pkl")
+    bert_model_path: str = os.getenv("BERT_MODEL_PATH", "data/bert_model")
+    dataset_path: str = os.getenv("DATASET_PATH", "data/dataset/dataset_training.csv")
 
 @dataclass
 class ThresholdConfig:
@@ -24,7 +25,8 @@ class APIConfig:
     host: str = "0.0.0.0"
     port: int = 8000
     debug: bool = False
-    telegram_token: str = os.getenv("TELEGRAM_TOKEN", "")
+    # Prefer TELEGRAM_BOT_TOKEN (matches .env / telegram bot runner)
+    telegram_token: str = os.getenv("TELEGRAM_BOT_TOKEN", os.getenv("TELEGRAM_TOKEN", ""))
     # telegram_webhook_url: str = os.getenv("TELEGRAM_WEBHOOK_URL", "")
     # telegram_admin_ids: list = field(default_factory=lambda: [])  # Admin user IDs
 

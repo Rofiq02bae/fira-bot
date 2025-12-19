@@ -10,7 +10,7 @@ class ResponseSelector:
 
     def get_response(self, intent_result: Dict, user_text: str) -> str:
         """Get response berdasarkan intent result"""
-        intent = intent_result["intent"]
+        intent = str(intent_result["intent"]).strip()
         method_used = intent_result.get("method", "default")
         pattern_similarity = intent_result.get("pattern_similarity", 0.0)
         
@@ -18,14 +18,23 @@ class ResponseSelector:
 
     def _get_best_response(self, intent: str, user_text: str, method_used: str = "default", pattern_similarity: float = 0.0) -> str:
         """Get response berdasarkan intent"""
-        
-        if intent not in self.intent_mappings:
+
+        intent_key = str(intent).strip()
+        if intent_key not in self.intent_mappings:
+            sample_keys = list(self.intent_mappings.keys())[:5]
+            logger.warning(
+                "⚠️ ResponseSelector: intent '%s' not found (method=%s, mappings=%d, sample=%s)",
+                intent_key,
+                method_used,
+                len(self.intent_mappings),
+                sample_keys,
+            )
             if method_used == "bert_direct":
                 return "Saya memahami pertanyaan Anda tentang informasi Bappenda Tegal. Untuk informasi lengkap, silakan hubungi Bappenda Tegal langsung."
             else:
                 return "Maaf, saya belum memahami pertanyaan Anda. Bisakah Anda mengulangi pertanyaannya dengan kata-kata yang berbeda?"
-        
-        intent_data = self.intent_mappings[intent]
+
+        intent_data = self.intent_mappings[intent_key]
         user_words = set(self.normalizer.normalize(user_text).split())
         best_score = -1.0
         best_response = intent_data['responses'][0] if intent_data.get('responses') else "Maaf, saya belum memahami pertanyaan Anda."
@@ -50,10 +59,11 @@ class ResponseSelector:
     
     def get_response_scores(self, intent: str, user_text: str, method_used: str = "default", pattern_similarity: float = 0.0) -> Dict:
         """Debug method untuk melihat semua candidate responses dan scoresnya"""
-        if intent not in self.intent_mappings:
+        intent_key = str(intent).strip()
+        if intent_key not in self.intent_mappings:
             return {"error": "Intent not found"}
-        
-        intent_data = self.intent_mappings[intent]
+
+        intent_data = self.intent_mappings[intent_key]
         user_words = set(self.normalizer.normalize(user_text).split())
         candidates = []
         

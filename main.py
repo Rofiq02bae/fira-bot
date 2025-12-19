@@ -10,15 +10,22 @@ logger = logging.getLogger(__name__)
 _hybrid_nlu: Optional[HybridNLUService] = None
 
 def initialize_hybrid_service(
-    dataset_path: str = "data/dataset/dataset_training.csv",
-    lstm_model_path: str = "data/lstm_models/chatbot_model.h5", 
-    lstm_tokenizer_path: str = "data/lstm_models/tokenizer.pkl",
-    lstm_label_encoder_path: str = "data/lstm_models/label_encoder.pkl",
-    bert_model_path: str = "data/bert_model"
+    dataset_path: Optional[str] = None,
+    lstm_model_path: Optional[str] = None,
+    lstm_tokenizer_path: Optional[str] = None,
+    lstm_label_encoder_path: Optional[str] = None,
+    bert_model_path: Optional[str] = None
 ) -> HybridNLUService:
     """Initialize hybrid NLU service dengan struktur modular"""
     logger.info("🎯 Initializing Modular Hybrid NLU Service...")
     
+    # Resolve paths from env if not explicitly provided
+    dataset_path = dataset_path or os.getenv("DATASET_PATH", "data/dataset/dataset_training.csv")
+    lstm_model_path = lstm_model_path or os.getenv("LSTM_MODEL_PATH", "data/lstm_models/chatbot_model.h5")
+    lstm_tokenizer_path = lstm_tokenizer_path or os.getenv("LSTM_TOKENIZER_PATH", "data/lstm_models/tokenizer.pkl")
+    lstm_label_encoder_path = lstm_label_encoder_path or os.getenv("LSTM_LABEL_ENCODER_PATH", "data/lstm_models/label_encoder.pkl")
+    bert_model_path = bert_model_path or os.getenv("BERT_MODEL_PATH", "data/bert_model")
+
     # Create config
     config = ModelConfig(
         dataset_path=dataset_path,

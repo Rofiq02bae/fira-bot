@@ -1,0 +1,26 @@
+# VCS
+.git
+
+# Python caches
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.swp
+*.swo
+
+# Notebooks and training artifacts
+.ipynb_checkpoints/
+training/
+BERT_TRAINING_COLAB.ipynb
+training/*.ipynb
+
+# Logs (we'll mount at runtime)
+logs/
+
+# Data backups and large temp files
+data/dataset/*.backup
+
+# OS/editor files
+.DS_Store
+.vscode/

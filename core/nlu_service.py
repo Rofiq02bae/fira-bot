@@ -55,25 +55,64 @@ class HybridNLUService:
             
             df = pd.read_csv(self.config.dataset_path, encoding='utf-8')
             logger.info(f"📊 Dataset loaded: {len(df)} rows")
-            
-            # Create intent mappings
-            self.intent_mappings = {}
-            for intent in df['intent'].unique():
-                intent_data = df[df['intent'] == intent]
-                self.intent_mappings[intent] = {
-                    'response_type': intent_data['response_type'].iloc[0] if 'response_type' in intent_data.columns else 'static',
-                    'patterns': intent_data['pattern'].tolist(),
-                    'responses': intent_data['response'].tolist() if 'response' in intent_data.columns else ["Response not available"]
+
+            # Basic validation
+            if 'intent' not in df.columns:
+                logger.error("❌ Dataset missing required column: intent")
+                self.intent_mappings = {}
+                self.response_selector.intent_mappings = {}
+                return False
+
+            # Clean intent values to avoid NaN causing empty slices (nan != nan)
+            cleaned = df.dropna(subset=['intent']).copy()
+            cleaned['intent'] = cleaned['intent'].astype(str).str.strip()
+            cleaned = cleaned[cleaned['intent'] != '']
+
+            # Create intent mappings (build locally, then assign atomically)
+            intent_mappings: Dict[str, Any] = {}
+            for intent in cleaned['intent'].unique():
+                intent_key = str(intent).strip()
+                if not intent_key:
+                    continue
+
+                intent_data = cleaned[cleaned['intent'] == intent_key]
+                if intent_data.empty:
+                    continue
+
+                response_type = 'static'
+                if 'response_type' in intent_data.columns:
+                    rt = intent_data['response_type'].dropna()
+                    if not rt.empty:
+                        response_type = str(rt.iloc[0]).strip() or 'static'
+
+                patterns = []
+                if 'pattern' in intent_data.columns:
+                    patterns = intent_data['pattern'].dropna().astype(str).tolist()
+
+                responses = ["Response not available"]
+                if 'response' in intent_data.columns:
+                    resp = intent_data['response'].dropna().astype(str).tolist()
+                    if resp:
+                        responses = resp
+
+                intent_mappings[intent_key] = {
+                    'response_type': response_type,
+                    'patterns': patterns,
+                    'responses': responses
                 }
-            
-            # Update response selector dengan intent mappings
+
+            self.intent_mappings = intent_mappings
+            # Update response selector dengan intent mappings (critical)
             self.response_selector.intent_mappings = self.intent_mappings
             
             logger.info(f"✅ Intent mappings created: {len(self.intent_mappings)} intents")
-            return True
+            return len(self.intent_mappings) > 0
             
         except Exception as e:
             logger.error(f"❌ Dataset loading failed: {e}")
+            # Keep selector + mappings consistent to avoid false fallbacks
+            self.intent_mappings = {}
+            self.response_selector.intent_mappings = {}
             return False
 
     def process_query(self, text: str) -> Dict[str, Any]:
