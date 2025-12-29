@@ -18,8 +18,25 @@ training/*.ipynb
 # Logs (we'll mount at runtime)
 logs/
 
-# Data backups and large temp files
-data/dataset/*.backup
+# Data and model artifacts (mounted at runtime; keep out of image)
+data/
+
+# Large ML artifacts that should never be baked into the image
+*.safetensors
+*.h5
+*.pkl
+*.pt
+*.pth
+*.onnx
+*.bin
+
+# Test outputs / large CSVs
+tests/*.csv
+tests/**/*.csv
+
+# Local virtualenvs
+.venv/
+venv/
 
 # OS/editor files
 .DS_Store

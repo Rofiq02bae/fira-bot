@@ -1,33 +1,10 @@
-# lstm requirements for the project
-tensorflow
-pandas
-scikit-learn
-nltk
-fastapi
-uvicorn
-python-telegram-bot==20.7
-requests
-pydantic
-torch
+# Default dependencies for this branch (run API on host + bot in compose).
+#
+# Notes:
+# - Torch is intentionally NOT listed here to avoid accidentally pulling CUDA/NVIDIA wheels.
+#   Install CPU-only torch explicitly:
+#     python -m pip install --index-url https://download.pytorch.org/whl/cpu "torch==2.5.1+cpu"
+# - Training/notebook deps are in requirements.train.txt
 
-# bert requirements for the project
-transformers==4.35.2
-psutil
-python-multipart
-accelerate
-sentence-transformers==2.2.2
-matplotlib
-seaborn
-jupyter
-ipython
-
-# fine tune pip
-datasets 
-accelerate 
-evaluate
-
-# telegram bot and environment management
-python-telegram-bot 
-python-dotenv 
-requests
-aiohttp
+-r requirements.api.txt
+-r requirements.bot.txt

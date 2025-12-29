@@ -6,6 +6,7 @@ import uvicorn
 import logging
 import os
 from datetime import datetime
+from config import settings
 
 # Setup logging
 logging.basicConfig(level=logging.INFO)
@@ -13,6 +14,13 @@ logger = logging.getLogger(__name__)
 
 # Suppress warnings
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
+
+#dataset path
+dataset_path = settings.ModelConfig.dataset_path
+lstm_model_path = settings.ModelConfig.lstm_model_path
+lstm_tokenizer_path = settings.ModelConfig.lstm_tokenizer_path
+lstm_label_encoder_path = settings.ModelConfig.lstm_label_encoder_path
+bert_model_path = settings.ModelConfig.bert_model_path
 
 # Pydantic models
 class UserInput(BaseModel):
@@ -67,11 +75,11 @@ async def startup_event():
         from config.settings import ModelConfig
 
         # Use environment vars atau default values
-        dataset_path = os.environ.get('DATASET_PATH', 'data/dataset/dataset_training.csv')
-        lstm_model_path = os.environ.get('LSTM_MODEL_PATH', 'data/lstm_models/chatbot_model.h5')
-        lstm_tokenizer_path = os.environ.get('LSTM_TOKENIZER_PATH', 'data/lstm_models/tokenizer.pkl')
-        lstm_label_encoder_path = os.environ.get('LSTM_LABEL_ENCODER_PATH', 'data/lstm_models/label_encoder.pkl')
-        bert_model_path = os.environ.get('BERT_MODEL_PATH', 'data/bert_model')
+        # dataset_path = os.environ.get('DATASET_PATH', 'data/dataset/dataset_training.csv')
+        # lstm_model_path = os.environ.get('LSTM_MODEL_PATH', 'data/lstm_models/chatbot_model.h5')
+        # lstm_tokenizer_path = os.environ.get('LSTM_TOKENIZER_PATH', 'data/lstm_models/tokenizer.pkl')
+        # lstm_label_encoder_path = os.environ.get('LSTM_LABEL_ENCODER_PATH', 'data/lstm_models/label_encoder.pkl')
+        # bert_model_path = 
 
         logger.info("📂 Checking model files...")
         # Check if model files exist

@@ -1,0 +1,25 @@
+# Runtime-only deps for running the FastAPI API on host (no training/notebooks/eval)
+
+# API
+fastapi
+uvicorn
+python-multipart
+pydantic
+requests
+python-dotenv
+psutil
+
+# Data + preprocessing
+pandas
+scikit-learn
+nltk
+numpy
+
+# LSTM inference
+tensorflow
+
+# BERT inference (torch installed separately as CPU-only)
+transformers==4.35.2
+safetensors
+tokenizers
+huggingface-hub

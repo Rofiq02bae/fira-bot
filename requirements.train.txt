@@ -1,0 +1,20 @@
+# Optional training / notebook / evaluation dependencies.
+#
+# WARNING:
+# - This set may pull a large PyTorch/CUDA stack if installed naively.
+# - For small VMs, prefer training in Colab (see BERT_TRAINING_COLAB.ipynb).
+# - If you really need these locally, install CPU-only torch first, then install this file.
+
+accelerate
+datasets
+evaluate
+
+matplotlib
+seaborn
+jupyter
+ipython
+
+# Experimental / optional (not required for API/bot runtime)
+# sentence-transformers is heavy and may upgrade torch/torchvision.
+# Uncomment only if you need it.
+# sentence-transformers==2.2.2

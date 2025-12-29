@@ -1,0 +1,58 @@
+nohup: ignoring input
+INFO:     Started server process [84127]
+INFO:     Waiting for application startup.
+INFO:app:🚀 Starting Hybrid Chatbot API (Modular Version)...
+/home/fira/fira-bot/.venv/lib/python3.12/site-packages/transformers/utils/generic.py:441: FutureWarning: `torch.utils._pytree._register_pytree_node` is deprecated. Please use `torch.utils._pytree.register_pytree_node` instead.
+  _torch_pytree._register_pytree_node(
+/home/fira/fira-bot/.venv/lib/python3.12/site-packages/keras/src/export/tf2onnx_lib.py:8: FutureWarning: In the future `np.object` will be defined as the corresponding NumPy scalar.
+  if not hasattr(np, "object"):
+/home/fira/fira-bot/.venv/lib/python3.12/site-packages/transformers/utils/generic.py:309: FutureWarning: `torch.utils._pytree._register_pytree_node` is deprecated. Please use `torch.utils._pytree.register_pytree_node` instead.
+  _torch_pytree._register_pytree_node(
+INFO:utils.query_logger:📝 QueryLogger initialized:
+INFO:utils.query_logger:   JSON: /home/fira/fira-bot/logs/low_confidence_queries.json
+INFO:utils.query_logger:   CSV: /home/fira/fira-bot/data/training_candidates/training_candidates.csv
+INFO:app:📂 Checking model files...
+INFO:app:✅ lstm_model: data/lstm_models/chatbot_model.h5 - EXISTS
+INFO:app:✅ tokenizer: data/lstm_models/tokenizer.pkl - EXISTS
+INFO:app:✅ label_encoder: data/lstm_models/label_encoder.pkl - EXISTS
+INFO:app:✅ dataset: data/dataset/dataset_training.csv - EXISTS
+INFO:app:✅ bert_folder: data/bert_model - EXISTS
+INFO:app:🔄 Initializing modular hybrid service...
+INFO:main:🎯 Initializing Modular Hybrid NLU Service...
+INFO:core.models.lstm_model:🔄 Loading LSTM model from: data/lstm_models/chatbot_model.h5
+INFO:core.models.lstm_model:📦 Loading TensorFlow model...
+2025-12-29 13:04:26.143033: E external/local_xla/xla/stream_executor/cuda/cuda_platform.cc:51] failed call to cuInit: INTERNAL: CUDA error: Failed call to cuInit: UNKNOWN ERROR (303)
+WARNING:absl:Compiled the loaded model, but the compiled metrics have yet to be built. `model.compile_metrics` will be empty until you train or evaluate the model.
+INFO:core.models.lstm_model:📦 Loading tokenizer...
+INFO:core.models.lstm_model:📦 Loading label encoder...
+/home/fira/fira-bot/.venv/lib/python3.12/site-packages/sklearn/base.py:463: InconsistentVersionWarning: Trying to unpickle estimator LabelEncoder from version 1.7.2 when using version 1.8.0. This might lead to breaking code or invalid results. Use at your own risk. For more info please refer to:
+https://scikit-learn.org/stable/model_persistence.html#security-maintainability-limitations
+  warnings.warn(
+INFO:core.models.lstm_model:✅ LSTM model loaded successfully!
+INFO:core.models.lstm_model:   - Vocabulary size: 405
+INFO:core.models.lstm_model:   - Max sequence length: 9
+INFO:core.models.lstm_model:   - Number of classes: 50
+INFO:core.models.bert_model:🔄 Loading fine-tuned BERT dari: data/bert_model
+/home/fira/fira-bot/.venv/lib/python3.12/site-packages/sklearn/base.py:463: InconsistentVersionWarning: Trying to unpickle estimator LabelEncoder from version 1.3.2 when using version 1.8.0. This might lead to breaking code or invalid results. Use at your own risk. For more info please refer to:
+https://scikit-learn.org/stable/model_persistence.html#security-maintainability-limitations
+  warnings.warn(
+INFO:core.models.bert_model:✅ BERT label encoder loaded: 49 classes
+INFO:core.models.bert_model:✅ Fine-tuned BERT loaded successfully!
+INFO:core.nlu_service:📂 Loading dataset from: data/dataset/dataset_training.csv
+INFO:core.nlu_service:📊 Dataset loaded: 650 rows
+INFO:core.nlu_service:✅ Intent mappings created: 50 intents
+INFO:utils.query_logger:📝 QueryLogger initialized:
+INFO:utils.query_logger:   JSON: /home/fira/fira-bot/logs/low_confidence_queries.json
+INFO:utils.query_logger:   CSV: /home/fira/fira-bot/data/training_candidates/training_candidates.csv
+INFO:core.nlu_service:✅ HybridNLUService initialized successfully!
+INFO:main:🚀 Modular Hybrid NLU Service initialized successfully!
+INFO:app:✅ Modular hybrid service initialized!
+INFO:app:📊 LSTM Model: True
+INFO:app:📊 BERT Model: True
+INFO:app:📊 Dataset: True
+INFO:app:📊 Intents: 50
+INFO:app:📊 Text Normalizer: True
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://0.0.0.0:8000 (Press CTRL+C to quit)
+INFO:     127.0.0.1:58834 - "GET /health HTTP/1.1" 200 OK
+INFO:     172.18.0.2:36170 - "GET /health HTTP/1.1" 200 OK

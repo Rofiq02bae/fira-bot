@@ -1,0 +1,32 @@
+services:
+  bot:
+    image: python:3.10
+    container_name: fira-bot-telegram
+    working_dir: /app
+
+    # Allow container to reach API running on the host (Linux)
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+    env_file:
+      - .env
+    environment:
+      API_BASE_URL: ${API_BASE_URL:-http://host.docker.internal:8000}
+
+    volumes:
+      - ./:/app:ro
+      - bot_venv:/venv
+
+    command: >
+      sh -lc "
+        python -m venv /venv &&
+        . /venv/bin/activate &&
+        pip install -U pip &&
+        pip install -r requirements.bot.txt &&
+        exec python interfaces/telegram_bot.py
+      "
+
+    restart: unless-stopped
+
+volumes:
+  bot_venv:
