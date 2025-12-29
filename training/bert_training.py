@@ -19,65 +19,21 @@ import os
 import re
 
 # ==================== TEXT NORMALIZER ====================
-class SPBETextNormalizer:
-    """Text normalizer khusus untuk istilah SPBE"""
+import sys
+import os
 
-    def __init__(self):
-        self.spelling_corrections = {
-            # Double letter corrections
-            'bapenda': 'bappenda',
-            'dinsoss': 'dinsos',
-            'disoss': 'dinsos',
-            'dukcapill': 'dukcapil',
-            'capill': 'capil',
+# Add project root to sys.path to allow imports from core
+current_dir = os.path.dirname(os.path.abspath(__file__))
+project_root = os.path.dirname(current_dir) # d:\bot\New folder
+if project_root not in sys.path:
+    sys.path.append(project_root)
 
-            # Short forms & typos
-            'kt': 'ktp',
-            'kartu keluarga': 'kk',
-            'kartu kel': 'kk',
-            'k k': 'kk',
+from core.processors.text_normalizer import text_normalizer
 
-            # Common typos
-            'gimana': 'bagaimana',
-            'gmn': 'bagaimana',
-            'bgmn': 'bagaimana',
-            'gmana': 'bagaimana',
+# Apply global cleaner wrapper
+def preprocess_for_bert(text):
+    return text_normalizer.global_cleaner(text, model_type='bert')
 
-            # Time related
-            'pukul': 'jam',
-            'pkl': 'jam',
-            'pukl': 'jam',
-        }
-
-        self.regex_patterns = {
-            r'bap+enda': 'bappenda',
-            r'dinsos+': 'dinsos',
-            r'ktp?p?': 'ktp',
-            r'k+k': 'kk',
-        }
-
-    def normalize(self, text: str) -> str:
-        if not text or not isinstance(text, str):
-            return ""
-
-        text = text.lower().strip()
-
-        # Simple replacements
-        for wrong, correct in self.spelling_corrections.items():
-            text = text.replace(wrong, correct)
-
-        # Regex replacements
-        for pattern, replacement in self.regex_patterns.items():
-            text = re.sub(pattern, replacement, text)
-
-        # Clean text
-        text = re.sub(r'[^\w\s]', ' ', text)
-        text = re.sub(r'\s+', ' ', text).strip()
-
-        return text
-
-# Global normalizer instance
-text_normalizer = SPBETextNormalizer()
 
 # ==================== MAIN TRAINING CODE ====================
 # Set device
@@ -180,39 +136,38 @@ def main():
 
     # Apply text normalization to patterns
     print("🔄 Applying text normalization...")
-    df['pattern_normalized'] = df['pattern'].apply(
-        lambda x: text_normalizer.normalize(str(x))
-    )
+    df['cleaned_pattern'] = df['pattern'].apply(lambda x: preprocess_for_bert(str(x)))
+    df = df[df['cleaned_pattern'] != ""].copy() # Filter out empty strings after preprocessing
 
     # Show normalization examples
     print("🔍 Normalization examples:")
-    for i in range(min(3, len(df))):
-        original = df.iloc[i]['pattern']
-        normalized = df.iloc[i]['pattern_normalized']
-        if original != normalized:
-            print(f"   '{original}' -> '{normalized}'")
+    sample = df.sample(5)
+    for _, row in sample.iterrows():
+        print(f"   Original: {row['pattern']}")
+        print(f"   Cleaned : {row['cleaned_pattern']}")
+        print("-" * 30)
 
-    # Filter kelas dengan minimal 2 sampel
-    intent_counts = df['intent'].value_counts()
-    classes_to_keep = intent_counts[intent_counts >= 2].index
-    df_filtered = df[df['intent'].isin(classes_to_keep)].copy()
+    patterns = df['cleaned_pattern'].tolist()
+    intents = df['intent'].tolist()
 
-    print(f"📊 Setelah filtering: {len(df_filtered)} rows")
-    print(f"🎯 Kelas: {df_filtered['intent'].nunique()}")
-
+    # Filter kelas dengan minimal count
+    class_counts = pd.Series(intents).value_counts()
+    valid_classes = class_counts[class_counts >= 2].index
+    
+    # Filter dataset based on valid classes
+    mask = df['intent'].isin(valid_classes)
+    patterns = np.array(patterns)[mask]
+    intents = np.array(intents)[mask]
+    
+    print(f"📊 Valid samples after filtering: {len(patterns)}")
+    
     # Encode labels
     le = LabelEncoder()
-    df_filtered['label'] = le.fit_transform(df_filtered['intent'])
-    num_classes = len(le.classes_)
-
-    # Split data dengan data yang sudah dinormalisasi
-    pattern_array = df_filtered['pattern_normalized'].to_numpy()  # Use normalized patterns!
-    label_array = df_filtered['label'].to_numpy()
-
+    labels = le.fit_transform(intents)
+    num_classes = len(le.classes_) # Define num_classes here
+    
+    # Stratified Split
     train_texts, val_texts, train_labels, val_labels = train_test_split(
-        pattern_array,
-        label_array,
-        test_size=0.2,
         random_state=42,
         stratify=label_array
     )
@@ -225,7 +180,7 @@ def main():
     # OPTION 1: Fast Training (Recommended for Laptop)
     #model_name = "indobenchmark/indobert-lite-base-p1"  # ~200MB, Training: 1-2 jam
     model_name = "cahya/bert-base-indonesian-522M"
-    print("⚡ Using FAST model: indobert-lite-base-p1")
+    print("⚡ Using FAST model: cahya/bert-base-indonesian-522M")
 
     # OPTION 2: Balanced (Good accuracy + reasonable time)
     # model_name = "indobenchmark/indobert-base-p1"  # ~400MB, Training: 2-3 jam

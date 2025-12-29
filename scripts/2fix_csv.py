@@ -23,7 +23,7 @@ with open(INPUT_FILE, 'r', encoding='utf-8') as f:
     lines = f.readlines()
 
 fixed_data = []
-header = ['intent', 'pattern', 'response_type', 'response']
+header = ['intent', 'pattern', 'response_type','is_master' , 'response']
 
 for i, line in enumerate(lines):
     line = line.strip()
@@ -89,13 +89,29 @@ for i, line in enumerate(lines):
         # Response type not quoted - find next comma
         next_comma = remainder.find(',')
         if next_comma == -1:
-            # Rest is response_type, no response
+            # Rest is response_type, no is_master or response
             response_type = remainder.strip()
+            is_master = "false"
             response = ""
+            remainder = ""
         else:
             response_type = remainder[:next_comma].strip()
             remainder = remainder[next_comma + 1:].strip()
-    
+            
+    # Find is_master
+    if remainder:
+        next_comma = remainder.find(',')
+        if next_comma == -1:
+            # Rest is is_master, no response
+            is_master = remainder.strip()
+            response = ""
+            remainder = ""
+        else:
+            is_master = remainder[:next_comma].strip()
+            remainder = remainder[next_comma + 1:].strip()
+    else:
+        is_master = "false" if 'response' not in locals() else is_master # fallback
+
     # Rest is response
     if remainder:
         if remainder.startswith('"') and remainder.endswith('"'):
@@ -103,14 +119,16 @@ for i, line in enumerate(lines):
         else:
             response = remainder
     else:
-        response = ""
+        if 'response' not in locals():
+            response = ""
     
     # Clean up fields
     intent = intent.strip()
     response_type = response_type.strip()
+    is_master = is_master.strip().lower() or "false"
     response = response.strip()
     
-    fixed_data.append([intent, pattern, response_type, response])
+    fixed_data.append([intent, pattern, response_type, is_master, response])
 
 # Write the fixed CSV
 with open(OUTPUT_FILE, 'w', encoding='utf-8', newline='') as f:

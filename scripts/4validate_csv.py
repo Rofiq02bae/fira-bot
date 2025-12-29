@@ -36,7 +36,7 @@ def main():
         
         for i, row in enumerate(reader, start=1):
             total += 1
-            if len(row) != 4:
+            if len(row) != 5:
                 bad_rows.append((i, len(row), row[:3]))
         
         print(f"\nValidasi dengan csv.reader:")

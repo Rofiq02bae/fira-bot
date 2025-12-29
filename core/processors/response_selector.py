@@ -10,6 +10,10 @@ class ResponseSelector:
 
     def get_response(self, intent_result: Dict, user_text: str) -> str:
         """Get response berdasarkan intent result"""
+        # Handle clarification status dari disambiguation logic
+        if intent_result.get("status") == "clarification":
+            return intent_result.get("message", "Silahkan pilih opsi berikut:")
+
         intent = str(intent_result["intent"]).strip()
         method_used = intent_result.get("method", "default")
         pattern_similarity = intent_result.get("pattern_similarity", 0.0)

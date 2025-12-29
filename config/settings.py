@@ -13,12 +13,13 @@ class ModelConfig:
 
 @dataclass
 class ThresholdConfig:
-    lstm_high: float = 0.8
-    bert_high: float = 0.7  
-    pattern_similarity: float = 0.3
-    fusion_threshold: float = 0.6
-    low_confidence_threshold: float = 0.3
-    min_confidence: float = 0.3
+    lstm_high: float = 0.85
+    bert_high: float = 0.8  
+    pattern_similarity: float = 0.4
+    fusion_threshold: float = 0.7
+    low_confidence_threshold: float = 0.5
+    min_confidence: float = 0.4
+    ambiguity_margin: float = 0.1
 
 @dataclass
 class APIConfig:

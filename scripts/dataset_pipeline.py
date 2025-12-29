@@ -37,7 +37,7 @@ except ModuleNotFoundError as e:
     ) from e
 
 
-REQUIRED_COLUMNS = ["intent", "pattern", "response_type", "response"]
+REQUIRED_COLUMNS = ["intent", "pattern", "response_type", "is_master", "response"]
 
 
 def _project_root() -> Path:
@@ -83,7 +83,7 @@ def _read_csv_flexible(path: Path) -> pd.DataFrame:
     except Exception:
         pass
 
-    # last resort: no-header parsing into 4 columns
+    # last resort: no-header parsing into 5 columns
     df = pd.read_csv(
         path,
         dtype=str,
@@ -112,12 +112,13 @@ def _ensure_columns(df: pd.DataFrame) -> pd.DataFrame:
 def _normalize_fields(df: pd.DataFrame) -> pd.DataFrame:
     out = df.copy()
 
-    for col in ["intent", "pattern", "response_type", "response"]:
+    for col in ["intent", "pattern", "response_type", "is_master", "response"]:
         out[col] = out[col].astype(str).fillna("")
 
     out["intent"] = out["intent"].str.strip()
     out["pattern"] = out["pattern"].str.strip()
     out["response_type"] = out["response_type"].str.strip()
+    out["is_master"] = out["is_master"].str.strip().str.lower()
     out["response"] = out["response"].astype(str)
 
     # Drop empty essentials
@@ -221,6 +222,7 @@ def split_patterns(input_csv: Path, output_csv: Path) -> pd.DataFrame:
                     "intent": row["intent"].strip(),
                     "pattern": p,
                     "response_type": row["response_type"].strip() or "static",
+                    "is_master": row["is_master"],
                     "response": row["response"],
                 }
             )

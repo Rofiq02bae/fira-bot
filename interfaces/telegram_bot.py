@@ -5,9 +5,9 @@ import asyncio
 import aiohttp
 from dotenv import load_dotenv
 from typing import Dict, Any, Optional
-from telegram import Update, Bot
+from telegram import Update, Bot, InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import (
-    Application, CommandHandler, MessageHandler,
+    Application, CommandHandler, MessageHandler, CallbackQueryHandler,
     filters, ContextTypes
 )
 
@@ -114,6 +114,9 @@ class TelegramBot:
             filters.TEXT & ~filters.COMMAND,
             self._handle_message
         ))
+        
+        # Callback query handler for buttons
+        self.application.add_handler(CallbackQueryHandler(self._handle_callback))
 
     async def _start(self, update: Update, context: ContextTypes.DEFAULT_TYPE):
         await self._typing(update)
@@ -177,9 +180,29 @@ class TelegramBot:
         except asyncio.TimeoutError:
             await update.message.reply_text(self.config['error_messages']['timeout'])
 
+    async def _handle_callback(self, update: Update, context: ContextTypes.DEFAULT_TYPE):
+        """Handle button clicks"""
+        query = update.callback_query
+        await query.answer() # Acknowledge intera                                                                                                    ction
+
+        text = query.data
+        user = update.effective_user
+        
+        logger.info(f"🔄 Callback {user.first_name}: {text}")
+        
+        # Send a message to show what was clicked (optional, but good UX)
+        # await query.message.reply_text(f"👉 Anda memilih: {text}")
+        
+        # Process as if user typed it
+        try:
+            await self._typing(update)
+            result = await self._call_chat_api(text)
+            await self._send_response(update, result)
+            self._log_interaction(user, text, result)
+            
         except Exception as e:
-            logger.error(f"Message error: {e}")
-            await update.message.reply_text(self.config['error_messages']['general_error'])
+            logger.error(f"Callback error: {e}")
+            await query.message.reply_text(self.config['error_messages']['general_error'])
 
     async def _call_chat_api(self, message: str) -> Dict[str, Any]:
         try:
@@ -257,14 +280,30 @@ class TelegramBot:
         if len(text) > self.config['max_message_length']:
             text = text[:4000] + "\n\n📝 _Pesan dipotong_"
 
-        await update.message.reply_text(text)
+        # Check for options to build Keyboard
+        reply_markup = None
+        options = result.get("options", [])
+        if options and isinstance(options, list):
+            keyboard = []
+            for opt in options:
+                label = opt.get("label", "Option")
+                # Use label as value sent to server
+                keyboard.append([InlineKeyboardButton(label, callback_data=label)])
+            
+            reply_markup = InlineKeyboardMarkup(keyboard)
+
+        # Send info if there is reply_markup
+        if reply_markup:
+             await update.effective_message.reply_text(text, reply_markup=reply_markup)
+        else:
+             await update.effective_message.reply_text(text)
 
     # ---------------------------------------------------
     # UTILITIES
     # ---------------------------------------------------
     async def _typing(self, update: Update):
         try:
-            await update.message.chat.send_action("typing")
+            await update.effective_chat.send_action("typing")
             await asyncio.sleep(self.config['typing_delay'])
         except Exception:
             pass

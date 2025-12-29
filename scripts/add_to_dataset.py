@@ -45,6 +45,7 @@ def add_to_dataset(updates_file: str = None, dataset_file: str = None):
                     'intent': row['suggested_intent'],
                     'pattern': row['text'],
                     'response_type': 'static',
+                    'is_master': 'false',
                     'response': row['suggested_response']
                 }
                 new_rows.append(new_row)

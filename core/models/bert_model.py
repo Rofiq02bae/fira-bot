@@ -95,16 +95,23 @@ class BERTModel(BaseNLUModel):
                 logger.debug(f"BERT Input: '{text}'")
             
             # Predict (limit text length for BERT)
-            result = self.bert_classifier(processed_text[:512])
-            predicted_label = result[0]['label']
-            confidence = result[0]['score']
+            results = self.bert_classifier(processed_text[:512], top_k=5)
             
-            # Convert label to original intent name
-            intent = self._convert_label_to_intent(predicted_label)
+            # Map all results
+            top_scores = []
+            for r in results:
+                top_scores.append({
+                    "intent": self._convert_label_to_intent(r['label']),
+                    "confidence": float(r['score'])
+                })
+            
+            # Use the top result for main output
+            top_result = top_scores[0]
             
             return {
-                "intent": intent,
-                "confidence": float(confidence),
+                "intent": top_result["intent"],
+                "confidence": top_result["confidence"],
+                "top_scores": top_scores,
                 "method": "bert",
                 "status": "success"
             }

@@ -1,6 +1,6 @@
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
-from typing import Dict, List, Optional
+from typing import Dict, List, Optional, Any
 from fastapi.responses import JSONResponse
 import uvicorn
 import logging
@@ -26,6 +26,7 @@ class ChatResponse(BaseModel):
     predicted_intent: str
     confidence: float
     response: str
+    options: Optional[List[Dict[str, Any]]] = []
     method_used: str
     processing_time: float
     timestamp: str
@@ -188,6 +189,7 @@ async def chat(user_input: UserInput):
             predicted_intent=result["intent"],
             confidence=result["confidence"],
             response=result["response"],
+            options=result.get("options", []),
             method_used=result["method"],
             processing_time=round(processing_time, 2),
             timestamp=datetime.now().isoformat()

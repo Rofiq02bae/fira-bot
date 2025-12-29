@@ -1,25 +1,25 @@
 {
   "model_type": "lstm",
-  "vocab_size": 650,
+  "vocab_size": 406,
   "max_sequence_length": 9,
   "embedding_dim": 64,
   "lstm_units": 32,
-  "num_classes": 49,
+  "num_classes": 50,
   "tokenizer_info": {
     "oov_token": "<oov>",
     "num_words": 5000
   },
   "training_info": {
-    "epochs_trained": 44,
-    "final_train_accuracy": 0.9880080819129944,
-    "final_val_accuracy": 0.9850560426712036,
-    "final_train_loss": 0.05329924821853638,
-    "final_val_loss": 0.0696236863732338
+    "epochs_trained": 78,
+    "final_train_accuracy": 0.9822834730148315,
+    "final_val_accuracy": 0.8671875,
+    "final_train_loss": 0.19449825584888458,
+    "final_val_loss": 0.7030560970306396
   },
   "lstm_model": "data/lstm_models/chatbot_model.h5",
   "label_encoder": "data/lstm_models/label_encoder.pkl",
   "tokenizer": "data/lstm_models/tokenizer.pkl",
   "bert_model": "cahya/bert-base-indonesian-522M",
   "training_strategy": "LSTM + IndoBERT Hybrid",
-  "timestamp": "2025-12-04 20:08:03"
+  "timestamp": "2025-12-20 15:18:13"
 }

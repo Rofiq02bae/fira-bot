@@ -23,7 +23,7 @@ def remove_duplicate_patterns(input_file, output_file):
     # Baca file CSV dengan delimiter koma
     try:
         df = pd.read_csv(input_file, delimiter=',', header=None, 
-                        names=['intent', 'patterns', 'response_type', 'response'],
+                        names=['intent', 'patterns', 'response_type','is_master','response'],
                         encoding='utf-8')
     except Exception as e:
         print(f"❌ Error membaca file: {e}")
@@ -40,6 +40,7 @@ def remove_duplicate_patterns(input_file, output_file):
         intent = str(row['intent'])
         patterns_str = str(row['patterns'])
         response_type = str(row['response_type'])
+        is_master = str(row['is_master'])
         response = str(row['response'])
         
         # Split patterns by delimiter |
@@ -79,6 +80,7 @@ def remove_duplicate_patterns(input_file, output_file):
                 'intent': intent,
                 'patterns': cleaned_patterns_str,
                 'response_type': response_type,
+                'is_master' : is_master,
                 'response': response
             }
             cleaned_data.append(cleaned_row)
@@ -123,7 +125,7 @@ def analyze_duplicates_per_intent(input_file):
     # Baca file asli untuk analisis
     try:
         df = pd.read_csv(input_file, delimiter=',', header=None, 
-                        names=['intent', 'patterns', 'response_type', 'response'],
+                        names=['intent', 'patterns', 'response_type', 'is_master', 'response'],
                         encoding='utf-8')
     except Exception as e:
         print(f"❌ Error membaca file: {e}")
@@ -196,7 +198,7 @@ def validate_output_file(output_file):
     try:
         # Baca file output
         df_output = pd.read_csv(output_file, delimiter=',', header=None,
-                               names=['intent', 'patterns', 'response_type', 'response'],
+                               names=['intent', 'patterns', 'response_type', 'is_master', 'response'],
                                encoding='utf-8')
         
         print(f"✅ File output berhasil dibaca: {len(df_output)} baris")

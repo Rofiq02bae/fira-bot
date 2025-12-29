@@ -36,8 +36,8 @@ def try_fix_line(line: str) -> str | None:
     m = re.match(r"^([A-Za-z0-9_]+)\"", line)
     if m:
         fixed = line[: m.end(1)] + "," + line[m.end(1) :]
-        # confirm the fixed line now parses to >= 4 fields
-        if count_fields(fixed) >= 4:
+        # confirm the fixed line now parses to >= 5 fields
+        if count_fields(fixed) >= 5:
             return fixed
     return None
 
@@ -65,16 +65,18 @@ def scan_top_level_commas(line: str) -> list:
 
 
 def reconstruct_row(line: str) -> str | None:
-    # Use first top-level comma and last two top-level commas to split into 4 fields
+    # Use first top-level comma and last three top-level commas to split into 5 fields
     idxs = scan_top_level_commas(line)
-    if len(idxs) < 3:
+    if len(idxs) < 4:
         return None
     first = idxs[0]
+    last3 = idxs[-3]
     last2 = idxs[-2]
     last1 = idxs[-1]
     intent = line[:first].strip()
-    pattern = line[first + 1 : last2]
-    response_type = line[last2 + 1 : last1].strip()
+    pattern = line[first + 1 : last3]
+    response_type = line[last3 + 1 : last2].strip()
+    is_master = line[last2 + 1 : last1].strip().lower() or "false"
     response = line[last1 + 1 :].strip()
 
     # clean up possible stray commas/spaces
@@ -85,7 +87,7 @@ def reconstruct_row(line: str) -> str | None:
     pattern_q = '"' + esc(pattern.strip()) + '"'
     response_q = '"' + esc(response.strip()) + '"'
 
-    new = f"{intent},{pattern_q},{response_type},{response_q}"
+    new = f"{intent},{pattern_q},{response_type},{is_master},{response_q}"
     return new
 
 
@@ -101,11 +103,21 @@ def heuristic_split_on_response_type(line: str) -> str | None:
                 continue
             intent, pattern = left.split(',', 1)
             response_type = token.strip(',')
-            response = right
+            
+            # Since we split on response_type, we need to find is_master and response in 'right'
+            # Expected right: is_master,"response"
+            r_idxs = scan_top_level_commas(right)
+            if r_idxs:
+                is_master = right[:r_idxs[0]].strip().lower() or "false"
+                response = right[r_idxs[0]+1:].strip()
+            else:
+                is_master = "false"
+                response = right
+                
             # escape quotes
             pattern_q = '"' + pattern.replace('"', '""').strip() + '"'
             response_q = '"' + response.replace('"', '""').strip() + '"'
-            return f"{intent},{pattern_q},{response_type},{response_q}"
+            return f"{intent},{pattern_q},{response_type},{is_master},{response_q}"
     return None
 
 
@@ -129,16 +141,16 @@ def main():
         i += 1
         buf = lines[i - 1]
         num = count_fields(buf)
-        # If this physical line doesn't parse as 4 fields, try merging following lines
+        # If this physical line doesn't parse as 5 fields, try merging following lines
         j = i
-        while num != 4 and j < n:
+        while num != 5 and j < n:
             # append next physical line with newline (CSV may contain embedded newlines)
             buf = buf + "\n" + lines[j]
             j += 1
             num = count_fields(buf)
-        if num == 4:
-            # If buffer parses to 4 fields but needs minor fix (missing comma after intent), try that
-            if count_fields(buf) != 4:
+        if num == 5:
+            # If buffer parses to 5 fields but needs minor fix (missing comma after intent), try that
+            if count_fields(buf) != 5:
                 # should not happen, but keep safe
                 pass
             fixed_lines.append(buf)
@@ -150,14 +162,14 @@ def main():
         # try auto-fix on original single line
         orig_line = lines[i - 1]
         new = try_fix_line(orig_line)
-        if new and count_fields(new) == 4:
+        if new and count_fields(new) == 5:
             fixed_lines.append(new)
             fixes.append((i, i, 'fix_comma'))
             i = i
             continue
         # try heuristic split on response type
         heur = heuristic_split_on_response_type(orig_line)
-        if heur and count_fields(heur) == 4:
+        if heur and count_fields(heur) == 5:
             fixed_lines.append(heur)
             fixes.append((i, i, 'heuristic'))
             i = i

@@ -7,6 +7,7 @@ from .processors.intent_matcher import IntentMatcher
 from .processors.response_selector import ResponseSelector
 from .processors.text_normalizer import TextNormalizer
 from utils.query_logger import QueryLogger
+from utils.ood_detector import OODDetector
 
 logger = logging.getLogger(__name__)
 
@@ -38,6 +39,9 @@ class HybridNLUService:
 
         # Initialize query logger
         self.query_logger = QueryLogger() # catat query dengan confidence rendah
+        
+        # Initialize OOD detector
+        self.ood_detector = OODDetector()
         
         logger.info("✅ HybridNLUService initialized successfully!")
 
@@ -89,6 +93,11 @@ class HybridNLUService:
                 if 'pattern' in intent_data.columns:
                     patterns = intent_data['pattern'].dropna().astype(str).tolist()
 
+                is_master = False
+                if 'is_master' in intent_data.columns:
+                    # Jika salah satu row untuk intent ini adalah master, maka intent ini master
+                    is_master = any(str(x).lower() == 'true' for x in intent_data['is_master'].dropna())
+
                 responses = ["Response not available"]
                 if 'response' in intent_data.columns:
                     resp = intent_data['response'].dropna().astype(str).tolist()
@@ -98,7 +107,8 @@ class HybridNLUService:
                 intent_mappings[intent_key] = {
                     'response_type': response_type,
                     'patterns': patterns,
-                    'responses': responses
+                    'responses': responses,
+                    'is_master': is_master
                 }
 
             self.intent_mappings = intent_mappings
@@ -135,11 +145,17 @@ class HybridNLUService:
                 text, lstm_pred, bert_pred, self.intent_mappings
             )
 
-             # 3. Log low confidence queries - PASTIKAN DATA LENGKAP
+            # 3. OOD Check & Log low confidence queries
             confidence = intent_result.get('confidence', 0)
-            if confidence < self.thresholds.min_confidence:
+            normalized_text = self.text_normalizer.normalize(text)
+            ood_result = self.ood_detector.process(text, normalized_text)
+            
+            if ood_result['is_ood']:
+                logger.warning(f"🚫 OOD Detected: '{text}' (Reason: {ood_result['reason']})")
+                # Do not log OOD/gibberish to training_candidates.csv
+            elif confidence < self.thresholds.low_confidence_threshold:
                 log_data = {
-                    'text': text,  # ✅ WAJIB ADA
+                    'text': text,
                     'predicted_intent': intent_result.get('intent', 'unknown'),
                     'confidence': confidence,
                     'method_used': intent_result.get('method', 'unknown'),
@@ -150,7 +166,7 @@ class HybridNLUService:
                     'bert_confidence': bert_pred.get('confidence', 0)
                 }
                 self.query_logger.log_low_confidence_query(log_data)
-                logger.info(f"⚠️ Logged low confidence query: {text}")
+                logger.info(f"⚠️ Logged valuable candidate: {text}")
 
             # 4. Get best response
             response = self.response_selector.get_response(intent_result, text)

@@ -36,9 +36,27 @@ except FileNotFoundError:
     print(f"❌ Error: File {DATASET_FILE} tidak ditemukan!")
     exit()
 
+import sys
+import os
+
+# Add project root to sys.path
+current_dir = os.path.dirname(os.path.abspath(__file__))
+project_root = os.path.dirname(current_dir)
+if project_root not in sys.path:
+    sys.path.append(project_root)
+
+from core.processors.text_normalizer import text_normalizer
+
 # === PREPROCESSING DENGAN VALIDASI ===
-patterns = [str(pattern).strip().lower() for pattern in df['pattern'].tolist()]
+# Apply global cleaner with lstm mode
+patterns = [text_normalizer.global_cleaner(str(p), model_type='lstm') for p in df['pattern'].tolist()] 
+# Filter empty
+df['cleaned_pattern'] = patterns
+df = df[df['cleaned_pattern'] != ""]
+patterns = df['cleaned_pattern'].tolist()
 intents = df['intent'].tolist()
+
+# Cek distribusi kelas
 
 # Cek distribusi kelas
 print("📈 Distribusi kelas:")
@@ -71,7 +89,7 @@ def bert_setup():
     try:
         from transformers import AutoTokenizer, AutoModelForSequenceClassification
 
-        bert_model_name = "indobenchmark/indobert-lite-base-p1"
+        bert_model_name = "cahya/bert-base-indonesian-522M"
 
         print(f"📦 Memuat model BERT: {bert_model_name}...")
         bert_info = {

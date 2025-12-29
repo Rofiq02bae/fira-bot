@@ -104,5 +104,61 @@ class TextNormalizer:
             'diversity_preserved': len(normalized_set) / len(original_set) if original_set else 1.0
         }
 
-# Global instance dengan conservative settings
-text_normalizer = TextNormalizer(aggressive_normalization=False)
+    def filter_gibberish(self, text: str) -> bool:
+        """
+        Check if text is likely gibberish (e.g., "asdfghjkl", "123123").
+        Returns True if text is VALID, False if GIBBERISH.
+        """
+        if not text or len(text) < 2:
+            return False
+            
+        # Check repetitive characters (e.g. "aaaaa")
+        if re.search(r'(.)\1{4,}', text):
+            return False
+            
+        # Check consonant clusters usually impossible in Indonesian (simplistic)
+        if re.search(r'[bcdfghjklmnpqrstvwxyz]{5,}', text):
+            return False
+            
+        # Check if text is just JSON or special chars
+        if text.startswith('{') or text.startswith('['):
+            return False
+            
+        return True
+
+    def global_cleaner(self, text: str, model_type: str = 'general') -> str:
+        """
+        Unified preprocessing function for both BERT and LSTM.
+        
+        Args:
+            text: Input text
+            model_type: 'bert' (preserves more context) or 'lstm' (more aggressive normalization)
+        """
+        if not self.filter_gibberish(text):
+            return ""
+
+        text = text.lower().strip()
+        
+        # 1. Critical Fixes (Always applied)
+        for wrong, correct in self.critical_corrections.items():
+            text = text.replace(wrong, correct)
+            
+        # 2. Regex Patterns
+        for pattern, replacement in self.regex_patterns.items():
+            text = re.sub(pattern, replacement, text)
+            
+        # 3. Model-specific cleaning
+        if model_type == 'lstm':
+            # Aggressive: remove punctuation, standardizing
+            text = re.sub(r'[^\w\s]', ' ', text)
+            for wrong, correct in self.optional_corrections.items():
+                text = text.replace(wrong, correct)
+        else:
+            # BERT: Preserve punctuation useful for context (?, !, etc.)
+            text = re.sub(r'[^\w\s?!.,]', ' ', text)
+            
+        text = re.sub(r'\s+', ' ', text).strip()
+        return text
+
+# Global instance
+text_normalizer = TextNormalizer(aggressive_normalization=True)

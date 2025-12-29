@@ -1,0 +1,459 @@
+Pattern,Expected,Predicted,Confidence,IsCorrect,Method,IsMaster
+halo,salam,salam,0.7089811563491821,True,lstm_direct,False
+hello,salam,salam,0.6494390368461609,True,lstm_direct,False
+helo,salam,unknown,0.0,False,emergency_fallback,False
+hallo,salam,salam,0.6937368512153625,True,lstm_direct,False
+allo,salam,salam,0.690329372882843,True,lstm_direct,False
+oit,salam,salam,0.6166932582855225,True,lstm_direct,False
+yuhu,salam,unknown,0.0,False,emergency_fallback,False
+assalamualaikum,salam,salam,0.7132437229156494,True,lstm_direct,False
+terimakasih,terimakasih,terimakasih,0.8560433983802795,True,lstm_direct,False
+makasih,terimakasih,terimakasih,0.8073352575302124,True,lstm_direct,False
+mks,terimakasih,unknown,0.0,False,emergency_fallback,False
+mksh,terimakasih,terimakasih,0.7459751963615417,True,lstm_direct,False
+trims,terimakasih,terimakasih,0.7645248770713806,True,lstm_direct,False
+thanks,terimakasih,terimakasih,0.7998009920120239,True,lstm_direct,False
+butuh bantuan,bantuan,bantuan,0.6434014439582825,True,lstm_direct,False
+bantu saya,bantuan,bantuan,0.7072302103042603,True,lstm_direct,False
+tolong,bantuan,bantuan,0.6333416104316711,True,lstm_direct,False
+bagaimana caranya,bantuan,bantuan,0.6921571493148804,True,lstm_direct,False
+saya punya saran,saran,saran,0.8167561292648315,True,lstm_direct,False
+saran,saran,saran,0.5519245862960815,True,lstm_direct,False
+masukan,saran,saran,0.582802951335907,True,lstm_direct,False
+saya ingin komplain,keluhan,keluhan,0.4457702040672302,True,lstm_direct,False
+ada masalah,keluhan,keluhan,0.4473653733730316,True,lstm_direct,False
+tidak puas,keluhan,keluhan,0.41811126470565796,True,lstm_direct,False
+bjirr,out_of_topic,out_of_topic,0.790296733379364,True,lstm_direct,False
+wkwk,out_of_topic,out_of_topic,0.8489679098129272,True,lstm_direct,False
+gajelas,out_of_topic,out_of_topic,0.8439362049102783,True,lstm_direct,False
+hskfhkshd,out_of_topic,unknown,0.0,False,emergency_fallback,False
+cuaca,out_of_topic,out_of_topic,0.90053790807724,True,lstm_direct,False
+makan apa,out_of_topic,out_of_topic,0.6506692171096802,True,lstm_direct,False
+bappenda tegal buka jam berapa,bappenda_info,bappenda_info,0.8916581869125366,True,lstm_direct,False
+jadwal operasional bappenda,bappenda_info,bappenda_info,0.9468992352485657,True,lstm_direct,False
+kapan bappenda buka,bappenda_info,bappenda_info,0.9238630533218384,True,lstm_direct,False
+jam kerja kantor bappenda,bappenda_info,bappenda_info,0.9432476758956909,True,lstm_direct,False
+layanan bappenda sampai jam berapa,bappenda_info,bappenda_info,0.88895183801651,True,lstm_direct,False
+bappenda tegal tutup jam brp,bappenda_info,bappenda_info,0.9100915789604187,True,lstm_direct,False
+bappenda buka sekarang ga,bappenda_info,bappenda_info,0.9451892971992493,True,lstm_direct,False
+bappenda hari sabtu buka ga,bappenda_info,bappenda_info,0.8842930197715759,True,lstm_direct,False
+cek antrian bappenda tegal,bappenda_info,bappenda_info,0.949749767780304,True,lstm_direct,False
+bayar bappenda online tegal,bappenda_info,bappenda_info,0.9581000804901123,True,lstm_direct,False
+jam buka kpp tegal,kpp_info,kpp_info,0.8761765360832214,True,lstm_direct,False
+jadwal kantor pajak tegal,kpp_info,kpp_info,0.8950222134590149,True,lstm_direct,False
+kapan kpp pratama buka,kpp_info,kpp_info,0.7642335295677185,True,lstm_direct,False
+jam operasional kantor pajak,kpp_info,kpp_info,0.858856201171875,True,lstm_direct,False
+layanan pajak tegal buka jam berapa,kpp_info,kpp_info,0.9037700891494751,True,lstm_direct,False
+kpp tegal tutup jam berapa,kpp_info,kpp_info,0.8682692646980286,True,lstm_direct,False
+kantor pajak buka hari sabtu ga,kpp_info,kpp_info,0.8069803714752197,True,lstm_direct,False
+prosedur urus pajak tegal,kpp_info,kpp_info,0.8590236902236938,True,lstm_direct,False
+cek antrian kpp tegal,kpp_info,kpp_info,0.908437967300415,True,lstm_direct,False
+bayar pajak tegal online,kpp_info,kpp_info,0.8909524083137512,True,lstm_direct,False
+jam buka pdam tegal,pdam_info,pdam_info,0.8837590217590332,True,lstm_direct,False
+jadwal operasional pdam,pdam_info,pdam_info,0.9312292337417603,True,lstm_direct,False
+kapan pdam buka,pdam_info,pdam_info,0.8933969736099243,True,lstm_direct,False
+jam kerja kantor pdam,pdam_info,pdam_info,0.9205699563026428,True,lstm_direct,False
+layanan pdam sampai jam berapa,pdam_info,pdam_info,0.8285853266716003,True,lstm_direct,False
+pdam tegal tutup jam brp,pdam_info,pdam_info,0.8616436719894409,True,lstm_direct,False
+pdam buka sekarang ga,pdam_info,pdam_info,0.7929348945617676,True,lstm_direct,False
+pdam hari sabtu buka ga,pdam_info,pdam_info,0.7610164880752563,True,lstm_direct,False
+cek antrian pdam tegal,pdam_info,pdam_info,0.9117079973220825,True,lstm_direct,False
+bayar pdam online tegal,pdam_info,pdam_info,0.8794592618942261,True,lstm_direct,False
+jam buka bank jateng tegal,bank_jateng_info,bank_jateng_info,0.8822904825210571,True,lstm_direct,False
+jadwal operasional bank jateng,bank_jateng_info,bank_jateng_info,0.898815929889679,True,lstm_direct,False
+kapan bank jateng buka,bank_jateng_info,bank_jateng_info,0.8891034126281738,True,lstm_direct,False
+jam kerja kantor bank jateng,bank_jateng_info,bank_jateng_info,0.9004448056221008,True,lstm_direct,False
+layanan bank jateng sampai jam berapa,bank_jateng_info,bank_jateng_info,0.8662645816802979,True,lstm_direct,False
+bank jateng tegal tutup jam berapa,bank_jateng_info,bank_jateng_info,0.8244549632072449,True,lstm_direct,False
+bank jateng buka sekarang ga,bank_jateng_info,bank_jateng_info,0.9089474678039551,True,lstm_direct,False
+bank jateng hari sabtu buka ga,bank_jateng_info,bank_jateng_info,0.8380147218704224,True,lstm_direct,False
+cek antrian bank jateng tegal,bank_jateng_info,bank_jateng_info,0.9209824800491333,True,lstm_direct,False
+transaksi bank jateng online,bank_jateng_info,bank_jateng_info,0.8821832537651062,True,lstm_direct,False
+jam buka polres tegal,polres_info,polres_info,0.7768867015838623,True,lstm_direct,False
+jadwal operasional polres,polres_info,polres_info,0.7722718119621277,True,lstm_direct,False
+kapan polres buka,polres_info,polres_info,0.8012481927871704,True,lstm_direct,False
+jam kerja polres tegal,polres_info,polres_info,0.7586625814437866,True,lstm_direct,False
+layanan polres sampai jam berapa,polres_info,polres_info,0.7702498435974121,True,lstm_direct,False
+polres tegal tutup jam berapa,polres_info,polres_info,0.6422423720359802,True,lstm_direct,False
+apakah polres buka hari ini,polres_info,polres_info,0.7544383406639099,True,lstm_direct,False
+polres tegal hari sabtu buka ga,polres_info,polres_info,0.6257147789001465,True,lstm_direct,False
+cek antrian polres tegal,polres_info,polres_info,0.7416934967041016,True,lstm_direct,False
+layanan polres tegal online,polres_info,polres_info,0.8137711882591248,True,lstm_direct,False
+jam buka samsat tegal,samsat_info,samsat_info,0.9212863445281982,True,lstm_direct,False
+jadwal operasional samsat,samsat_info,samsat_info,0.9270028471946716,True,lstm_direct,False
+kapan samsat buka,samsat_info,samsat_info,0.9074202179908752,True,lstm_direct,False
+jam kerja samsat tegal,samsat_info,samsat_info,0.916047215461731,True,lstm_direct,False
+layanan samsat sampai jam berapa,samsat_info,samsat_info,0.8634064197540283,True,lstm_direct,False
+samsat tegal tutup jam berapa,samsat_info,samsat_info,0.8467728495597839,True,lstm_direct,False
+apakah samsat buka hari ini,samsat_info,samsat_info,0.8695608973503113,True,lstm_direct,False
+samsat tegal hari sabtu buka ga,samsat_info,samsat_info,0.7841810584068298,True,lstm_direct,False
+cek antrian samsat tegal,samsat_info,samsat_info,0.9345887899398804,True,lstm_direct,False
+pajak kendaraan online tegal,samsat_info,samsat_info,0.8419154286384583,True,lstm_direct,False
+jam buka pos tegal,pos_info,pos_info,0.9484090805053711,True,lstm_direct,False
+jadwal kantor pos ind cabang tegal,pos_info,pos_info,0.9063906073570251,True,lstm_direct,False
+kapan pos indonesia buka,pos_info,pos_info,0.9632131457328796,True,lstm_direct,False
+jam kerja pos indonesia tegal,pos_info,pos_info,0.9718191623687744,True,lstm_direct,False
+layanan pos tegal sampai jam berapa,pos_info,pos_info,0.9229908585548401,True,lstm_direct,False
+pos tegal tutup jam berapa,pos_info,pos_info,0.9039574861526489,True,lstm_direct,False
+kantor pos hari sabtu buka ga,pos_info,pos_info,0.9236328601837158,True,lstm_direct,False
+cek antrian pos tegal,pos_info,pos_info,0.9425312280654907,True,lstm_direct,False
+kirim paket pos online tegal,pos_info,pos_info,0.9580498933792114,True,lstm_direct,False
+jadwal operasional pos indonesia,pos_info,pos_info,0.973884642124176,True,lstm_direct,False
+jam buka pupr tegal,pupr_info,pupr_info,0.9797890782356262,True,lstm_direct,False
+jadwal dinas pupr,pupr_info,pupr_info,0.9829666614532471,True,lstm_direct,False
+kapan kantor pupr buka,pupr_info,pupr_info,0.9760722517967224,True,lstm_direct,False
+jam kerja dinas pupr tegal,pupr_info,pupr_info,0.9783084988594055,True,lstm_direct,False
+layanan pupr sampai jam berapa,pupr_info,pupr_info,0.9533354043960571,True,lstm_direct,False
+pupr tegal tutup jam berapa,pupr_info,pupr_info,0.9380670189857483,True,lstm_direct,False
+kantor pupr buka hari ini ga,pupr_info,pupr_info,0.9241418242454529,True,lstm_direct,False
+prosedur urus pupr tegal,pupr_info,pupr_info,0.9809473752975464,True,lstm_direct,False
+cek antrian dinas pupr,pupr_info,pupr_info,0.9841895699501038,True,lstm_direct,False
+info operasional pupr tegal,pupr_info,pupr_info,0.9792518019676208,True,lstm_direct,False
+jam buka klinik hukum tegal,hukum_info,hukum_info,0.9464793801307678,True,lstm_direct,False
+jadwal operasional klinik hukum,hukum_info,hukum_info,0.9481325149536133,True,lstm_direct,False
+kapan klinik hukum buka,hukum_info,hukum_info,0.938926637172699,True,lstm_direct,False
+jam kerja kantor klinik hukum,hukum_info,hukum_info,0.9462842345237732,True,lstm_direct,False
+layanan klinik hukum sampai jam berapa,hukum_info,hukum_info,0.8908464312553406,True,lstm_direct,False
+klinik hukum tegal tutup jam berapa,hukum_info,hukum_info,0.9081612229347229,True,lstm_direct,False
+klinik hukum buka sekarang ga,hukum_info,hukum_info,0.9297336339950562,True,lstm_direct,False
+klinik hukum hari sabtu buka ga,hukum_info,hukum_info,0.8811848759651184,True,lstm_direct,False
+konsultasi hukum tegal online,hukum_info,hukum_info,0.8975226283073425,True,lstm_direct,False
+prosedur layanan klinik hukum,hukum_info,hukum_info,0.9402522444725037,True,lstm_direct,False
+jam buka taspen tegal,taspen_info,taspen_info,0.9731543660163879,True,lstm_direct,False
+jadwal operasional taspen,taspen_info,taspen_info,0.9809466004371643,True,lstm_direct,False
+kapan taspen buka,taspen_info,taspen_info,0.9614315032958984,True,lstm_direct,False
+jam kerja taspen tegal,taspen_info,taspen_info,0.9703089594841003,True,lstm_direct,False
+layanan taspen sampai jam berapa,taspen_info,taspen_info,0.9433917999267578,True,lstm_direct,False
+taspen tegal tutup jam berapa,taspen_info,taspen_info,0.9474543333053589,True,lstm_direct,False
+taspen buka hari apa saja,taspen_info,taspen_info,0.9547755122184753,True,lstm_direct,False
+cek antrian taspen tegal,taspen_info,taspen_info,0.9825630187988281,True,lstm_direct,False
+layanan taspen online,taspen_info,taspen_info,0.9642775058746338,True,lstm_direct,False
+prosedur urus taspen,taspen_info,taspen_info,0.9773187041282654,True,lstm_direct,False
+jam buka perintransnaker tegal,perintransnaker_info,perintransnaker_info,0.9216765761375427,True,lstm_direct,False
+jadwal dinas perintransnaker,perintransnaker_info,perintransnaker_info,0.9310537576675415,True,lstm_direct,False
+kapan perintransnaker buka,perintransnaker_info,perintransnaker_info,0.9147787690162659,True,lstm_direct,False
+jam kerja perintransnaker tegal,perintransnaker_info,perintransnaker_info,0.9215274453163147,True,lstm_direct,False
+layanan perintransnaker sampai jam berapa,perintransnaker_info,perintransnaker_info,0.8429958820343018,True,lstm_direct,False
+perintransnaker tegal tutup jam berapa,perintransnaker_info,perintransnaker_info,0.8377541303634644,True,lstm_direct,False
+dinas perintransnaker hari sabtu buka ga,perintransnaker_info,perintransnaker_info,0.8731034994125366,True,lstm_direct,False
+kartu kuning online tegal,perintransnaker_info,ak1_info,0.4089239239692688,False,lstm_direct,False
+info loker perintransnaker,perintransnaker_info,perintransnaker_info,0.9441448450088501,True,lstm_direct,False
+pendaftaran pelatihan perintransnaker,perintransnaker_info,perintransnaker_info,0.8764496445655823,True,lstm_direct,False
+jam buka dinas koperasi ukm tegal,koperasi_info,koperasi_info,0.9854112863540649,True,lstm_direct,False
+jadwal dinkop ukm,koperasi_info,koperasi_info,0.9809600114822388,True,lstm_direct,False
+kapan dinas koperasi buka,koperasi_info,koperasi_info,0.9150732159614563,True,lstm_direct,False
+jam kerja dinas koperasi ukm tegal,koperasi_info,koperasi_info,0.9885998964309692,True,lstm_direct,False
+layanan dinkop ukm sampai jam berapa,koperasi_info,koperasi_info,0.9672414064407349,True,lstm_direct,False
+dinkop ukm tegal tutup jam berapa,koperasi_info,koperasi_info,0.9546889066696167,True,lstm_direct,False
+kantor koperasi buka hari ini ga,koperasi_info,koperasi_info,0.6446871757507324,True,lstm_direct,False
+pendaftaran umkm tegal online,koperasi_info,koperasi_info,0.7522292137145996,True,lstm_direct,False
+konsultasi koperasi tegal,koperasi_info,koperasi_info,0.9615626335144043,True,lstm_direct,False
+info operasional dinkop ukm,koperasi_info,koperasi_info,0.9849372506141663,True,lstm_direct,False
+jam buka pengadilan negeri slawi,pn_info,pn_info,0.9100871086120605,True,lstm_direct,False
+jadwal pn tegal,pn_info,pn_info,0.908783495426178,True,lstm_direct,False
+kapan pengadilan negeri buka,pn_info,pn_info,0.8889923095703125,True,lstm_direct,False
+jam kerja pn slawi tegal,pn_info,pn_info,0.8875365257263184,True,lstm_direct,False
+layanan pengadilan negeri sampai jam berapa,pn_info,pn_info,0.8540917038917542,True,lstm_direct,False
+pn tegal tutup jam berapa,pn_info,pn_info,0.8198951482772827,True,lstm_direct,False
+kantor pn slawi buka hari ini ga,pn_info,pn_info,0.8274980783462524,True,lstm_direct,False
+jadwal sidang pn tegal,pn_info,pn_info,0.9346823692321777,True,lstm_direct,False
+prosedur pendaftaran perkara tegal,pn_info,pn_info,0.830666184425354,True,lstm_direct,False
+info operasional pengadilan negeri,pn_info,pn_info,0.9117774963378906,True,lstm_direct,False
+jam buka dpmptsp tegal,dpmptsp_info,unknown,0.0,False,emergency_fallback,False
+jadwal dpmptsp slawi,dpmptsp_info,unknown,0.0,False,emergency_fallback,False
+kapan dpmptsp buka,dpmptsp_info,unknown,0.0,False,emergency_fallback,False
+jam kerja dpmptsp tegal,dpmptsp_info,unknown,0.0,False,emergency_fallback,False
+layanan dpmptsp sampai jam berapa,dpmptsp_info,unknown,0.0,False,emergency_fallback,False
+dpmptsp tegal tutup jam berapa,dpmptsp_info,unknown,0.0,False,emergency_fallback,False
+kantor perizinan buka hari ini ga,dpmptsp_info,unknown,0.0,False,emergency_fallback,False
+urus izin usaha tegal online,dpmptsp_info,unknown,0.0,False,emergency_fallback,False
+konsultasi dpmptsp tegal,dpmptsp_info,unknown,0.0,False,emergency_fallback,False
+cek status izin dpmptsp,dpmptsp_info,unknown,0.0,False,emergency_fallback,False
+jam buka imigrasi tegal,imigrasi_info,imigrasi_info,0.898670494556427,True,lstm_direct,False
+jadwal kantor imigrasi,imigrasi_info,imigrasi_info,0.9473896026611328,True,lstm_direct,False
+kapan imigrasi buka,imigrasi_info,imigrasi_info,0.8941038846969604,True,lstm_direct,False
+jam kerja imigrasi tegal,imigrasi_info,imigrasi_info,0.9181313514709473,True,lstm_direct,False
+layanan imigrasi sampai jam berapa,imigrasi_info,imigrasi_info,0.8409619331359863,True,lstm_direct,False
+imigrasi tegal tutup jam berapa,imigrasi_info,imigrasi_info,0.8186429142951965,True,lstm_direct,False
+buat paspor tegal hari apa,imigrasi_info,imigrasi_info,0.8521971106529236,True,lstm_direct,False
+jadwal wawancara paspor tegal,imigrasi_info,imigrasi_info,0.9575970768928528,True,lstm_direct,False
+pengambilan paspor imigrasi tegal,imigrasi_info,imigrasi_info,0.9812466502189636,True,lstm_direct,False
+info operasional imigrasi,imigrasi_info,imigrasi_info,0.9465281963348389,True,lstm_direct,False
+jam buka disdukcapil tegal,disdukcapil_info,disdukcapil_info,0.9140852689743042,True,lstm_direct,False
+jadwal capil slawi,disdukcapil_info,disdukcapil_info,0.9114367961883545,True,lstm_direct,False
+kapan disdukcapil buka,disdukcapil_info,disdukcapil_info,0.9268103837966919,True,lstm_direct,False
+jam kerja disdukcapil tegal,disdukcapil_info,disdukcapil_info,0.9340949654579163,True,lstm_direct,False
+layanan capil sampai jam berapa,disdukcapil_info,disdukcapil_info,0.9089891314506531,True,lstm_direct,False
+disdukcapil tegal tutup jam berapa,disdukcapil_info,disdukcapil_info,0.923992395401001,True,lstm_direct,False
+kantor capil buka hari ini ga,disdukcapil_info,disdukcapil_info,0.9143788814544678,True,lstm_direct,False
+buat ktp tegal jam berapa,disdukcapil_info,disdukcapil_info,0.4686504602432251,True,lstm_direct,False
+urus kartu keluarga tegal,disdukcapil_info,disdukcapil_info,0.6826907396316528,True,lstm_direct,False
+info operasional disdukcapil,disdukcapil_info,disdukcapil_info,0.9270285367965698,True,lstm_direct,False
+jam buka kemenag tegal,kemenag_info,kemenag_info,0.932820737361908,True,lstm_direct,False
+jadwal kantor agama slawi,kemenag_info,kemenag_info,0.8402098417282104,True,lstm_direct,False
+kapan kemenag buka,kemenag_info,kemenag_info,0.916545033454895,True,lstm_direct,False
+jam kerja kemenag tegal,kemenag_info,kemenag_info,0.927528977394104,True,lstm_direct,False
+layanan kemenag sampai jam berapa,kemenag_info,kemenag_info,0.9117507338523865,True,lstm_direct,False
+kemenag tegal tutup jam berapa,kemenag_info,kemenag_info,0.8932917714118958,True,lstm_direct,False
+kantor kemenag buka hari ini ga,kemenag_info,kemenag_info,0.8857071995735168,True,lstm_direct,False
+urus nikah kemenag tegal,kemenag_info,kemenag_info,0.9466217756271362,True,lstm_direct,False
+info haji kemenag tegal,kemenag_info,kemenag_info,0.9291735887527466,True,lstm_direct,False
+pendaftaran umroh kemenag,kemenag_info,kemenag_info,0.917430579662323,True,lstm_direct,False
+jam buka dinsos tegal,dinsos_info,dinsos_info,0.9621596336364746,True,lstm_direct,False
+jadwal dinas sosial slawi,dinsos_info,dinsos_info,0.937202513217926,True,lstm_direct,False
+kapan dinsos buka,dinsos_info,dinsos_info,0.9613163471221924,True,lstm_direct,False
+jam kerja dinsos tegal,dinsos_info,dinsos_info,0.9625921249389648,True,lstm_direct,False
+layanan sosial sampai jam berapa,dinsos_info,dinsos_info,0.9461530447006226,True,lstm_direct,False
+dinsos tegal tutup jam berapa,dinsos_info,dinsos_info,0.9368035197257996,True,lstm_direct,False
+kantor dinsos buka hari ini ga,dinsos_info,dinsos_info,0.9644426107406616,True,lstm_direct,False
+urus bantuan sosial tegal,dinsos_info,dinsos_info,0.9619747996330261,True,lstm_direct,False
+cek data dtks tegal,dinsos_info,dinsos_info,0.9537898898124695,True,lstm_direct,False
+syarat kartu indonesia pintar tegal,dinsos_info,dinsos_info,0.9451757669448853,True,lstm_direct,False
+jam buka bank tegal,bank_tegal_info,bank_tegal_info,0.7374191284179688,True,lstm_direct,False
+jadwal bank daerah slawi,bank_tegal_info,bank_tegal_info,0.9159575700759888,True,lstm_direct,False
+kapan bank buka,bank_tegal_info,bank_tegal_info,0.6375596523284912,True,lstm_direct,False
+jam kerja bank tegal,bank_tegal_info,bank_tegal_info,0.728987455368042,True,lstm_direct,False
+layanan teller sampai jam berapa,bank_tegal_info,unknown,0.0,False,emergency_fallback,False
+bank tegal tutup jam berapa,bank_tegal_info,bank_tegal_info,0.5860288739204407,True,lstm_direct,False
+bank jateng tegal buka hari ini ga,bank_tegal_info,bank_jateng_info,0.6927019357681274,False,lstm_direct,False
+bpr tegal buka jam berapa,bank_tegal_info,bank_tegal_info,0.7944917678833008,True,lstm_direct,False
+setor tunai bank tegal,bank_tegal_info,bank_tegal_info,0.9221158623695374,True,lstm_direct,False
+jam layanan customer service bank,bank_tegal_info,bank_tegal_info,0.41383546590805054,True,lstm_direct,False
+jam buka bpjs ketenagakerjaan tegal,bpjs_kerja_info,bpjs_kerja_info,0.8721636533737183,True,lstm_direct,False
+jadwal bpjs tenaga kerja slawi,bpjs_kerja_info,bpjs_kerja_info,0.6346067786216736,True,lstm_direct,False
+kapan bpjs kerja buka,bpjs_kerja_info,bpjs_kerja_info,0.6772363781929016,True,lstm_direct,False
+jam kerja bpjs tk tegal,bpjs_kerja_info,bpjs_kerja_info,0.8699416518211365,True,lstm_direct,False
+layanan jamsostek sampai jam berapa,bpjs_kerja_info,unknown,0.0,False,emergency_fallback,False
+bpjs ketenagakerjaan tegal tutup jam berapa,bpjs_kerja_info,bpjs_kerja_info,0.8843343257904053,True,lstm_direct,False
+kantor bpjs tk buka hari ini ga,bpjs_kerja_info,bpjs_kerja_info,0.8257409334182739,True,lstm_direct,False
+klaim jht tegal jam berapa,bpjs_kerja_info,unknown,0.0,False,emergency_fallback,False
+daftar bpjs ketenagakerjaan tegal,bpjs_kerja_info,bpjs_kerja_info,0.9324795007705688,True,lstm_direct,False
+info operasional bpjs ketenagakerjaan,bpjs_kerja_info,bpjs_kerja_info,0.9039821624755859,True,lstm_direct,False
+jam buka bpjs kesehatan tegal,bpjs_sehat_info,bpjs_sehat_info,0.9302208423614502,True,lstm_direct,False
+jadwal kantor bpjs kesehatan slawi,bpjs_sehat_info,bpjs_sehat_info,0.9345783591270447,True,lstm_direct,False
+kapan bpjs kesehatan buka,bpjs_sehat_info,bpjs_sehat_info,0.9021997451782227,True,lstm_direct,False
+jam kerja bpjs kesehatan tegal,bpjs_sehat_info,bpjs_sehat_info,0.9223393201828003,True,lstm_direct,False
+layanan bpjs kesehatan sampai jam berapa,bpjs_sehat_info,bpjs_sehat_info,0.8818597793579102,True,lstm_direct,False
+bpjs kesehatan tegal tutup jam berapa,bpjs_sehat_info,bpjs_sehat_info,0.8927329778671265,True,lstm_direct,False
+kantor bpjs kesehatan buka hari ini ga,bpjs_sehat_info,bpjs_sehat_info,0.8782804608345032,True,lstm_direct,False
+pindah faskes bpjs tegal,bpjs_sehat_info,unknown,0.0,False,emergency_fallback,False
+cek tunggakan bpjs kesehatan tegal,bpjs_sehat_info,bpjs_sehat_info,0.9490236639976501,True,lstm_direct,False
+jam operasional pandawa bpjs,bpjs_sehat_info,unknown,0.0,False,emergency_fallback,False
+jam buka kejaksaan tegal,jaksa_info,jaksa_info,0.9708296656608582,True,lstm_direct,False
+jadwal kejari slawi,jaksa_info,jaksa_info,0.9491904377937317,True,lstm_direct,False
+kapan kejaksaan buka,jaksa_info,jaksa_info,0.9631636142730713,True,lstm_direct,False
+jam kerja kejaksaan tegal,jaksa_info,jaksa_info,0.9725497364997864,True,lstm_direct,False
+layanan tilang sampai jam berapa,jaksa_info,jaksa_info,0.9182621836662292,True,lstm_direct,False
+kejaksaan tegal tutup jam berapa,jaksa_info,jaksa_info,0.9315072894096375,True,lstm_direct,False
+kantor kejari buka hari ini ga,jaksa_info,jaksa_info,0.9071445465087891,True,lstm_direct,False
+ambil barang bukti tegal,jaksa_info,jaksa_info,0.9616923928260803,True,lstm_direct,False
+info operasional kejaksaan negeri tegal,jaksa_info,jaksa_info,0.9792089462280273,True,lstm_direct,False
+loket tilang tegal buka jam,jaksa_info,jaksa_info,0.9683863520622253,True,lstm_direct,False
+jam buka mpp tegal,mpp_info,mpp_info,0.9332337975502014,True,lstm_direct,False
+jadwal mpp datya dahayu slawi,mpp_info,mpp_info,0.9783993363380432,True,lstm_direct,False
+kapan mpp buka,mpp_info,mpp_info,0.9241494536399841,True,lstm_direct,False
+jam kerja mpp tegal,mpp_info,mpp_info,0.9299557209014893,True,lstm_direct,False
+mpp datya dahayu tutup jam berapa,mpp_info,mpp_info,0.9652378559112549,True,lstm_direct,False
+layanan terpadu mpp tegal,mpp_info,mpp_info,0.9672708511352539,True,lstm_direct,False
+mpp tegal hari jumat buka jam berapa,mpp_info,mpp_info,0.9672658443450928,True,lstm_direct,False
+jadwal operasional mpp kabupaten tegal,mpp_info,mpp_info,0.902410626411438,True,lstm_direct,False
+istirahat mpp tegal jam berapa,mpp_info,mpp_info,0.9628764986991882,True,lstm_direct,False
+mpp tegal buka sabtu ga,mpp_info,mpp_info,0.9102614521980286,True,lstm_direct,False
+cara buat nib tegal,nib_info,nib_info,0.9854428768157959,True,lstm_direct,False
+daftar nib online slawi,nib_info,nib_info,0.9687841534614563,True,lstm_direct,False
+syarat nib umkm tegal,nib_info,nib_info,0.9708398580551147,True,lstm_direct,False
+bikin nib di kabupaten tegal gimana,nib_info,nib_info,0.9559866786003113,True,lstm_direct,False
+link oss nib tegal,nib_info,nib_info,0.990698516368866,True,lstm_direct,False
+prosedur nib gratis tegal,nib_info,nib_info,0.9724862575531006,True,lstm_direct,False
+dokumen nib usaha kecil,nib_info,nib_info,0.9910067915916443,True,lstm_direct,False
+tempat urus nib di tegal,nib_info,nib_info,0.9715884327888489,True,lstm_direct,False
+cara dapat nomor induk berusaha tegal,nib_info,nib_info,0.9324318170547485,True,lstm_direct,False
+nib oss rba kabupaten tegal,nib_info,nib_info,0.9501959085464478,True,lstm_direct,False
+cara buat kartu kuning tegal,ak1_info,ak1_info,0.821129322052002,True,lstm_direct,False
+daftar ak1 online slawi,ak1_info,ak1_info,0.8358156681060791,True,lstm_direct,False
+syarat kartu pencari kerja tegal,ak1_info,ak1_info,0.901796817779541,True,lstm_direct,False
+bikin kartu kuning dimana,ak1_info,ak1_info,0.9298608899116516,True,lstm_direct,False
+link pendaftaran ak1 tegal,ak1_info,ak1_info,0.8974728584289551,True,lstm_direct,False
+cetak kartu kuning mandiri,ak1_info,ak1_info,0.8463510870933533,True,lstm_direct,False
+prosedur kartu ak1 disperinaker,ak1_info,ak1_info,0.9495722651481628,True,lstm_direct,False
+daftar bursa kerja jateng,ak1_info,ak1_info,0.9313249588012695,True,lstm_direct,False
+dokumen kartu kerja tegal,ak1_info,ak1_info,0.7789121270179749,True,lstm_direct,False
+cara dapat kartu kuning online,ak1_info,ak1_info,0.6401169896125793,True,lstm_direct,False
+apa itu itr tegal,itr_info,itr_info,0.6271885633468628,True,lstm_direct,False
+syarat izin tata ruang slawi,itr_info,itr_info,0.8497478365898132,True,lstm_direct,False
+cara daftar itr sicantik,itr_info,itr_info,0.7507117986679077,True,lstm_direct,False
+lokasi urus itr tegal,itr_info,itr_info,0.46430203318595886,True,lstm_direct,False
+biaya izin informasi tata ruang,itr_info,itr_info,0.8663474917411804,True,lstm_direct,False
+prosedur itr mpp tegal,itr_info,itr_info,0.7264851331710815,True,lstm_direct,False
+dokumen permohonan itr,itr_info,itr_info,0.7312291264533997,True,lstm_direct,False
+apa fungsi itr,itr_info,itr_info,0.8150571584701538,True,lstm_direct,False
+cek tata ruang kabupaten tegal,itr_info,itr_info,0.761326014995575,True,lstm_direct,False
+syarat pbg itr,itr_info,itr_info,0.871836245059967,True,lstm_direct,False
+apa itu sls tegal,sls_info,sls_info,0.9763655662536621,True,lstm_direct,False
+syarat sertifikat laik sehat,sls_info,sls_info,0.9879199266433716,True,lstm_direct,False
+cara urus sls rumah makan,sls_info,sls_info,0.975376307964325,True,lstm_direct,False
+sls dinas kesehatan tegal,sls_info,sls_info,0.9643524885177612,True,lstm_direct,False
+pentingnya laik sehat usaha,sls_info,sls_info,0.9774504899978638,True,lstm_direct,False
+sertifikat sanitasi lingkungan tegal,sls_info,sls_info,0.9673398733139038,True,lstm_direct,False
+siapa yang butuh sls,sls_info,sls_info,0.9650720357894897,True,lstm_direct,False
+pengertian sertifikat laik sehat,sls_info,sls_info,0.9808732867240906,True,lstm_direct,False
+standar kesehatan tempat usaha,sls_info,sls_info,0.9789773225784302,True,lstm_direct,False
+izin sanitasi makanan tegal,sls_info,sls_info,0.9652616381645203,True,lstm_direct,False
+tempat yang butuh sls,sls_info,sls_info,0.9789665937423706,True,lstm_direct,False
+syarat buat sls tegal,sls_info,sls_info,0.9852649569511414,True,lstm_direct,False
+dokumen sertifikat laik sehat,sls_info,sls_info,0.986063539981842,True,lstm_direct,False
+cara urus sls rumah makan,sls_info,sls_info,0.975376307964325,True,lstm_direct,False
+biaya sls depot air minum,sls_info,sls_info,0.9402228593826294,True,lstm_direct,False
+uji lab air sls,sls_info,sls_info,0.9925788044929504,True,lstm_direct,False
+rekomendasi phri sls,sls_info,sls_info,0.9688944816589355,True,lstm_direct,False
+sls hotel tegal,sls_info,sls_info,0.9790645241737366,True,lstm_direct,False
+masa berlaku sls,sls_info,sls_info,0.9808472990989685,True,lstm_direct,False
+daftar sls online,sls_info,sls_info,0.979830265045166,True,lstm_direct,False
+manfaat nib tegal,nib_info,nib_info,0.9843848943710327,True,lstm_direct,False
+fungsi nomor induk berusaha,nib_info,nib_info,0.9771032333374023,True,lstm_direct,False
+keuntungan punya nib,nib_info,nib_info,0.9866176247596741,True,lstm_direct,False
+nib buat apa saja,nib_info,nib_info,0.9754418730735779,True,lstm_direct,False
+legalitas usaha nib,nib_info,nib_info,0.9911268353462219,True,lstm_direct,False
+akses perbankan nib,nib_info,nib_info,0.9884562492370605,True,lstm_direct,False
+nib untuk tender,nib_info,nib_info,0.9868032336235046,True,lstm_direct,False
+identitas resmi usaha tegal,nib_info,unknown,0.0,False,emergency_fallback,False
+apa pentingnya nib umkm,nib_info,nib_info,0.9834278225898743,True,lstm_direct,False
+keuntungan nib bagi pengusaha,nib_info,nib_info,0.978836715221405,True,lstm_direct,False
+apa itu lkpm,lkpm_info,lkpm_info,0.8868252635002136,True,lstm_direct,False
+cara lapor lkpm oss,lkpm_info,lkpm_info,0.9430112838745117,True,lstm_direct,False
+jadwal pelaporan lkpm,lkpm_info,lkpm_info,0.7091767191886902,True,lstm_direct,False
+tutorial isi lkpm online,lkpm_info,lkpm_info,0.9156376719474792,True,lstm_direct,False
+lkpm triwulan berapa,lkpm_info,lkpm_info,0.9150915741920471,True,lstm_direct,False
+siapa wajib lapor lkpm,lkpm_info,lkpm_info,0.8262044191360474,True,lstm_direct,False
+kendala input lkpm,lkpm_info,lkpm_info,0.9382821917533875,True,lstm_direct,False
+manfaat lapor lkpm,lkpm_info,lkpm_info,0.9344407320022583,True,lstm_direct,False
+sanksi tidak lapor lkpm,lkpm_info,lkpm_info,0.9511846899986267,True,lstm_direct,False
+panduan lkpm umkm tegal,lkpm_info,lkpm_info,0.8888838291168213,True,lstm_direct,False
+syarat akta kelahiran tegal,akta_lahir_info,akta_lahir_info,0.9365155696868896,True,lstm_direct,False
+cara buat akta lahir online,akta_lahir_info,akta_lahir_info,0.8720027208328247,True,lstm_direct,False
+akta kelahiran anak baru lahir,akta_lahir_info,akta_lahir_info,0.9648741483688354,True,lstm_direct,False
+biaya buat akta lahir,akta_lahir_info,akta_lahir_info,0.9068945646286011,True,lstm_direct,False
+lama proses akta kelahiran,akta_lahir_info,akta_lahir_info,0.951301634311676,True,lstm_direct,False
+sipandu tegal akta lahir,akta_lahir_info,akta_lahir_info,0.8167619109153748,True,lstm_direct,False
+cetak akta kelahiran mandiri,akta_lahir_info,akta_lahir_info,0.9428262710571289,True,lstm_direct,False
+formulir f2.01 akta lahir,akta_lahir_info,akta_lahir_info,0.965033769607544,True,lstm_direct,False
+syarat akta lahir hilang,akta_lahir_info,akta_lahir_info,0.821033775806427,True,lstm_direct,False
+akta kelahiran gratis tegal,akta_lahir_info,akta_lahir_info,0.9113592505455017,True,lstm_direct,False
+nan,#perbaiki akta kelahiran,unknown,0.0,False,emergency_fallback,True
+cara buat akta kematian tegal,akta_mati_info,akta_mati_info,0.9614608883857727,True,lstm_direct,False
+syarat akte kematian,akta_mati_info,akta_mati_info,0.9750686287879944,True,lstm_direct,False
+biaya akta kematian,akta_mati_info,akta_mati_info,0.9820387959480286,True,lstm_direct,False
+sipandu tegal akta kematian,akta_mati_info,akta_mati_info,0.977640688419342,True,lstm_direct,False
+dokumen urus orang meninggal,akta_mati_info,akta_mati_info,0.9061562418937683,True,lstm_direct,False
+akta kematian berapa hari jadi,akta_mati_info,akta_mati_info,0.9595131278038025,True,lstm_direct,False
+fungsi akta kematian,akta_mati_info,akta_mati_info,0.9777370095252991,True,lstm_direct,False
+formulir akta kematian tegal,akta_mati_info,akta_mati_info,0.959513247013092,True,lstm_direct,False
+ktp jenazah akta kematian,akta_mati_info,akta_mati_info,0.9627916216850281,True,lstm_direct,False
+akta kematian online tegal,akta_mati_info,akta_mati_info,0.9441832304000854,True,lstm_direct,False
+akta,akta_general,clarification_needed,1.0,True,master_intent_check,True
+urus akta,akta_general,clarification_needed,1.0,True,master_intent_check,True
+buat akta,akta_general,clarification_needed,1.0,True,master_intent_check,True
+layanan akta,akta_general,clarification_needed,1.0,True,master_intent_check,True
+cara buat kk baru tegal,kk_info,kk_info,0.7689263820648193,True,lstm_direct,False
+syarat kartu keluarga slawi,kk_info,kk_info,0.6820554137229919,True,lstm_direct,False
+daftar kk online sipandu,kk_info,kk_info,0.7272067666053772,True,lstm_direct,False
+kk tambah anak tegal,kk_info,kk_info,0.8631018996238708,True,lstm_direct,False
+syarat kk pindah datang,kk_info,kk_info,0.9101275205612183,True,lstm_direct,False
+kk hilang ganti baru,kk_info,kk_info,0.5135310888290405,True,lstm_direct,False
+cetak kk mandiri tegal,kk_info,unknown,0.0,False,emergency_fallback,False
+biaya urus kk dukcapil,kk_info,unknown,0.0,False,emergency_fallback,False
+formulir f-1.01 f-1.02 kk,kk_info,kk_info,0.9185436367988586,True,lstm_direct,False
+update kartu keluarga nikah,kk_info,kk_info,0.8519188165664673,True,lstm_direct,False
+cara urus surat pindah keluar kabupaten tegal,surat_pindah_luar,surat_pindah_luar,0.9295088052749634,True,lstm_direct,False
+syarat skpwni slawi,surat_pindah_luar,unknown,0.0,False,emergency_fallback,False
+pindah domisili antar kabupaten tegal,surat_pindah_luar,surat_pindah_dalam,0.5086824893951416,False,lstm_direct,False
+formulir f-1.03 pindah keluar,surat_pindah_luar,surat_pindah_luar,0.9605229496955872,True,lstm_direct,False
+sipandu tegal pindah keluar,surat_pindah_luar,surat_pindah_luar,0.9483811855316162,True,lstm_direct,False
+proses skpwni berapa lama,surat_pindah_luar,unknown,0.0,False,emergency_fallback,False
+cetak surat pindah mandiri,surat_pindah_luar,surat_pindah_luar,0.7032323479652405,True,lstm_direct,False
+biaya surat pindah luar kota,surat_pindah_luar,unknown,0.0,False,emergency_fallback,False
+pindah kependudukan keluar tegal,surat_pindah_luar,surat_pindah_luar,0.9630667567253113,True,lstm_direct,False
+dokumen pindah antar provinsi,surat_pindah_luar,surat_pindah_luar,0.8886560201644897,True,lstm_direct,False
+cara pindah masuk ke kabupaten tegal,surat_pindah_masuk,surat_pindah_masuk,0.9378995299339294,True,lstm_direct,False
+syarat pendatang baru tegal,surat_pindah_masuk,surat_pindah_masuk,0.905640184879303,True,lstm_direct,False
+pindah domisili ke tegal sipandu,surat_pindah_masuk,surat_pindah_masuk,0.8046459555625916,True,lstm_direct,False
+formulir f-1.02 pindah masuk,surat_pindah_masuk,surat_pindah_masuk,0.9442736506462097,True,lstm_direct,False
+surat keterangan pindah datang tegal,surat_pindah_masuk,surat_pindah_masuk,0.8098013997077942,True,lstm_direct,False
+syarat update kk pendatang,surat_pindah_masuk,surat_pindah_masuk,0.9175359010696411,True,lstm_direct,False
+dokumen pindah masuk wni,surat_pindah_masuk,surat_pindah_masuk,0.9400202035903931,True,lstm_direct,False
+cara daftar penduduk baru tegal,surat_pindah_masuk,surat_pindah_masuk,0.8580626845359802,True,lstm_direct,False
+skpwni dari daerah asal,surat_pindah_masuk,unknown,0.0,False,emergency_fallback,False
+pindah ke tegal karena nikah,surat_pindah_masuk,surat_pindah_masuk,0.7552840709686279,True,lstm_direct,False
+pindah alamat dalam kabupaten tegal,surat_pindah_dalam,surat_pindah_dalam,0.830119252204895,True,lstm_direct,False
+surat pindah antar kecamatan tegal,surat_pindah_dalam,surat_pindah_dalam,0.7319884896278381,True,lstm_direct,False
+pindah desa dalam satu kabupaten,surat_pindah_dalam,surat_pindah_dalam,0.7354768514633179,True,lstm_direct,False
+syarat pindah domisili slawi,surat_pindah_dalam,unknown,0.0,False,emergency_fallback,False
+formulir f-1.03 pindah dalam kabupaten,surat_pindah_dalam,surat_pindah_dalam,0.842974841594696,True,lstm_direct,False
+cara urus pindah alamat kk tegal,surat_pindah_dalam,surat_pindah_dalam,0.7651127576828003,True,lstm_direct,False
+pindah alamat karena nikah tegal,surat_pindah_dalam,surat_pindah_dalam,0.783966064453125,True,lstm_direct,False
+prosedur pindah dalam kabupaten sipandu,surat_pindah_dalam,surat_pindah_dalam,0.8039153814315796,True,lstm_direct,False
+skpwni lokal tegal,surat_pindah_dalam,unknown,0.0,False,emergency_fallback,False
+update kk pindah alamat,surat_pindah_dalam,surat_pindah_dalam,0.7898338437080383,True,lstm_direct,False
+pindah,pindah_general,clarification_needed,1.0,True,master_intent_check,True
+surat pindah,pindah_general,clarification_needed,1.0,True,master_intent_check,True
+domisili,pindah_general,clarification_needed,1.0,True,master_intent_check,True
+pindah alamat,pindah_general,surat_pindah_dalam,0.6294991970062256,False,lstm_direct,True
+apa itu loakk tegal,loakk_info,loakk_info,0.9475337266921997,True,lstm_direct,False
+cara buat loakk anak baru lahir,loakk_info,loakk_info,0.9481508135795593,True,lstm_direct,False
+syarat paket loakk sipandu,loakk_info,loakk_info,0.9657396674156189,True,lstm_direct,False
+kepanjangan loakk,loakk_info,loakk_info,0.9834589958190918,True,lstm_direct,False
+bikin akta kk kia sekaligus,loakk_info,loakk_info,0.9687789082527161,True,lstm_direct,False
+proses loakk berapa lama,loakk_info,loakk_info,0.9402765035629272,True,lstm_direct,False
+loakk gratis atau bayar,loakk_info,loakk_info,0.9406667947769165,True,lstm_direct,False
+formulir f-2.01 loakk,loakk_info,loakk_info,0.9699937701225281,True,lstm_direct,False
+daftar loakk online,loakk_info,loakk_info,0.9327850937843323,True,lstm_direct,False
+manfaat layanan loakk,loakk_info,loakk_info,0.9767138957977295,True,lstm_direct,False
+apa itu sicantik tegal,sicantik_info,sicantik_info,0.7112860679626465,True,lstm_direct,False
+syarat urus dokumen cerai,sicantik_info,sicantik_info,0.44411924481391907,True,lstm_direct,False
+update kk setelah cerai,sicantik_info,sicantik_info,0.5603118538856506,True,lstm_direct,False
+cara daftar sicantik sipandu,sicantik_info,sicantik_info,0.6617693901062012,True,lstm_direct,False
+kepanjangan sicantik dukcapil,sicantik_info,sicantik_info,0.9467638731002808,True,lstm_direct,False
+proses akta cerai ke kk,sicantik_info,sicantik_info,0.839680016040802,True,lstm_direct,False
+formulir f-1.02 sicantik,sicantik_info,sicantik_info,0.6100559830665588,True,lstm_direct,False
+berkas dokumen cerai tegal,sicantik_info,unknown,0.0,False,emergency_fallback,False
+alur sicantik pengadilan agama,sicantik_info,sicantik_info,0.9587365388870239,True,lstm_direct,False
+layanan cerai anti ribet,sicantik_info,sicantik_info,0.9261634945869446,True,lstm_direct,False
+cara buat ktp tegal,ktp_info,ktp_info,0.7755477428436279,True,lstm_direct,False
+syarat ktp baru 17 tahun,ktp_info,ktp_info,0.40913844108581543,True,lstm_direct,False
+ktp hilang ganti baru,ktp_info,ktp_info,0.6982281804084778,True,lstm_direct,False
+biaya cetak ktp el,ktp_info,ktp_info,0.9718520641326904,True,lstm_direct,False
+lama proses pembuatan ktp,ktp_info,ktp_info,0.9640563130378723,True,lstm_direct,False
+formulir f-1.21 ktp,ktp_info,ktp_info,0.9618692398071289,True,lstm_direct,False
+syarat ktp rusak,ktp_info,ktp_info,0.9510825276374817,True,lstm_direct,False
+foto copy akta kelahiran ktp,ktp_info,unknown,0.0,False,emergency_fallback,False
+syarat rekam ktp tegal,ktp_info,ktp_info,0.9094794988632202,True,lstm_direct,False
+ktp baru lewat sipandu,ktp_info,ktp_info,0.9353157877922058,True,lstm_direct,False
+cuaca hari ini,out_of_topic,out_of_topic,0.8543123006820679,True,lstm_direct,False
+apa kabar,kabar,unknown,0.0,False,emergency_fallback,False
+siapa kamu,bot_info,bot_info,0.847966194152832,True,lstm_direct,False
+siapa kamu sih,bot_info,bot_info,0.8342312574386597,True,lstm_direct,False
+kamu siapa,bot_info,bot_info,0.857268750667572,True,lstm_direct,False
+perkenalkan dirimu,bot_info,bot_info,0.7975528836250305,True,lstm_direct,False
+kenalan dong,bot_info,bot_info,0.6555363535881042,True,lstm_direct,False
+namamu siapa?,bot_info,bot_info,0.7698319554328918,True,lstm_direct,False
+nama,bot_info,unknown,0.0,False,emergency_fallback,False
+cuaca dong,out_of_topic,out_of_topic,0.8954209685325623,True,lstm_direct,False
+bjirr,out_of_topic,out_of_topic,0.790296733379364,True,lstm_direct,False
+kominfo tegallll,miss_info,miss_info,0.82881760597229,True,lstm_direct,False
+cuaca hari ini,out_of_topic,out_of_topic,0.8543123006820679,True,lstm_direct,False
+apa kabar,kabar,unknown,0.0,False,emergency_fallback,False
+siapa kamu,bot_info,bot_info,0.847966194152832,True,lstm_direct,False
+cuacaa dong,out_of_topic,unknown,0.0,False,emergency_fallback,False
+bjirrr,out_of_topic,out_of_topic,0.8930400013923645,True,lstm_direct,False
+kominfo tegallll,miss_info,miss_info,0.82881760597229,True,lstm_direct,False
+cara buat ktp,ktp_info,ktp_info,0.889650285243988,True,lstm_direct,False
+pembutan ktp,ktp_info,ktp_info,0.9537787437438965,True,lstm_direct,False
+pembuatan ktp,ktp_info,ktp_info,0.9631747007369995,True,lstm_direct,False
+kamu siapa,bot_info,bot_info,0.857268750667572,True,lstm_direct,False
+apa kaar,kabar,unknown,0.0,False,emergency_fallback,False
+hkdhdkbdbdjdbd,miss_info,unknown,0.0,False,emergency_fallback,False
+alamat diskominfo kab tegal,kominfo_info,unknown,0.0,False,emergency_fallback,False
+Jam buka,miss_info,unknown,0.0,False,emergency_fallback,False
+Alamat,miss_info,unknown,0.0,False,emergency_fallback,False
+cara membuat,miss_info,miss_info,0.7345921993255615,True,lstm_direct,False
+start,miss_info,miss_info,0.6466623544692993,True,lstm_direct,False

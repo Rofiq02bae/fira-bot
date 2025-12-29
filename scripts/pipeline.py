@@ -43,13 +43,13 @@ def _run_step(label: str, fn) -> bool:
         logger.error(f"❌ Failed: {label} ({e})")
         return False
 
-def run_pipeline(continue_on_error: bool = False) -> dict:
+def run_pipeline(continue_on_error: bool = False, convert_response_json: bool = False) -> dict:
     """
     Run the complete data cleaning and validation pipeline.
     
     Args:
         continue_on_error: If True, continue pipeline even if a step fails
-        python_path: Path to Python executable (optional)
+        convert_response_json: If True, convert 'response' column to JSON format
         
     Returns:
         dict: Results summary with success/failure counts
@@ -60,12 +60,14 @@ def run_pipeline(continue_on_error: bool = False) -> dict:
     logger.info(f"📄 Clean : {paths.output_clean}")
     logger.info(f"📄 Dedup : {paths.output_dedup}")
     logger.info(f"📄 Train : {paths.output_train}")
+    if convert_response_json:
+        logger.info("ℹ️  Mode: Convert Response to JSON")
 
     steps = [
-        ("Clean dataset", lambda: clean_dataset(paths.input_raw, paths.output_clean, convert_response_json=False)),
+        ("Clean dataset", lambda: clean_dataset(paths.input_raw, paths.output_clean, convert_response_json=convert_response_json)),
         ("Deduplicate patterns", lambda: deduplicate_patterns(paths.output_clean, paths.output_dedup)),
         ("Split patterns (training format)", lambda: split_patterns(paths.output_dedup, paths.output_train)),
-        ("Validate final dataset", lambda: validate_dataset(paths.output_train, validate_response_json=False)),
+        ("Validate final dataset", lambda: validate_dataset(paths.output_train, validate_response_json=convert_response_json)),
     ]
 
     logger.info(f"📋 Total steps: {len(steps)}")
@@ -117,7 +119,7 @@ def list_steps():
     """List all pipeline steps."""
     logger.info("📋 Pipeline Steps (ringkas):")
     for i, label in enumerate([
-        "Clean dataset",
+        "Clean dataset (convert_response_json option available)",
         "Deduplicate patterns",
         "Split patterns (training format)",
         "Validate final dataset",
@@ -134,6 +136,11 @@ if __name__ == "__main__":
         '--continue-on-error',
         action='store_true',
         help='Continue pipeline even if a step fails'
+    )
+    parser.add_argument(
+        '--convert-response-json',
+        action='store_true',
+        help='Convert response column to JSON format'
     )
     parser.add_argument(
         '--list',
@@ -156,7 +163,8 @@ if __name__ == "__main__":
         logger.info("\nNo scripts will be executed.")
     else:
         results = run_pipeline(
-            continue_on_error=args.continue_on_error
+            continue_on_error=args.continue_on_error,
+            convert_response_json=args.convert_response_json
         )
         
         # Exit with error code if any step failed
