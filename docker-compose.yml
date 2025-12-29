@@ -1,12 +1,6 @@
 services:
   api:
-    build:
-      context: .
-      dockerfile: Dockerfile
-      # Switch Python version easily: python:3.8 or python:3.10
-      args:
-        PY_IMAGE: ${PY_IMAGE:-python:3.10}
-    image: fira-bot:latest
+    image: ${DOCKER_IMAGE:-rofiq02bae/fira-bot:latest}
     container_name: fira-bot-api
     ports:
       - "8000:8000"
@@ -33,7 +27,7 @@ services:
       - fira-network
 
   bot:
-    image: fira-bot:latest
+    image: ${DOCKER_IMAGE:-rofiq02bae/fira-bot:latest}
     container_name: fira-bot-telegram
     environment:
       TELEGRAM_BOT_TOKEN: ${TELEGRAM_BOT_TOKEN}
