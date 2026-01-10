@@ -4,7 +4,9 @@ FROM ${PY_IMAGE}
 
 ENV PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1 \
-    TF_CPP_MIN_LOG_LEVEL=2
+    TF_CPP_MIN_LOG_LEVEL=2 \
+    PIP_DISABLE_PIP_VERSION_CHECK=1 \
+    PIP_DEFAULT_TIMEOUT=600
 
 WORKDIR /app
 
@@ -13,9 +15,11 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential \
     && rm -rf /var/lib/apt/lists/*
 
-# Install Python dependencies
-COPY requirements.txt /app/requirements.txt
-RUN pip install --no-cache-dir -r /app/requirements.txt
+# Install Python dependencies (runtime-only)
+RUN python -m pip install --upgrade pip setuptools wheel
+COPY requirements.runtime.txt /app/requirements.runtime.txt
+RUN --mount=type=cache,target=/root/.cache/pip \
+    pip install --retries 10 --progress-bar off -r /app/requirements.runtime.txt
 
 # Copy source code
 COPY . /app

@@ -23,11 +23,9 @@ ipython
 
 # fine tune pip
 datasets 
-accelerate 
 evaluate
 
 # telegram bot and environment management
 python-telegram-bot 
 python-dotenv 
-requests
 aiohttp

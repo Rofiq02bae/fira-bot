@@ -8,19 +8,30 @@ __pycache__/
 *.pyd
 *.swp
 *.swo
-
+.venv/
 # Notebooks and training artifacts
 .ipynb_checkpoints/
 training/
 BERT_TRAINING_COLAB.ipynb
 training/*.ipynb
+*.ipynb
+
+# Dev / tests / scripts (not needed in runtime image)
+tests/
+scripts/
+**/*.bak
+**/*.backup
+README.md.bak
 
 # Logs (we'll mount at runtime)
 logs/
 
 # Data backups and large temp files
 data/dataset/*.backup
-
+data/bert_model/*
+data/lstm_models/*
+data/bert_model.zip
+data/lstm_models.zip
 # OS/editor files
 .DS_Store
 .vscode/
