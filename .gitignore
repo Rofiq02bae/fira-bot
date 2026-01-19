@@ -103,5 +103,6 @@ data/bert_model/
 *.joblib
 *.safetensors
 
-data/bert_model.zip
-data/lstm_models.zip
+data/dataset/bert_model.zip
+data/dataset/bert_model2.zip
+data/dataset/lstm_models.zip
