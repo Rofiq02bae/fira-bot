@@ -1,9 +1,9 @@
-
 import pandas as pd
 import numpy as np
 from sklearn.preprocessing import LabelEncoder
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score, classification_report
+from sklearn.utils.class_weight import compute_class_weight  # Tambahan untuk handle imbalance
 import torch
 from torch.utils.data import Dataset, DataLoader
 from transformers import (
@@ -11,37 +11,19 @@ from transformers import (
     AutoModelForSequenceClassification,
     get_linear_schedule_with_warmup
 )
-from transformers.optimization import AdamW # Import AdamW from optimization module
+from torch.optim import AdamW
 from tqdm import tqdm
 import json
 from datetime import datetime
 import os
-import re
-
-# ==================== TEXT NORMALIZER ====================
-import sys
-import os
-
-# Add project root to sys.path to allow imports from core
-current_dir = os.path.dirname(os.path.abspath(__file__))
-project_root = os.path.dirname(current_dir) # d:\bot\New folder
-if project_root not in sys.path:
-    sys.path.append(project_root)
-
-from core.processors.text_normalizer import text_normalizer
-
-# Apply global cleaner wrapper
-def preprocess_for_bert(text):
-    return text_normalizer.global_cleaner(text, model_type='bert')
-
+import pickle
 
 # ==================== MAIN TRAINING CODE ====================
-# Set device
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 print(f"🖥️ Using device: {device}")
 
 class ChatbotDataset(Dataset):
-    def __init__(self, texts, labels, tokenizer, max_length=64):  # Reduced max_length
+    def __init__(self, texts, labels, tokenizer, max_length=64):
         self.texts = texts
         self.labels = labels
         self.tokenizer = tokenizer
@@ -56,17 +38,17 @@ class ChatbotDataset(Dataset):
             text,
             truncation=True,
             padding='max_length',
-            max_length=self.max_length,  # Use reduced length
+            max_length=self.max_length,
             return_tensors='pt'
         )
-
         return {
             'input_ids': encoding['input_ids'].flatten(),
             'attention_mask': encoding['attention_mask'].flatten(),
             'labels': torch.tensor(self.labels[idx], dtype=torch.long)
         }
 
-def train_epoch(model, data_loader, optimizer, device, scheduler=None):
+# UPDATE: Menambahkan loss_fn dengan class weights
+def train_epoch(model, data_loader, optimizer, device, scheduler=None, loss_fn=None):
     model.train()
     total_loss = 0
     predictions = []
@@ -78,26 +60,28 @@ def train_epoch(model, data_loader, optimizer, device, scheduler=None):
         labels = batch['labels'].to(device)
 
         optimizer.zero_grad()
-
-        outputs = model(input_ids=input_ids, attention_mask=attention_mask, labels=labels)
-        loss = outputs.loss
+        outputs = model(input_ids=input_ids, attention_mask=attention_mask)
+        
+        # Gunakan loss_fn custom (dengan weights) jika ada
+        if loss_fn:
+            loss = loss_fn(outputs.logits, labels)
+        else:
+            loss = outputs.loss
 
         loss.backward()
-        torch.nn.utils.clip_grad_norm_(model.parameters(), 1.0)  # Gradient clipping
+        torch.nn.utils.clip_grad_norm_(model.parameters(), 1.0)
         optimizer.step()
 
         if scheduler:
             scheduler.step()
 
         total_loss += loss.item()
-
         preds = torch.argmax(outputs.logits, dim=1)
         predictions.extend(preds.cpu().numpy())
         actual_labels.extend(labels.cpu().numpy())
 
     avg_loss = total_loss / len(data_loader)
     accuracy = accuracy_score(actual_labels, predictions)
-
     return avg_loss, accuracy
 
 def eval_model(model, data_loader, device):
@@ -114,7 +98,6 @@ def eval_model(model, data_loader, device):
 
             outputs = model(input_ids=input_ids, attention_mask=attention_mask, labels=labels)
             loss = outputs.loss
-
             total_loss += loss.item()
 
             preds = torch.argmax(outputs.logits, dim=1)
@@ -123,184 +106,77 @@ def eval_model(model, data_loader, device):
 
     avg_loss = total_loss / len(data_loader)
     accuracy = accuracy_score(actual_labels, predictions)
-
     return avg_loss, accuracy, predictions, actual_labels
 
 def main():
-    print("🚀 Memulai Fine-Tuning BERT Optimized...")
+    print("🚀 Memulai Fine-Tuning BERT (Balanced Mode)...")
 
-    # Load dataset
-    print("📂 Memuat dataset...")
-    df = pd.read_csv('dataset_training.csv')
-    print(f"✅ Dataset loaded: {len(df)} rows")
-
-    # Apply text normalization to patterns
-    print("🔄 Applying text normalization...")
+    # Load dataset hasil ekspansi (dataset_training_expanded.csv)
+    df = pd.read_csv('dataset_training.csv') 
+    
+    # Preprocessing
     df['cleaned_pattern'] = df['pattern'].apply(lambda x: preprocess_for_bert(str(x)))
-    df = df[df['cleaned_pattern'] != ""].copy() # Filter out empty strings after preprocessing
-
-    # Show normalization examples
-    print("🔍 Normalization examples:")
-    sample = df.sample(5)
-    for _, row in sample.iterrows():
-        print(f"   Original: {row['pattern']}")
-        print(f"   Cleaned : {row['cleaned_pattern']}")
-        print("-" * 30)
+    df = df[df['cleaned_pattern'] != ""].copy()
 
     patterns = df['cleaned_pattern'].tolist()
     intents = df['intent'].tolist()
 
-    # Filter kelas dengan minimal count
-    class_counts = pd.Series(intents).value_counts()
-    valid_classes = class_counts[class_counts >= 2].index
-    
-    # Filter dataset based on valid classes
-    mask = df['intent'].isin(valid_classes)
-    patterns = np.array(patterns)[mask]
-    intents = np.array(intents)[mask]
-    
-    print(f"📊 Valid samples after filtering: {len(patterns)}")
-    
     # Encode labels
     le = LabelEncoder()
     labels = le.fit_transform(intents)
-    num_classes = len(le.classes_) # Define num_classes here
-    
+    num_classes = len(le.classes_)
+
+    # HITUNG CLASS WEIGHTS (Sangat penting untuk mengatasi bias sls_info)
+    weights = compute_class_weight(class_weight='balanced', classes=np.unique(labels), y=labels)
+    class_weights = torch.tensor(weights, dtype=torch.float).to(device)
+    loss_fn = torch.nn.CrossEntropyLoss(weight=class_weights) # Memberi beban lebih besar pada kelas kecil
+
     # Stratified Split
     train_texts, val_texts, train_labels, val_labels = train_test_split(
-        random_state=42,
-        stratify=label_array
+        patterns, labels, test_size=0.2, random_state=42, stratify=labels
     )
 
-    print(f"📊 Train: {len(train_texts)}, Val: {len(val_texts)}")
-
-    # ==================== MODEL SELECTION ====================
-    # UNCOMMENT SALAH SATU MODEL BERDASARKAN KEBUTUHAN:
-
-    # OPTION 1: Fast Training (Recommended for Laptop)
-    #model_name = "indobenchmark/indobert-lite-base-p1"  # ~200MB, Training: 1-2 jam
     model_name = "cahya/bert-base-indonesian-522M"
-    print("⚡ Using FAST model: cahya/bert-base-indonesian-522M")
-
-    # OPTION 2: Balanced (Good accuracy + reasonable time)
-    # model_name = "indobenchmark/indobert-base-p1"  # ~400MB, Training: 2-3 jam
-    # print("⚖️ Using BALANCED model: indobert-base-p1")
-
-    # OPTION 3: Best Accuracy (Heavy - use in Colab)
-    # model_name = "cahya/bert-base-indonesian-522M"  # ~500MB, Training: 4-5 jam
-    # print("🎯 Using BEST model: bert-base-indonesian-522M")
-
-    print(f"📦 Loading {model_name}...")
-
     tokenizer = AutoTokenizer.from_pretrained(model_name)
-    model = AutoModelForSequenceClassification.from_pretrained(
-        model_name,
-        num_labels=num_classes
-    )
-
+    model = AutoModelForSequenceClassification.from_pretrained(model_name, num_labels=num_classes)
     model.to(device)
 
-    # Create datasets
-    train_dataset = ChatbotDataset(train_texts, train_labels, tokenizer, max_length=64)
-    val_dataset = ChatbotDataset(val_texts, val_labels, tokenizer, max_length=64)
+    train_dataset = ChatbotDataset(train_texts, train_labels, tokenizer)
+    val_dataset = ChatbotDataset(val_texts, val_labels, tokenizer)
 
-    # Create data loaders dengan batch size lebih kecil
-    batch_size = 16  # Reduced from 8 untuk menghemat memory
+    batch_size = 16
     train_loader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True)
     val_loader = DataLoader(val_dataset, batch_size=batch_size)
 
-    # Setup optimizer
     optimizer = AdamW(model.parameters(), lr=2e-5, weight_decay=0.01)
+    
+    # EPOCH ditingkatkan ke 15 agar model sempat belajar kelas-kelas kecil
+    num_epochs = 15 
+    num_training_steps = len(train_loader) * num_epochs
+    scheduler = get_linear_schedule_with_warmup(optimizer, num_warmup_steps=0, num_training_steps=num_training_steps)
 
-    # Scheduler untuk training lebih stabil
-    num_training_steps = len(train_loader) * 2  # epochs
-    scheduler = get_linear_schedule_with_warmup(
-        optimizer,
-        num_warmup_steps=0,
-        num_training_steps=num_training_steps
-    )
-
-    # Training loop dengan epochs lebih sedikit
-    num_epochs = 3  # Reduced from 3
     best_accuracy = 0
-
-    print(f"\n🔥 Memulai training untuk {num_epochs} epochs...")
-    print(f"📊 Config: batch_size={batch_size}, max_length=64")
-
-    training_history = []
-
     for epoch in range(num_epochs):
         print(f"\n📅 Epoch {epoch + 1}/{num_epochs}")
+        train_loss, train_acc = train_epoch(model, train_loader, optimizer, device, scheduler, loss_fn=loss_fn)
+        val_loss, val_acc, val_preds, val_labels_eval = eval_model(model, val_loader, device)
 
-        # Train
-        train_loss, train_acc = train_epoch(model, train_loader, optimizer, device, scheduler)
+        print(f"Train Loss: {train_loss:.4f}, Train Acc: {train_acc:.4f} | Val Acc: {val_acc:.4f}")
 
-        # Evaluate
-        val_loss, val_acc, val_preds, val_labels = eval_model(model, val_loader, device)
-
-        print(f"Train Loss: {train_loss:.4f}, Train Acc: {train_acc:.4f}")
-        print(f"Val Loss: {val_loss:.4f}, Val Acc: {val_acc:.4f}")
-
-        # Save best model
         if val_acc > best_accuracy:
             best_accuracy = val_acc
             torch.save(model.state_dict(), 'bert_optimized_best.pth')
-            print(f"💾 Saved best model with accuracy: {val_acc:.4f}")
 
-        training_history.append({
-            'epoch': epoch + 1,
-            'train_accuracy': train_acc,
-            'val_accuracy': val_acc,
-            'train_loss': train_loss,
-            'val_loss': val_loss
-        })
-
-    # Save final results
-    print("\n💾 Menyimpan hasil akhir...")
-
-    # Save tokenizer dan model
+    # SAVE RESULTS
     output_dir = 'bert_optimized_finetuned'
     os.makedirs(output_dir, exist_ok=True)
-    tokenizer.save_pretrained(output_dir)
     model.save_pretrained(output_dir)
+    tokenizer.save_pretrained(output_dir)
+    with open(f'{output_dir}/label_encoder.pkl', 'wb') as f: pickle.dump(le, f)
 
-    # Save label encoder
-    import pickle
-    with open(f'{output_dir}/label_encoder.pkl', 'wb') as f:
-        pickle.dump(le, f)
-
-    # Save text normalizer
-    with open(f'{output_dir}/text_normalizer.pkl', 'wb') as f:
-        pickle.dump(text_normalizer, f)
-
-    # Save training info
-    info = {
-        "model_name": model_name,
-        "num_classes": num_classes,
-        "classes": le.classes_.tolist(),
-        "best_accuracy": best_accuracy,
-        "training_history": training_history,
-        "timestamp": datetime.now().isoformat(),
-        "dataset_size": len(df_filtered),
-        "text_normalization": True,
-        "optimized_config": {
-            "batch_size": batch_size,
-            "max_length": 64,
-            "epochs": num_epochs
-        }
-    }
-
-    with open(f'{output_dir}/info.json', 'w', encoding='utf-8') as f:
-        json.dump(info, f, indent=2, ensure_ascii=False)
-
-    # Classification report
-    print("\n📈 Classification Report:")
-    print(classification_report(val_labels, val_preds, target_names=le.classes_))
-
-    print("✅ Fine-tuning selesai!")
-    print(f"🎯 Best accuracy: {best_accuracy:.4f}")
-    print(f"📁 Model disimpan di: {output_dir}/")
-    print(f"⚡ Config: {num_epochs} epochs, batch_size={batch_size}")
+    print("\n📈 Final Classification Report:")
+    # Gunakan val_labels_eval dari loop terakhir
+    print(classification_report(val_labels_eval, val_preds, labels=range(num_classes), target_names=le.classes_))
 
 if __name__ == "__main__":
     main()

@@ -117,3 +117,5 @@ scripts/
 logs/
 └── pipeline.log             # Log hasil eksekusi
 ```
+
+& "D:/bot/New folder/.venv/Scripts/python.exe" "D:/bot/New folder/scripts/visualize_test_results.py" "D:/bot/New folder/logs/test_results_20260113_210545.csv"

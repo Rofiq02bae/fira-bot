@@ -13,7 +13,7 @@ from pathlib import Path
 # Get absolute paths
 SCRIPT_DIR = Path(__file__).parent
 PROJECT_ROOT = SCRIPT_DIR.parent
-INPUT_FILE = PROJECT_ROOT / "data" / "dataset" / "dataset_clean.csv"
+INPUT_FILE = PROJECT_ROOT / "data" / "dataset" / "data_jadi.csv"
 OUTPUT_FILE = PROJECT_ROOT / "data" / "dataset" / "dataset_training.csv"
 
 # Baca file CSV awal

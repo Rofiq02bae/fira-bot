@@ -1,6 +1,7 @@
 import pandas as pd
 from sklearn.preprocessing import LabelEncoder
 from sklearn.model_selection import train_test_split
+from sklearn.metrics import classification_report
 import tensorflow as tf
 import numpy as np
 from tensorflow.keras.preprocessing.text import Tokenizer
@@ -202,6 +203,41 @@ print(f"\n📊 Hasil Final:")
 print(f"Training - Loss: {train_accuracy[0]:.4f}, Accuracy: {train_accuracy[1]:.4f}")
 print(f"Validation - Loss: {val_accuracy[0]:.4f}, Accuracy: {val_accuracy[1]:.4f}")
 
+# === CLASSIFICATION REPORT ===
+print("\n📈 Generating Classification Report...")
+y_pred = model.predict(X_val, verbose=0)
+y_pred_classes = np.argmax(y_pred, axis=1)
+
+# Generate classification report
+report = classification_report(
+    y_val, 
+    y_pred_classes, 
+    labels=range(num_classes),
+    target_names=le.classes_,
+    digits=4,
+    zero_division=0
+)
+
+print("\n" + "="*80)
+print("📊 CLASSIFICATION REPORT")
+print("="*80)
+print(report)
+print("="*80)
+
+# Simpan classification report ke file
+report_file = LOG_DIR / f'classification_report_{datetime.now().strftime("%Y%m%d_%H%M%S")}.txt'
+with open(report_file, 'w', encoding='utf-8') as f:
+    f.write("LSTM Model Classification Report\n")
+    f.write(f"Timestamp: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
+    f.write(f"Dataset: {DATASET_FILE}\n")
+    f.write(f"Training Accuracy: {train_accuracy[1]:.4f}\n")
+    f.write(f"Validation Accuracy: {val_accuracy[1]:.4f}\n")
+    f.write("\n" + "="*80 + "\n")
+    f.write(report)
+    f.write("\n" + "="*80 + "\n")
+
+print(f"💾 Classification report disimpan ke: {report_file}")
+
 # === SIMPAN MODEL ===
 model.save(MODEL_DIR / 'chatbot_model.h5')
 with open(MODEL_DIR / 'tokenizer.pkl', 'wb') as f:
@@ -257,7 +293,8 @@ log_data = {
     "final_val_loss": float(val_accuracy[0]),
     "epochs_trained": len(history.history['accuracy']),
     "early_stopping_triggered": len(history.history['accuracy']) < 50,
-    "bert_available": bert_info is not None  # PERBAIKAN: tambah info BERT availability
+    "bert_available": bert_info is not None,
+    "classification_report_file": str(report_file)
 }
 
 with open(LOG_DIR / 'training_log.json', 'a') as f:

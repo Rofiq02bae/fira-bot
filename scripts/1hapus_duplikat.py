@@ -226,7 +226,7 @@ if __name__ == "__main__":
     # Konfigurasi file dengan path absolut
     SCRIPT_DIR = Path(__file__).parent
     PROJECT_ROOT = SCRIPT_DIR.parent
-    input_file = str(PROJECT_ROOT / "data" / "dataset" / "dataset_clean.csv")
+    input_file = str(PROJECT_ROOT / "data" / "dataset" / "data_mentah_bert.csv")
     output_file = str(PROJECT_ROOT / "data" / "dataset" / "data_tanpa_duplikat.csv")
     
     print("=" * 80)

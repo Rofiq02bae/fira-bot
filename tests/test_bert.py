@@ -29,7 +29,7 @@ class NLUAutomatedTester:
             start_time = time.time()
             
             async with self.session.post(
-                f"{self.base_url}/api/chat-lstm",
+                f"{self.base_url}/api/chat-bert",
                 json={"text": text},
                 headers={"Content-Type": "application/json"}
             ) as response:
@@ -160,62 +160,62 @@ class NLUAutomatedTester:
             await self.session.close()
 
 # Test Cases Definition
+# Test Cases Definition
 def get_test_suite() -> List[Dict]:
-    """Define comprehensive test cases"""
+    """
+    Define comprehensive test cases based on the 14 balanced intents.
+    Setiap intent diwakili oleh minimal 2-3 variasi kalimat.
+    """
     return [
-        # SIMPLE GREETINGS - Critical tests!
+        # 1. SALAM & TERIMAKASIH (Standard Bot Intent)
         {"text": "halo", "expected_intent": "salam"},
-        {"text": "hai", "expected_intent": "salam"},
-        {"text": "hi", "expected_intent": "salam"},
-        {"text": "hello", "expected_intent": "salam"},
-        {"text": "selamat pagi", "expected_intent": "salam"},
         {"text": "assalamualaikum", "expected_intent": "salam"},
-        
-        # THANKS
-        {"text": "terimakasih", "expected_intent": "terimakasih"},
-        {"text": "makasih", "expected_intent": "terimakasih"},
         {"text": "terima kasih banyak", "expected_intent": "terimakasih"},
         
-        # BAPPENDA
-        {"text": "bappenda buka jam berapa", "expected_intent": "bappenda_info"},
+        # 2. POPULATION DOCUMENTS (KTP, KK, Akta, Pindah)
+        {"text": "cara buat ktp baru", "expected_intent": "ktp_info"},
+        {"text": "syarat rekam ktp tegal", "expected_intent": "ktp_info"},
+        {"text": "cara buat kartu keluarga", "expected_intent": "kk_info"},
+        {"text": "syarat tambah anggota kk", "expected_intent": "kk_info"},
+        {"text": "cara buat akta kelahiran", "expected_intent": "akta_lahir_info"},
+        {"text": "syarat akta lahir anak", "expected_intent": "akta_lahir_info"},
+        {"text": "cara urus akta kematian", "expected_intent": "mati_info"},
+        {"text": "syarat akta kematian sipandu", "expected_intent": "mati_info"},
+        {"text": "cara urus surat pindah keluar", "expected_intent": "surat_pindah_luar"},
+        {"text": "cabut berkas kk tegal", "expected_intent": "surat_pindah_luar"},
         
-        # DINSOS
-        {"text": "jam buka dinsos", "expected_intent": "dinsos_jam_operasional"},
-        
-        # KTP
-        {"text": "cara buat ktp", "expected_intent": "ktp_info"},
-        
-        # EDGE CASES
-        {"text": "bapenda", "expected_intent": "bappenda_info"},  # Typo test
-        {"text": "dinsoss", "expected_intent": "dinsos_info"},    # Typo test
-        {"text": "apa kabar"},  # No expected intent
-        {"text": "cuaca hari ini"},  # Should fallback
-        {"text": "saran"},  # Should fallback
-        {"text": "siapa kamu"},
+        # 3. BUSINESS & LICENSING (NIB, SLS, LKPM)
+        {"text": "cara buat nib di tegal", "expected_intent": "nib"},
+        {"text": "daftar oss rba online", "expected_intent": "nib"},
+        {"text": "apa keuntungan punya nib", "expected_intent": "nib_info"},
+        {"text": "manfaat nomor induk berusaha", "expected_intent": "nib_info"},
+        {"text": "apa itu sertifikat laik sehat", "expected_intent": "sls_info"},
+        {"text": "syarat sls dinkes mpp", "expected_intent": "sls_info"},
+        {"text": "apa itu lkpm", "expected_intent": "lkpm_info"},
+        {"text": "cara lapor lkpm di oss", "expected_intent": "lkpm_info"},
 
-        # RANDOM DATASET SAMPLES (20)
-        {"text": "allo", "expected_intent": "salam"},
-        {"text": "bappenda tegal buka jam berapa", "expected_intent": "bappenda_info"},
-        {"text": "layanan bappenda sampai jam berapa", "expected_intent": "bappenda_info"},
-        {"text": "kapan kpp pratama buka", "expected_intent": "kpp_info"},
-        {"text": "bayar pajak tegal online", "expected_intent": "kpp_info"},
-        {"text": "jam buka pdam tegal", "expected_intent": "pdam_info"},
-        {"text": "pdam hari sabtu buka ga", "expected_intent": "pdam_info"},
-        {"text": "jam buka bank jateng tegal", "expected_intent": "bank_jateng_info"},
-        {"text": "bank jateng buka sekarang ga", "expected_intent": "bank_jateng_info"},
-        {"text": "jam buka polres tegal", "expected_intent": "polres_info"},
-        {"text": "polres tegal hari sabtu buka ga", "expected_intent": "polres_info"},
-        {"text": "jam buka samsat tegal", "expected_intent": "samsat_info"},
-        {"text": "samsat tegal tutup jam berapa", "expected_intent": "samsat_info"},
-        {"text": "jam buka pos tegal", "expected_intent": "pos_info"},
-        {"text": "kapan pos indonesia buka", "expected_intent": "pos_info"},
-        {"text": "jam buka pupr tegal", "expected_intent": "pupr_info"},
-        {"text": "jam buka klinik hukum tegal", "expected_intent": "hukum_info"},
-        {"text": "jam buka dinas lingkungan hidup tegal", "expected_intent": "dlh_info"},
+        # 4. INFRASTRUCTURE & LAND (ITR)
+        {"text": "apa itu itr", "expected_intent": "itr_info"},
+        {"text": "cara urus informasi tata ruang", "expected_intent": "itr_info"},
+
+        # 5. SPECIAL SERVICES (LOAKK, SICANTIK, AK1)
+        {"text": "apa itu layanan loakk", "expected_intent": "loakk_info"},
+        {"text": "paket akta kk kia bayi", "expected_intent": "loakk_info"},
+        {"text": "apa itu layanan sicantik", "expected_intent": "sicantik_info"},
+        {"text": "syarat sicantik cerai tegal", "expected_intent": "sicantik_info"},
+        {"text": "bagaimana cara buat kartu kuning", "expected_intent": "ak1"},
+        {"text": "syarat bikin ak1 di tegal", "expected_intent": "ak1"},
+
+        # 6. GENERAL INFO (Jam Buka)
+        {"text": "jam berapa pelayanan buka", "expected_intent": "jam_buka_layanan"},
+        {"text": "hari sabtu buka tidak", "expected_intent": "jam_buka_layanan"},
+        {"text": "jadwal operasional mpp", "expected_intent": "jam_buka_layanan"},
+
+        # 7. OUT OF TOPIC / EDGE CASES
         {"text": "bjirr", "expected_intent": "out_of_topic"},
-        {"text": "makan apa", "expected_intent": "out_of_topic"}
+        {"text": "makan apa hari ini", "expected_intent": "out_of_topic"},
+        {"text": "siapa presiden indonesia", "expected_intent": "out_of_topic"}
     ]
-
 async def main():
     """Main function"""
     tester = NLUAutomatedTester()

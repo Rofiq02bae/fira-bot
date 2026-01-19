@@ -96,8 +96,6 @@ out_of_topic,cuaca dong,static,"Maaf, saya hanya chatbot untuk menjawab seputar 
 out_of_topic,bjirr,static,"Maaf, saya hanya chatbot untuk menjawab seputar pemerintahan. mohon hubungi 123 untuk saran, kritik, dan pertanyaan 😄"
 miss_info,kominfo tegallll,static,"maaf, bisa tuliskan pertanyaan dengan bahasa yang lebih sederhana?😅🥲"
 ktp_info,cara buat ktp,static,"""untuk syarat membuat Kartu tanda penduduk (KTP) adalah sebagai berikut :|Telah berusia 17 ( tujuh belas ) tahun atau sudah nikah atau pernah nikah.|Mengisi formulir F1.21 Permohonan pembuatan KTP-el.|Foto Copy Akta Kelahiran/Ijazah/STTB.|Foto Copy KK, Surat Nikah/Perkawinan/Perceraian dan dokumen pendukung lainnya."""
-,terima kasih banyak,static,
-,saran,static,
 ktp_info,pembutan ktp,static,"""untuk syarat membuat Kartu tanda penduduk (KTP) adalah sebagai berikut :|Telah berusia 17 ( tujuh belas ) tahun atau sudah nikah atau pernah nikah.|Mengisi formulir F1.21 Permohonan pembuatan KTP-el.|Foto Copy Akta Kelahiran/Ijazah/STTB.|Foto Copy KK, Surat Nikah/Perkawinan/Perceraian dan dokumen pendukung lainnya."""
 ktp_info,pembuatan ktp,static,"""untuk syarat membuat Kartu tanda penduduk (KTP) adalah sebagai berikut :|Telah berusia 17 ( tujuh belas ) tahun atau sudah nikah atau pernah nikah.|Mengisi formulir F1.21 Permohonan pembuatan KTP-el.|Foto Copy Akta Kelahiran/Ijazah/STTB.|Foto Copy KK, Surat Nikah/Perkawinan/Perceraian dan dokumen pendukung lainnya."""
 bot_info,kamu siapa,static,"""Saya adalah Firaa, saya hadir untuk menjawab berbagai kebutuhan masyarakat tentang layanan pemerintah 😄"""

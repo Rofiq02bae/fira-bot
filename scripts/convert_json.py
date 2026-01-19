@@ -5,8 +5,8 @@ import os
 # Get absolute paths
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 PROJECT_ROOT = os.path.dirname(SCRIPT_DIR)
-INPUT_CSV = os.path.join(PROJECT_ROOT, "data", "dataset", "data_mentah.csv")
-OUTPUT_CSV = os.path.join(PROJECT_ROOT, "data", "dataset", "dataset_clean.csv")
+INPUT_CSV = os.path.join(PROJECT_ROOT, "data", "dataset", "dataset_training.csv")
+OUTPUT_CSV = os.path.join(PROJECT_ROOT, "data", "dataset", "dataset_training_bert.csv")
 
 def convert_to_json(response_text):
     """
