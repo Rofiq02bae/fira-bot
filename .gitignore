@@ -109,4 +109,5 @@ data/dataset/lstm_models.zip
 
 # files models
 data/models/bert_model.zip
-data/bert_optimized_model.zipdata/bert_optimized_finetuned.zip
+data/bert_optimized_model.zip
+data/bert_optimized_finetuned.zip
