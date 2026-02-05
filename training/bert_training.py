@@ -17,10 +17,18 @@ import json
 from datetime import datetime
 import os
 import pickle
+import sys
+
+# Add parent directory to path for imports
+# import text_normalizer
+# from text_normalizer import TextNormalizer # This line caused the ModuleNotFoundError
 
 # ==================== MAIN TRAINING CODE ====================
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 print(f"🖥️ Using device: {device}")
+
+# Initialize text normalizer for BERT preprocessing
+text_normalizer = TextNormalizer(aggressive_normalization=False)
 
 class ChatbotDataset(Dataset):
     def __init__(self, texts, labels, tokenizer, max_length=64):
@@ -61,7 +69,7 @@ def train_epoch(model, data_loader, optimizer, device, scheduler=None, loss_fn=N
 
         optimizer.zero_grad()
         outputs = model(input_ids=input_ids, attention_mask=attention_mask)
-        
+
         # Gunakan loss_fn custom (dengan weights) jika ada
         if loss_fn:
             loss = loss_fn(outputs.logits, labels)
@@ -112,14 +120,30 @@ def main():
     print("🚀 Memulai Fine-Tuning BERT (Balanced Mode)...")
 
     # Load dataset hasil ekspansi (dataset_training_expanded.csv)
-    df = pd.read_csv('dataset_training.csv') 
-    
-    # Preprocessing
-    df['cleaned_pattern'] = df['pattern'].apply(lambda x: preprocess_for_bert(str(x)))
+    df = pd.read_csv('dataset_training.csv')
+
+    # Preprocessing menggunakan TextNormalizer dengan mode BERT
+    df['cleaned_pattern'] = df['pattern'].apply(lambda x: text_normalizer.global_cleaner(str(x), model_type='bert'))
     df = df[df['cleaned_pattern'] != ""].copy()
+
+    print(f"📊 Total patterns after cleaning: {len(df)}")
+
+    # Identify and filter out intents with only one sample
+    intent_counts = df['intent'].value_counts()
+    single_sample_intents = intent_counts[intent_counts == 1].index
+
+    if not single_sample_intents.empty:
+        print(f"⚠️ Removing {len(single_sample_intents)} intents with only one sample for stratified split: {list(single_sample_intents)}")
+        initial_samples = len(df)
+        df = df[~df['intent'].isin(single_sample_intents)].copy()
+        print(f"   Removed {initial_samples - len(df)} samples.")
 
     patterns = df['cleaned_pattern'].tolist()
     intents = df['intent'].tolist()
+
+    # Check if there are still enough samples after filtering
+    if len(np.unique(intents)) < 2 or len(patterns) < 2:
+        raise ValueError("Not enough unique intents or samples after filtering for stratified split. Consider reviewing your dataset or preprocessing steps.")
 
     # Encode labels
     le = LabelEncoder()
@@ -149,9 +173,9 @@ def main():
     val_loader = DataLoader(val_dataset, batch_size=batch_size)
 
     optimizer = AdamW(model.parameters(), lr=2e-5, weight_decay=0.01)
-    
+
     # EPOCH ditingkatkan ke 15 agar model sempat belajar kelas-kelas kecil
-    num_epochs = 15 
+    num_epochs = 15
     num_training_steps = len(train_loader) * num_epochs
     scheduler = get_linear_schedule_with_warmup(optimizer, num_warmup_steps=0, num_training_steps=num_training_steps)
 

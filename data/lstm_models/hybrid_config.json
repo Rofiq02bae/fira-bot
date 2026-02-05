@@ -10,16 +10,16 @@
     "num_words": 5000
   },
   "training_info": {
-    "epochs_trained": 100,
-    "final_train_accuracy": 0.983146071434021,
+    "epochs_trained": 89,
+    "final_train_accuracy": 0.9971910119056702,
     "final_val_accuracy": 0.7444444298744202,
-    "final_train_loss": 0.312893271446228,
-    "final_val_loss": 1.3109968900680542
+    "final_train_loss": 0.3632828891277313,
+    "final_val_loss": 1.463329553604126
   },
   "lstm_model": "data/lstm_models/chatbot_model.h5",
   "label_encoder": "data/lstm_models/label_encoder.pkl",
   "tokenizer": "data/lstm_models/tokenizer.pkl",
   "bert_model": "cahya/bert-base-indonesian-522M",
   "training_strategy": "LSTM + IndoBERT Hybrid",
-  "timestamp": "2026-01-15 01:35:53"
+  "timestamp": "2026-01-22 13:13:00"
 }

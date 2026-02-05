@@ -1,0 +1,16 @@
+[
+  {
+    "text": "halo",
+    "predicted_intent": "unknown",
+    "confidence": 0.0,
+    "method_used": "emergency_fallback",
+    "fallback_reason": "complete_failure",
+    "lstm_prediction": "imigrasi_info",
+    "bert_prediction": "jam_buka_layanan",
+    "lstm_confidence": 0.038788799196481705,
+    "bert_confidence": 0.28896215558052063,
+    "logged_at": "2026-01-22T12:38:05.111895",
+    "evaluated": false,
+    "added_to_dataset": false
+  }
+]
