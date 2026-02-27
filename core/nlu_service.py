@@ -1,6 +1,6 @@
 import logging
 from typing import Dict, Any
-from config.settings import ModelConfig, ThresholdConfig
+from config.settings import ModelConfig, ThresholdConfig, RAGConfig
 from .models.lstm_model import LSTMModel
 from .models.bert_model import BERTModel
 from .processors.intent_matcher import IntentMatcher
@@ -42,6 +42,23 @@ class HybridNLUService:
         
         # Initialize OOD detector
         self.ood_detector = OODDetector()
+        
+        # Initialize pool manager for async processing
+        self.pool_manager = None
+        try:
+            from core.workers.pool_manager import PoolManager
+            self.pool_manager = PoolManager(self.lstm_model, self.bert_model)
+            logger.info("✅ Pool manager initialized for async processing")
+        except ImportError:
+            logger.warning("⚠️ Pool manager not available, using sync processing")
+        
+        # Initialize RAG service
+        self.rag_config = RAGConfig()
+        self.rag_service = None
+        if self.rag_config.enabled:
+            self._initialize_rag_service()
+        else:
+            logger.info("ℹ️ RAG service disabled")
         
         logger.info("✅ HybridNLUService initialized successfully!")
 
@@ -125,9 +142,61 @@ class HybridNLUService:
             self.response_selector.intent_mappings = {}
             return False
 
+    def _initialize_rag_service(self):
+        """Initialize RAG service with vector store and LLM."""
+        try:
+            from services.rag import RAGService, FAISSVectorStore
+            
+            logger.info("🔍 Initializing RAG service...")
+            
+            # Initialize vector store
+            vector_store = FAISSVectorStore(
+                index_path=self.rag_config.faiss_index_path,
+                metadata_path=self.rag_config.faiss_metadata_path
+            )
+            
+            if not vector_store.is_available():
+                logger.warning("⚠️ Vector store not available. RAG disabled.")
+                self.rag_service = None
+                return
+            
+            # Initialize LLM client if configured (OpenRouter)
+            llm_client = None
+            if self.rag_config.llm_provider and self.rag_config.llm_api_key:
+                if self.rag_config.llm_provider == "openrouter":
+                    try:
+                        from openai import AsyncOpenAI
+                        # OpenRouter uses OpenAI-compatible API
+                        llm_client = AsyncOpenAI(
+                            api_key=self.rag_config.llm_api_key,
+                            base_url=self.rag_config.llm_base_url
+                        )
+                        logger.info(f"✅ OpenRouter LLM client initialized (model: {self.rag_config.llm_model})")
+                    except ImportError:
+                        logger.warning("⚠️ OpenAI library not installed. Install with: pip install openai")
+                else:
+                    logger.warning(f"⚠️ Unknown LLM provider: {self.rag_config.llm_provider}. Use 'openrouter'.")
+            
+            # Initialize RAG service with BERT model for embeddings
+            self.rag_service = RAGService(
+                vector_store=vector_store,
+                embedding_model=self.bert_model,
+                llm_client=llm_client
+            )
+            
+            logger.info("✅ RAG service initialized successfully")
+            
+        except Exception as e:
+            logger.error(f"❌ RAG initialization failed: {e}")
+            self.rag_service = None
+            # Keep selector + mappings consistent to avoid false fallbacks
+            self.intent_mappings = {}
+            self.response_selector.intent_mappings = {}
+            return False
+
     def process_query(self, text: str) -> Dict[str, Any]:
         """
-        Main method untuk memproses query user
+        Main method untuk memproses query user (sync version without RAG)
         Returns unified result dengan intent dan response
         """
         logger.info(f"🔍 Processing query: '{text}'")
@@ -136,51 +205,125 @@ class HybridNLUService:
             # 1. Get predictions dari kedua model
             lstm_pred = self.lstm_model.predict(text)
             bert_pred = self.bert_model.predict(text)
-            
-            logger.info(f"   LSTM: {lstm_pred['intent']} (conf: {lstm_pred['confidence']:.3f})")
-            logger.info(f"   BERT: {bert_pred['intent']} (conf: {bert_pred['confidence']:.3f})")
-
-            # 2. Hybrid intent matching
-            intent_result = self.intent_matcher.hybrid_predict(
-                text, lstm_pred, bert_pred, self.intent_mappings
-            )
-
-            # 3. OOD Check & Log low confidence queries
-            confidence = intent_result.get('confidence', 0)
-            normalized_text = self.text_normalizer.normalize(text)
-            ood_result = self.ood_detector.process(text, normalized_text)
-            
-            if ood_result['is_ood']:
-                logger.warning(f"🚫 OOD Detected: '{text}' (Reason: {ood_result['reason']})")
-                # Do not log OOD/gibberish to training_candidates.csv
-            elif confidence < self.thresholds.low_confidence_threshold:
-                log_data = {
-                    'text': text,
-                    'predicted_intent': intent_result.get('intent', 'unknown'),
-                    'confidence': confidence,
-                    'method_used': intent_result.get('method', 'unknown'),
-                    'fallback_reason': intent_result.get('fallback_reason', 'unknown'),
-                    'lstm_prediction': lstm_pred.get('intent', 'unknown'),
-                    'bert_prediction': bert_pred.get('intent', 'unknown'),
-                    'lstm_confidence': lstm_pred.get('confidence', 0),
-                    'bert_confidence': bert_pred.get('confidence', 0)
-                }
-                self.query_logger.log_low_confidence_query(log_data)
-                logger.info(f"⚠️ Logged valuable candidate: {text}")
-
-            # 4. Get best response
-            response = self.response_selector.get_response(intent_result, text)
-            
-            result = {
-                **intent_result,
-                "response": response
-            }
-            
-            logger.info(f"✅ Final result: {result['intent']} (method: {result['method']})")
-            return result
+            return self._process_with_predictions(text, lstm_pred, bert_pred)
             
         except Exception as e:
             logger.error(f"❌ Error processing query: {e}")
+            return {
+                "intent": "error",
+                "confidence": 0.0,
+                "response": "Maaf, terjadi kesalahan dalam memproses pertanyaan Anda.",
+                "method": "error",
+                "status": "error",
+                "sources": [],
+                "pattern_similarity": 0.0,
+                "fallback_reason": "processing_error"
+            }
+
+    def _process_with_predictions(self, text: str, lstm_pred: Dict[str, Any], bert_pred: Dict[str, Any]) -> Dict[str, Any]:
+        """Process query using provided LSTM and BERT predictions."""
+        logger.info(f"   LSTM: {lstm_pred['intent']} (conf: {lstm_pred['confidence']:.3f})")
+        logger.info(f"   BERT: {bert_pred['intent']} (conf: {bert_pred['confidence']:.3f})")
+
+        # 2. Hybrid intent matching
+        intent_result = self.intent_matcher.hybrid_predict(
+            text, lstm_pred, bert_pred, self.intent_mappings
+        )
+
+        # 3. OOD Check & Log low confidence queries
+        confidence = intent_result.get('confidence', 0)
+        normalized_text = self.text_normalizer.normalize(text)
+        ood_result = self.ood_detector.process(text, normalized_text)
+        
+        if ood_result['is_ood']:
+            logger.warning(f"🚫 OOD Detected: '{text}' (Reason: {ood_result['reason']})")
+            # Do not log OOD/gibberish to training_candidates.csv
+        elif confidence < self.thresholds.low_confidence_threshold:
+            log_data = {
+                'text': text,
+                'predicted_intent': intent_result.get('intent', 'unknown'),
+                'confidence': confidence,
+                'method_used': intent_result.get('method', 'unknown'),
+                'fallback_reason': intent_result.get('fallback_reason', 'unknown'),
+                'lstm_prediction': lstm_pred.get('intent', 'unknown'),
+                'bert_prediction': bert_pred.get('intent', 'unknown'),
+                'lstm_confidence': lstm_pred.get('confidence', 0),
+                'bert_confidence': bert_pred.get('confidence', 0)
+            }
+            self.query_logger.log_low_confidence_query(log_data)
+            logger.info(f"⚠️ Logged valuable candidate: {text}")
+
+        # 4. Get best response
+        response = self.response_selector.get_response(intent_result, text)
+        
+        result = {
+            **intent_result,
+            "response": response
+        }
+        
+        logger.info(f"✅ Final result: {result['intent']} (method: {result['method']})")
+        return result
+
+    async def process_query_async(self, text: str) -> Dict[str, Any]:
+        """
+        Async method untuk memproses query user dengan multiprocess + RAG.
+        """
+        logger.info(f"🔍 Processing query (async with RAG): '{text}'")
+
+        try:
+            # 1. Get predictions (parallel or sync)
+            if self.pool_manager:
+                lstm_pred, bert_pred = await self.pool_manager.predict_both_parallel(text)
+            else:
+                lstm_pred = self.lstm_model.predict(text)
+                bert_pred = self.bert_model.predict(text)
+
+            # 2. Process with predictions to get intent
+            base_result = self._process_with_predictions(text, lstm_pred, bert_pred)
+            
+            # 3. Apply RAG if enabled and conditions met
+            if self.rag_service and self.rag_service.is_available():
+                intent = base_result.get('intent', '')
+                confidence = base_result.get('confidence', 0)
+                
+                # Trigger RAG for valid intents or fallback scenarios
+                use_rag = (
+                    (confidence >= self.rag_config.rag_min_confidence and intent not in ['error', 'unknown']) or
+                    (confidence < self.rag_config.rag_min_confidence and self.rag_config.use_rag_for_fallback)
+                )
+                
+                if use_rag:
+                    logger.info(f"🔍 Triggering RAG for intent: {intent} (conf: {confidence:.3f})")
+                    
+                    # Retrieve relevant documents
+                    retrieved_docs = await self.rag_service.retrieve_documents(
+                        query_text=text,
+                        k=self.rag_config.top_k_documents,
+                        similarity_threshold=self.rag_config.similarity_threshold
+                    )
+                    
+                    # Generate response with LLM
+                    rag_result = await self.rag_service.generate_response(
+                        query=text,
+                        intent=intent,
+                        retrieved_documents=retrieved_docs,
+                        fallback_response=base_result.get('response', '')
+                    )
+                    
+                    # Merge RAG result with base result
+                    base_result.update({
+                        'response': rag_result.get('response', base_result['response']),
+                        'augmented': rag_result.get('augmented', False),
+                        'sources': rag_result.get('sources', []),
+                        'rag_method': rag_result.get('method', 'none')
+                    })
+                    
+                    logger.info(f"✅ RAG applied: {rag_result.get('method', 'none')}")
+
+            return base_result
+
+        except Exception as e:
+            logger.error(f"❌ Error processing query (async): {e}")
             return {
                 "intent": "error",
                 "confidence": 0.0,

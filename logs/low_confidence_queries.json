@@ -12,5 +12,61 @@
     "logged_at": "2026-01-22T12:38:05.111895",
     "evaluated": false,
     "added_to_dataset": false
+  },
+  {
+    "text": "hidup jokowiii",
+    "predicted_intent": "unknown",
+    "confidence": 0.0,
+    "method_used": "emergency_fallback",
+    "fallback_reason": "complete_failure",
+    "lstm_prediction": "akta_lahir_info",
+    "bert_prediction": "salam",
+    "lstm_confidence": 0.057733483612537384,
+    "bert_confidence": 0.18134033679962158,
+    "logged_at": "2026-02-07T13:14:37.793385",
+    "evaluated": false,
+    "added_to_dataset": false
+  },
+  {
+    "text": "firaa bodoh",
+    "predicted_intent": "unknown",
+    "confidence": 0.0,
+    "method_used": "emergency_fallback",
+    "fallback_reason": "complete_failure",
+    "lstm_prediction": "akta_lahir_info",
+    "bert_prediction": "kabar",
+    "lstm_confidence": 0.057733483612537384,
+    "bert_confidence": 0.16885395348072052,
+    "logged_at": "2026-02-07T13:14:59.329944",
+    "evaluated": false,
+    "added_to_dataset": false
+  },
+  {
+    "text": "tolol",
+    "predicted_intent": "unknown",
+    "confidence": 0.0,
+    "method_used": "emergency_fallback",
+    "fallback_reason": "complete_failure",
+    "lstm_prediction": "salam",
+    "bert_prediction": "miss_info",
+    "lstm_confidence": 0.04761669412255287,
+    "bert_confidence": 0.3214283585548401,
+    "logged_at": "2026-02-07T13:15:02.634529",
+    "evaluated": false,
+    "added_to_dataset": false
+  },
+  {
+    "text": "siapa pemerintah",
+    "predicted_intent": "unknown",
+    "confidence": 0.0,
+    "method_used": "emergency_fallback",
+    "fallback_reason": "complete_failure",
+    "lstm_prediction": "bot_info",
+    "bert_prediction": "bot_info",
+    "lstm_confidence": 0.09798162430524826,
+    "bert_confidence": 0.36710262298583984,
+    "logged_at": "2026-02-07T13:15:12.352465",
+    "evaluated": false,
+    "added_to_dataset": false
   }
 ]
