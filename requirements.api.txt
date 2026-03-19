@@ -1,8 +1,6 @@
-# Runtime-only deps for running the FastAPI API on host (no training/notebooks/eval)
-
 # API
 fastapi
-uvicorn
+uvicorn[standard]
 python-multipart
 pydantic
 requests
@@ -13,13 +11,10 @@ psutil
 pandas
 scikit-learn
 nltk
-numpy
+numpy==1.26.4
 
-# LSTM inference
-tensorflow
+# LSTM inference — gunakan tensorflow-cpu di container
+# tensorflow di-install terpisah di Dockerfile (bukan dari sini)
 
-# BERT inference (torch installed separately as CPU-only)
-transformers==4.35.2
-safetensors
-tokenizers
-huggingface-hub
+# BERT inference
+# torch, transformers, dll di-install terpisah di Dockerfile

@@ -68,5 +68,19 @@
     "logged_at": "2026-02-07T13:15:12.352465",
     "evaluated": false,
     "added_to_dataset": false
+  },
+  {
+    "text": "sop uji coba fingsi aplikasi",
+    "predicted_intent": "unknown",
+    "confidence": 0.0,
+    "method_used": "emergency_fallback",
+    "fallback_reason": "complete_failure",
+    "lstm_prediction": "sop_uji_coba_fungsi",
+    "bert_prediction": "sop_uji_coba_fungsi",
+    "lstm_confidence": 0.2701214551925659,
+    "bert_confidence": 0.07552170008420944,
+    "logged_at": "2026-03-16T16:34:19.496545",
+    "evaluated": false,
+    "added_to_dataset": false
   }
 ]

@@ -20,7 +20,7 @@ def initialize_hybrid_service(
     logger.info("🎯 Initializing Modular Hybrid NLU Service...")
     
     # Resolve paths from env if not explicitly provided
-    dataset_path = dataset_path or os.getenv("DATASET_PATH", "data/dataset/dataset_training.csv")
+    dataset_path = dataset_path or os.getenv("DATASET_PATH", "data/dataset/bert/dataset_training_bert.csv")
     lstm_model_path = lstm_model_path or os.getenv("LSTM_MODEL_PATH", "data/lstm_models/chatbot_model.h5")
     lstm_tokenizer_path = lstm_tokenizer_path or os.getenv("LSTM_TOKENIZER_PATH", "data/lstm_models/tokenizer.pkl")
     lstm_label_encoder_path = lstm_label_encoder_path or os.getenv("LSTM_LABEL_ENCODER_PATH", "data/lstm_models/label_encoder.pkl")

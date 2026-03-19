@@ -9,7 +9,7 @@ class ModelConfig:
     lstm_tokenizer_path: str = os.getenv("LSTM_TOKENIZER_PATH", "data/lstm_models/tokenizer.pkl")
     lstm_label_encoder_path: str = os.getenv("LSTM_LABEL_ENCODER_PATH", "data/lstm_models/label_encoder.pkl")
     bert_model_path: str = os.getenv("BERT_MODEL_PATH", "data/bert_model")
-    dataset_path: str = os.getenv("DATASET_PATH", "data/dataset/dataset_training.csv")
+    dataset_path: str = os.getenv("DATASET_PATH", "data/dataset/bert/dataset_training_bert.csv")
 
 @dataclass
 class ThresholdConfig:
@@ -52,6 +52,9 @@ class RAGConfig:
     llm_base_url: str = os.getenv("LLM_BASE_URL", "https://openrouter.ai/api/v1")
     llm_temperature: float = float(os.getenv("LLM_TEMPERATURE", "0.7"))
     llm_max_tokens: int = int(os.getenv("LLM_MAX_TOKENS", "500"))
+
+    # Embedding configuration (harus konsisten antara ingest dan runtime)
+    embedding_model_name: str = os.getenv("RAG_EMBEDDING_MODEL", "indobenchmark/indobert-base-p1")
     
     # RAG trigger thresholds
     rag_min_confidence: float = float(os.getenv("RAG_MIN_CONFIDENCE", "0.4"))

@@ -19,7 +19,7 @@ from pathlib import Path
 # Get absolute paths
 SCRIPT_DIR = Path(__file__).parent
 PROJECT_ROOT = SCRIPT_DIR.parent
-DATASET_FILE = PROJECT_ROOT / "data" / "dataset" / "dataset_training.csv"
+DATASET_FILE = PROJECT_ROOT / "data" / "dataset" / "lstm" / "dataset_training_lstm.csv"
 MODEL_DIR = PROJECT_ROOT / "data" / "lstm_models"
 LOG_DIR = PROJECT_ROOT / "logs"
 

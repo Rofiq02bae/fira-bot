@@ -9,6 +9,8 @@ services:
     ports:
       - "8000:8000"
     volumes:
+      # Mount venv dari host — tanpa :ro agar runtime write tidak error
+      - ${VENV_PATH:-./venv}:/venv
       # Mount data — model, dataset, FAISS index
       - ${DATA_PATH:-./data}:/data:ro
       # HuggingFace cache — pakai $HOME bukan ~ untuk kompatibilitas

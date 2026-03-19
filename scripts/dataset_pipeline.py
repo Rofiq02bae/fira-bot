@@ -260,6 +260,43 @@ def validate_dataset(path: Path, *, validate_response_json: bool) -> None:
             raise ValueError(f"Found {bad} invalid JSON responses in {path}")
 
 
+def generate_bert_dataset(
+    input_csv: Path,
+    output_csv: Path,
+    *,
+    ensure_response_json: bool = True,
+    validate_response_json: bool = False,
+) -> pd.DataFrame:
+    """Generate a BERT-friendly dataset file.
+
+    The BERT dataset in this project is basically the training dataset shape:
+    (intent, pattern, response_type, is_master, response)
+
+    What this helper guarantees:
+    - Required columns exist and are normalized
+    - Optionally converts response to JSON-string (text/list)
+    - Writes output CSV (UTF-8, with header)
+
+    Note: This does *not* split patterns. Use split_patterns() first if your
+    input still has pipe-separated patterns.
+    """
+
+    df = _read_csv_flexible(input_csv)
+    df = _ensure_columns(df)
+    df = _normalize_fields(df)
+
+    if ensure_response_json:
+        df["response"] = df["response"].apply(_convert_response_to_json)
+
+    output_csv.parent.mkdir(parents=True, exist_ok=True)
+    df.to_csv(output_csv, index=False, encoding="utf-8")
+
+    if validate_response_json:
+        validate_dataset(output_csv, validate_response_json=True)
+
+    return df
+
+
 def run_all(paths: PipelinePaths, *, convert_response_json: bool, validate_response_json: bool) -> None:
     # Convenience: if user asks to validate JSON responses, ensure we also convert them
     # during the clean step (unless the dataset already contains JSON strings).

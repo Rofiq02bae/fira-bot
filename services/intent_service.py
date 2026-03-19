@@ -17,8 +17,10 @@ class IntentService:
 
         user_words = set(self.normalizer.normalize(text).split())
         max_similarity = 0.0
+        last_pattern = ""
         
         for pattern in intent_mappings[intent]['patterns']:
+            last_pattern = str(pattern)
             pattern_words = set(self.normalizer.normalize(str(pattern)).split())
             common_words = len(user_words.intersection(pattern_words))
             total_words = len(user_words.union(pattern_words))
@@ -29,7 +31,10 @@ class IntentService:
         
         # Tambahkan debug logging di check_pattern_similarity
         logger.info(f"User text normalized: '{self.normalizer.normalize(text)}'")
-        logger.info(f"Pattern normalized: '{self.normalizer.normalize(pattern)}'")
+        if last_pattern:
+            logger.info(f"Pattern normalized: '{self.normalizer.normalize(last_pattern)}'")
+        else:
+            logger.info(f"Tidak ada pattern untuk intent '{intent}'")
         
         return max_similarity
     

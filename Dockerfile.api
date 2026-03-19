@@ -1,0 +1,68 @@
+FROM python:3.11-slim
+
+# System deps
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    curl \
+    libgomp1 \
+    libhdf5-dev \
+    pkg-config \
+    && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /app
+
+# Upgrade pip + install wheel builder
+RUN pip install --upgrade pip setuptools wheel
+
+# ── Layer 1: PyTorch CPU (harus duluan, jadi dependency resolver tahu) ──
+RUN pip install --no-cache-dir \
+    torch==2.2.2 \
+    --index-url https://download.pytorch.org/whl/cpu
+
+# ── Layer 2: TensorFlow (install terpisah supaya tidak konflik dengan torch) ──
+RUN pip install --no-cache-dir \
+    tensorflow-cpu==2.15.0
+
+# ── Layer 3: FAISS (versi eksplisit, bukan range) ──
+RUN pip install --no-cache-dir \
+    faiss-cpu==1.8.0
+
+# ── Layer 4: Transformers stack (versi yang kompatibel satu sama lain) ──
+RUN pip install --no-cache-dir \
+    transformers==4.40.0 \
+    tokenizers==0.19.1 \
+    safetensors==0.4.3 \
+    huggingface-hub==0.23.0 \
+    sentence-transformers==2.7.0
+
+# ── Layer 5: RAG deps ──
+RUN pip install --no-cache-dir \
+    openai>=1.0.0 \
+    numpy==1.26.4
+
+# ── Layer 6: API + general deps ──
+RUN pip install --no-cache-dir \
+    fastapi \
+    uvicorn[standard] \
+    python-multipart \
+    pydantic \
+    requests \
+    python-dotenv \
+    psutil \
+    pandas \
+    scikit-learn \
+    nltk
+
+# Copy kode
+COPY . .
+
+# Create non-root user
+RUN useradd -m -u 1000 appuser && chown -R appuser:appuser /app
+USER appuser
+
+EXPOSE 8000
+
+HEALTHCHECK --interval=30s --timeout=10s --start-period=90s --retries=3 \
+    CMD curl -f http://localhost:8000/health || exit 1
+
+CMD ["uvicorn", "app:app", "--host", "0.0.0.0", "--port", "8000", "--workers", "1"]

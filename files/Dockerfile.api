@@ -1,0 +1,54 @@
+# syntax=docker/dockerfile:1
+# Dockerfile.api
+#
+# STRATEGI: Mount venv dari host
+# SYARAT  : Host harus Ubuntu 22.04 + Python 3.10.x
+#           Jalankan ./setup_venv.sh di host sebelum docker compose up
+
+FROM ubuntu:22.04
+
+ENV DEBIAN_FRONTEND=noninteractive \
+    PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1 \
+    TF_CPP_MIN_LOG_LEVEL=2 \
+    VENV_PATH=/venv \
+    PATH=/venv/bin:$PATH
+
+WORKDIR /app
+
+# Python 3.10 dari Ubuntu 22.04 — versi sama dengan host
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    python3.10 \
+    python3.10-venv \
+    python3-pip \
+    curl \
+    libgomp1 \
+    && rm -rf /var/lib/apt/lists/* \
+    && ln -sf /usr/bin/python3.10 /usr/bin/python
+
+# Copy kode saja — packages dari venv mount
+COPY . /app
+
+# Non-root user
+RUN useradd -m appuser \
+    && chown -R appuser:appuser /app \
+    && mkdir -p /app/logs \
+    && chown appuser:appuser /app/logs
+
+USER appuser
+
+ENV DATASET_PATH="/data/dataset/dataset_training.csv" \
+    LSTM_MODEL_PATH="/data/lstm_models/chatbot_model.h5" \
+    LSTM_TOKENIZER_PATH="/data/lstm_models/tokenizer.pkl" \
+    LSTM_LABEL_ENCODER_PATH="/data/lstm_models/label_encoder.pkl" \
+    BERT_MODEL_PATH="/data/bert_model" \
+    FAISS_INDEX_PATH="/data/rag/faiss.index" \
+    FAISS_METADATA_PATH="/data/rag/metadata.pkl" \
+    API_HOST="0.0.0.0" \
+    API_PORT="8000" \
+    DEBUG="False"
+
+EXPOSE 8000
+
+CMD ["/venv/bin/python", "-m", "uvicorn", "app:app", \
+     "--host", "0.0.0.0", "--port", "8000", "--log-level", "info"]
