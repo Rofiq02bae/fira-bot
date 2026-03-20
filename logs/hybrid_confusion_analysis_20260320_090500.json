@@ -1,0 +1,48 @@
+{
+  "timestamp": "2026-03-20 09:05:00",
+  "top_confused_pairs": [
+    {
+      "true_intent": "surat_pindah_luar",
+      "predicted_as": "unknown",
+      "count": 2
+    },
+    {
+      "true_intent": "jam_buka_info",
+      "predicted_as": "pupr_info",
+      "count": 1
+    },
+    {
+      "true_intent": "jam_buka_info",
+      "predicted_as": "unknown",
+      "count": 1
+    },
+    {
+      "true_intent": "kk_info",
+      "predicted_as": "unknown",
+      "count": 1
+    },
+    {
+      "true_intent": "kominfo_info",
+      "predicted_as": "unknown",
+      "count": 1
+    },
+    {
+      "true_intent": "miss_info",
+      "predicted_as": "jam_buka_info",
+      "count": 1
+    },
+    {
+      "true_intent": "miss_info",
+      "predicted_as": "unknown",
+      "count": 1
+    },
+    {
+      "true_intent": "nib_info",
+      "predicted_as": "manfaat_nib",
+      "count": 1
+    }
+  ],
+  "total_samples": 259,
+  "accuracy": 0.9652509652509652,
+  "avg_confidence": 0.8435736440898829
+}

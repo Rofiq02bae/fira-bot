@@ -85,7 +85,7 @@ def evaluate_chatbot(test_data_path: str):
 if __name__ == "__main__":
     # Silahkan ganti dataset_path ke file test Anda
     # Jika belum ada file test, kita gunakan subset dari training untuk demo
-    dataset_path = "data/dataset/dataset_training.csv" 
+    dataset_path = "data/dataset/lstm/dataset_training_lstm.csv" 
     
     try:
         evaluate_chatbot(dataset_path)
