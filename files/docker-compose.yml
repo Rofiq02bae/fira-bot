@@ -1,0 +1,65 @@
+services:
+
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile.api
+    image: fira-bot-api:latest
+    container_name: fira-bot-api
+    ports:
+      - "8000:8000"
+    volumes:
+      # Mount venv dari host — tanpa :ro agar runtime write tidak error
+      - ${VENV_PATH:-./venv}:/venv
+      # Mount data — model, dataset, FAISS index
+      - ${DATA_PATH:-./data}:/data:ro
+      # HuggingFace cache — pakai $HOME bukan ~ untuk kompatibilitas
+      - ${HF_CACHE_PATH}:/home/appuser/.cache/huggingface:ro
+      # Logs writable
+      - ./logs:/app/logs
+    env_file:
+      - .env
+    environment:
+      DATASET_PATH: ${DATASET_PATH:-/data/dataset/dataset_training.csv}
+      LSTM_MODEL_PATH: ${LSTM_MODEL_PATH:-/data/lstm_models/chatbot_model.h5}
+      LSTM_TOKENIZER_PATH: ${LSTM_TOKENIZER_PATH:-/data/lstm_models/tokenizer.pkl}
+      LSTM_LABEL_ENCODER_PATH: ${LSTM_LABEL_ENCODER_PATH:-/data/lstm_models/label_encoder.pkl}
+      BERT_MODEL_PATH: ${BERT_MODEL_PATH:-/data/bert_model}
+      FAISS_INDEX_PATH: ${FAISS_INDEX_PATH:-/data/rag/faiss.index}
+      FAISS_METADATA_PATH: ${FAISS_METADATA_PATH:-/data/rag/metadata.pkl}
+      USE_RAG: ${USE_RAG:-false}
+      LLM_PROVIDER: ${LLM_PROVIDER:-}
+      LLM_API_KEY: ${LLM_API_KEY:-}
+      LLM_MODEL: ${LLM_MODEL:-}
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      # Beri waktu cukup untuk load model — naikkan kalau server lambat
+      start_period: 60s
+    networks:
+      - fira-network
+
+  bot:
+    build:
+      context: .
+      dockerfile: Dockerfile.bot
+    image: fira-bot-telegram:latest
+    container_name: fira-bot-telegram
+    env_file:
+      - .env
+    environment:
+      TELEGRAM_BOT_TOKEN: ${TELEGRAM_BOT_TOKEN}
+      API_BASE_URL: http://api:8000
+    depends_on:
+      api:
+        condition: service_healthy
+    restart: unless-stopped
+    networks:
+      - fira-network
+
+networks:
+  fira-network:
+    driver: bridge

@@ -6,6 +6,11 @@ import uvicorn
 import logging
 import os
 from datetime import datetime
+from dotenv import load_dotenv
+
+# Load environment variables from .env file BEFORE importing settings
+load_dotenv()
+
 from config import settings
 
 # Setup logging
@@ -51,6 +56,11 @@ class StatsResponse(BaseModel):
     performance: Dict
     system_info: Dict
 
+class RAGService(BaseModel):
+    response : str
+    sources : Optional[List[Dict[str, Any]]] = []
+    intent : str
+
 # FastAPI app
 app = FastAPI(
     title="Hybrid Chatbot API",
@@ -62,11 +72,13 @@ app = FastAPI(
 
 # Global service instance
 nlu_service = None
+rag_service = None
 
 @app.on_event("startup")
 async def startup_event():
     """Initialize NLU service on startup dengan struktur modular"""
     global nlu_service
+    global rag_service
     try:
         logger.info("🚀 Starting Hybrid Chatbot API (Modular Version)...")
         
@@ -180,22 +192,23 @@ async def get_intents():
 
 @app.post("/api/chat", response_model=ChatResponse)
 async def chat(user_input: UserInput):
-    """Main chat endpoint - Hybrid LSTM + BERT prediction"""
+    """Main chat endpoint - Hybrid LSTM + BERT prediction with RAG"""
     if nlu_service is None:
         raise HTTPException(status_code=503, detail="Service not ready")
-    
+
     start_time = datetime.now()
     
     try:
         # Gunakan method baru yang terintegrasi
-        result = nlu_service.process_query(user_input.text)
-        
+        result = await nlu_service.process_query_async(user_input.text)
+
         processing_time = (datetime.now() - start_time).total_seconds() * 1000  # ms
         
         return ChatResponse(
             original_text=user_input.text,
             predicted_intent=result["intent"],
             confidence=result["confidence"],
+            augmented=result.get("augmented", False),
             response=result["response"],
             options=result.get("options", []),
             method_used=result["method"],

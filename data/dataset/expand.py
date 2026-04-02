@@ -1,272 +1,122 @@
-# Define patterns for each intent
-patterns_dict = {
-    "ak1": [
-        "bagaimana cara buat kartu kuning?",
-        "syarat bikin ak1 di tegal",
-        "daftar pencari kerja online",
-        "link pendaftaran kartu kuning",
-        "cetak kartu kuning mandiri",
-        "langkah-langkah buat ak1",
-        "kartu kuning disnaker tegal",
-        "cara registrasi bursakerja jateng",
-        "dimana bikin kartu kuning?",
-        "apakah buat ak1 bisa online?",
-        "persyaratan kartu kuning terbaru",
-        "bikin kartu kuning gratis ga?",
-        "cara dapat kartu kuning buat melamar kerja",
-        "proses pembuatan ak1 berapa hari?",
-        "kartu kuning online tegal"
-    ],
-    "nib": [
-        "cara buat nib di tegal",
-        "daftar oss rba online",
-        "syarat nomor induk berusaha",
-        "bikin nib gratis dimana?",
-        "link oss go id",
-        "daftar nib mandiri",
-        "legalitas usaha nib tegal",
-        "syarat utama buat nib",
-        "cara dapat nomor induk berusaha",
-        "apakah nib wajib buat umkm?",
-        "dimana loket dpmptsp mpp?",
-        "bikin izin usaha online tegal",
-        "nib rba itu apa?",
-        "prosedur daftar oss rba",
-        "cara urus nib di mpp"
-    ],
-    "jam_buka_layanan": [
-        "jam berapa pelayanan buka?",
-        "hari sabtu buka tidak?",
-        "jadwal operasional kantor",
-        "jam pelayanan hari jumat",
-        "apakah hari minggu buka?",
-        "jam operasional mpp",
-        "kantor tutup jam berapa?",
-        "pelayanan buka jam berapa?",
-        "jadwal buka hari senin",
-        "info jam pelayanan publik",
-        "hari libur nasional buka ga?",
-        "kapan jam istirahat pelayanan?",
-        "layanan buka jam brp?",
-        "jadwal kerja kantor tegal",
-        "jam tutup pelayanan"
-    ],
-    "itr_info": [
-        "apa itu itr?",
-        "cara urus informasi tata ruang",
-        "syarat pbg imb tegal",
-        "daftar sicantik dpupr",
-        "cek tata ruang lahan",
-        "dokumen perencanaan penggunaan lahan",
-        "dimana loket dpupr?",
-        "syarat utama itr tegal",
-        "cara dapet sertifikat itr",
-        "itr buat apa?",
-        "prosedur tata ruang online",
-        "biaya urus itr",
-        "syarat legalitas lahan",
-        "info tata ruang kabupaten tegal",
-        "pengurusan izin lahan"
-    ],
-    "sls_info": [
-        "apa itu sertifikat laik sehat?",
-        "syarat sls dinkes",
-        "cara urus izin laik sehat resto",
-        "sertifikat higienis hotel",
-        "laik sehat depot air minum",
-        "syarat dinkes mpp",
-        "biaya urus sls",
-        "hasil uji lab air bersih sls",
-        "apa saja syarat laik sehat?",
-        "pendaftaran sls online",
-        "sls wajib buat usaha apa?",
-        "dimana urus sertifikat laik sehat?",
-        "prosedur sanitasi dinkes",
-        "rekomendasi phri buat sls",
-        "uji lab bakteri dam"
-    ],
-    "nib_info": [
-        "apa keuntungan punya nib?",
-        "manfaat nomor induk berusaha",
-        "kenapa harus punya nib?",
-        "fungsi nib buat umkm",
-        "apakah nib bisa buat modal bank?",
-        "legalitas usaha terjamin nib",
-        "nib pengganti tdp",
-        "keuntungan daftar oss rba",
-        "manfaat legalitas usaha",
-        "nib buat pengadaan barang",
-        "apa guna nib bagi pedagang?",
-        "nib bisa buat dapat hibah?",
-        "syarat kur pakai nib",
-        "identitas tunggal pelaku usaha",
-        "pentingnya nib"
-    ],
-    "lkpm_info": [
-        "apa itu lkpm?",
-        "cara lapor lkpm di oss",
-        "pelaporan kegiatan penanaman modal",
-        "kapan waktu lapor lkpm?",
-        "laporan investasi triwulan",
-        "cara isi data lkpm",
-        "dimana lapor lkpm online?",
-        "apakah lkpm wajib?",
-        "sanksi tidak lapor lkpm",
-        "tutorial lapor lkpm oss rba",
-        "periode lapor lkpm semester",
-        "lkpm tahap konstruksi",
-        "laporan modal usaha",
-        "login oss buat lkpm",
-        "kendala lapor lkpm"
-    ],
-    "akta_lahir_info": [
-        "cara buat akta kelahiran",
-        "syarat akta lahir anak",
-        "daftar akta lahir online sipandu",
-        "akta lahir gratis atau bayar?",
-        "syarat sipandu akta kelahiran",
-        "bikin akta bayi baru lahir",
-        "berapa lama akta lahir jadi?",
-        "cara cetak akta lahir mandiri",
-        "dokumen buat akta lahir",
-        "akta kelahiran hilang urusnya gimana?",
-        "pendaftaran bayi di sipandu",
-        "formulir f-2.01 akta lahir",
-        "buku nikah buat akta lahir",
-        "cara upload berkas akta lahir",
-        "akta lahir tegal gratis"
-    ],
-    "mati_info": [
-        "cara urus akta kematian",
-        "syarat akta kematian sipandu",
-        "lapor orang meninggal tegal",
-        "akta kematian buat apa?",
-        "dokumen akta kematian",
-        "cara hapus data kk orang meninggal",
-        "surat keterangan kematian desa",
-        "bikin akta kematian online",
-        "biaya akta kematian",
-        "prosedur akta kematian 1 hari jadi",
-        "akta kematian buat waris",
-        "lapor kematian di sipandu",
-        "syarat update kk kematian",
-        "akta kematian asli jenazah",
-        "urus akta mati gratis"
-    ],
-    "kk_info": [
-        "cara buat kartu keluarga",
-        "syarat tambah anggota kk",
-        "daftar kk online sipandu",
-        "ganti kk rusak atau hilang",
-        "pecah kk dari orang tua",
-        "syarat kartu keluarga baru nikah",
-        "cara cetak kk mandiri hvs",
-        "update data kk online",
-        "formulir f-1.01 kartu keluarga",
-        "kk tegal gratis ga?",
-        "syarat ganti data pendidikan di kk",
-        "cara daftar sipandu kartu keluarga",
-        "berapa lama urus kk online?",
-        "tambah anak di kartu keluarga",
-        "legalisir kk dimana?"
-    ],
-    "surat_pindah_luar": [
-        "cara urus surat pindah keluar",
-        "syarat pindah domisili dari tegal",
-        "daftar skpwni online",
-        "pindah keluar kabupaten tegal",
-        "cabut berkas kk tegal",
-        "syarat surat pindah sipandu",
-        "formulir f-1.03 pindah",
-        "urus surat pindah gratis",
-        "cara cetak skpwni mandiri",
-        "pindah antar provinsi urusnya gimana?",
-        "berapa lama surat pindah jadi?",
-        "prosedur cabut berkas domisili",
-        "dokumen pindah penduduk",
-        "pindah domisili luar daerah",
-        "pindah ke luar kota tegal",
-        "Bagaimana prosedur cabut berkas keluar kota dari Tegal?",
-        "Saya mau pindah domisili ke luar daerah, apa saja yang harus disiapkan?",
-        "Syarat mendapatkan surat SKPWNI untuk pindah antar provinsi.",
-        "Cara mengurus surat pindah penduduk dari Kabupaten Tegal ke daerah lain.",
-        "Langkah pendaftaran pindah keluar secara online melalui portal Sipandu."
-    ],
-    "loakk_info": [
-        "apa itu layanan loakk?",
-        "paket akta kk kia bayi",
-        "cara daftar loakk sipandu",
-        "layanan 3 in 1 bayi lahir",
-        "loakk bayi baru lahir tegal",
-        "syarat dapat akta kk kia sekaligus",
-        "loakk gratis ga?",
-        "kia bayi ambil dimana?",
-        "proses loakk berapa hari?",
-        "surat lahir rs buat loakk",
-        "formulir loakk f-2.01",
-        "syarat paket lahir 3 in 1",
-        "loakk sipandu tegal",
-        "cara urus akta dan kia sekaligus",
-        "info layanan loakk"
-    ],
-    "sicantik_info": [
-        "apa itu layanan sicantik?",
-        "syarat sicantik cerai tegal",
-        "update kk status cerai online",
-        "sicantik integrasi pengadilan agama",
-        "cara urus akta cerai ke kk",
-        "formulir f-1.06 sicantik",
-        "layanan cerai anti ribet tegal",
-        "syarat update status cerai di kk",
-        "sicantik disdukcapil tegal",
-        "prosedur kk baru setelah cerai",
-        "akta cerai pengadilan agama sipandu",
-        "sicantik integrasi kk",
-        "update data cerai gratis",
-        "info pendaftaran sicantik",
-        "integrasi data cerai"
-    ],
-    "ktp_info": [
-        "cara buat ktp baru",
-        "syarat rekam ktp tegal",
-        "ktp hilang urusnya dimana?",
-        "ganti foto ktp bisa ga?",
-        "syarat ktp rusak sipandu",
-        "rekam ktp di kecamatan atau capil?",
-        "syarat buat ktp usia 17 tahun",
-        "formulir f-1.21 ktp",
-        "ktp tegal gratis atau bayar?",
-        "cek stok blangko ktp",
-        "cara urus ktp rusak online",
-        "perekaman ktp el tegal",
-        "syarat ganti status di ktp",
-        "ktp el hilang surat kehilangan",
-        "waktu jadi ktp berapa lama?"
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""Generate and inject 10 patterns per intent into dataset_prosedur.csv.
+
+Rules:
+- Every intent gets exactly 10 common-question patterns.
+- Patterns for one intent are stored in one cell, separated by '|'.
+- The CSV pattern column is replaced automatically from pattern_dict.
+"""
+
+from __future__ import annotations
+
+import csv
+import re
+from pathlib import Path
+
+SCRIPT_DIR = Path(__file__).resolve().parent
+DEFAULT_INPUT = SCRIPT_DIR / "dataset_prosedur.csv"
+DEFAULT_OUTPUT = SCRIPT_DIR / "dataset_prosedur.csv"
+
+
+def _clean_topic(intent: str) -> str:
+    topic = intent.replace("_", " ")
+    topic = re.sub(r"\s+", " ", topic).strip().lower()
+
+    # Keep abbreviations readable
+    replacements = {
+        " api ": " API ",
+        " uat ": " UAT ",
+        " jipd ": " JIPD ",
+        " splp ": " SPLP ",
+    }
+
+    topic = f" {topic} "
+    for src, dst in replacements.items():
+        topic = topic.replace(src, f" {dst} ")
+    return re.sub(r"\s+", " ", topic).strip()
+
+
+def _generate_10_questions(intent: str) -> list[str]:
+    topic = _clean_topic(intent)
+
+    questions = [
+        f"apa itu {topic}?",
+        f"bagaimana prosedur {topic}?",
+        f"apa syarat untuk {topic}?",
+        f"dokumen apa yang dibutuhkan untuk {topic}?",
+        f"berapa lama proses {topic}?",
+        f"apakah {topic} bisa diajukan online?",
+        f"dimana layanan {topic} dilakukan?",
+        f"berapa biaya untuk {topic}?",
+        f"bagaimana alur lengkap {topic} dari awal sampai selesai?",
+        f"siapa yang bisa membantu jika ada kendala {topic}?",
     ]
-}
 
-import pandas as pd
+    # Ensure exactly 10 unique patterns while preserving order
+    seen = set()
+    unique_questions: list[str] = []
+    for q in questions:
+        key = q.strip().lower()
+        if key and key not in seen:
+            seen.add(key)
+            unique_questions.append(q.strip())
 
-# Read the null.csv file
-df = pd.read_csv('null.csv')
+    if len(unique_questions) != 10:
+        raise ValueError(f"Generated pattern count for intent '{intent}' is {len(unique_questions)}, expected 10")
 
-# Expand the dataframe
-expanded_rows = []
-for index, row in df.iterrows():
-    intent = row['intent']
-    if intent in patterns_dict:
-        for p in patterns_dict[intent]:
-            new_row = row.copy()
-            new_row['pattern'] = p
-            expanded_rows.append(new_row)
-    else:
-        # If intent not in our hardcoded dict, keep original
-        expanded_rows.append(row)
+    return unique_questions
 
-expanded_df = pd.DataFrame(expanded_rows)
 
-# Save to CSV (overwrite null.csv)
-expanded_df.to_csv('null.csv', index=False)
+def build_pattern_dict(rows: list[dict[str, str]]) -> dict[str, str]:
+    pattern_dict: dict[str, str] = {}
+    for row in rows:
+        intent = str(row.get("intent", "")).strip()
+        if not intent:
+            continue
+        if intent not in pattern_dict:
+            pattern_dict[intent] = "|".join(_generate_10_questions(intent))
+    return pattern_dict
 
-print(f"Expanded dataset size: {len(expanded_df)}")
-print(expanded_df['intent'].value_counts())
+
+def load_csv(path: Path) -> tuple[list[str], list[dict[str, str]]]:
+    with path.open("r", encoding="utf-8", newline="") as f:
+        reader = csv.DictReader(f)
+        fieldnames = reader.fieldnames or []
+        rows = list(reader)
+
+    required = {"intent", "pattern", "response_type", "is_master", "response"}
+    missing = required.difference(fieldnames)
+    if missing:
+        raise ValueError(f"CSV missing required columns: {sorted(missing)}")
+
+    return fieldnames, rows
+
+
+def write_csv(path: Path, fieldnames: list[str], rows: list[dict[str, str]]) -> None:
+    with path.open("w", encoding="utf-8", newline="") as f:
+        writer = csv.DictWriter(f, fieldnames=fieldnames)
+        writer.writeheader()
+        writer.writerows(rows)
+
+
+def inject_patterns(input_path: Path = DEFAULT_INPUT, output_path: Path = DEFAULT_OUTPUT) -> dict[str, str]:
+    fieldnames, rows = load_csv(input_path)
+    pattern_dict = build_pattern_dict(rows)
+
+    for row in rows:
+        intent = str(row.get("intent", "")).strip()
+        if intent in pattern_dict:
+            row["pattern"] = pattern_dict[intent]
+
+    write_csv(output_path, fieldnames, rows)
+    return pattern_dict
+
+
+if __name__ == "__main__":
+    pattern_dict = inject_patterns()
+    total_intent = len(pattern_dict)
+    print(f"Updated CSV: {DEFAULT_OUTPUT}")
+    print(f"Total intent injected: {total_intent}")
+    for intent, pattern in list(pattern_dict.items())[:5]:
+        print(f"- {intent}: {len(pattern.split('|'))} patterns")

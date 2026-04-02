@@ -8,6 +8,4 @@
 
 -r requirements.api.txt
 -r requirements.bot.txt
-torch 
-torchvision 
-torchaudio --index-url https://download.pytorch.org/whl/cpu
+-r requirements.rag.txt

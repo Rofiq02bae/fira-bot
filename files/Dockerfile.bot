@@ -1,0 +1,24 @@
+# syntax=docker/dockerfile:1
+# Dockerfile.bot
+# Image bot Telegram — sangat ringan, tidak butuh PyTorch sama sekali
+# Bot hanya HTTP client ke API, tidak load model apapun
+
+FROM python:3.10-slim
+
+ENV PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1
+
+WORKDIR /app
+
+# Install dependensi bot langsung di image (ringan ~50MB)
+COPY requirements.bot.txt .
+RUN pip install --no-cache-dir -r requirements.bot.txt
+
+# Copy hanya file yang dibutuhkan bot
+COPY interfaces/telegram_bot.py ./interfaces/telegram_bot.py
+COPY .env* ./
+
+RUN useradd -m botuser && chown -R botuser:botuser /app
+USER botuser
+
+CMD ["python", "interfaces/telegram_bot.py"]

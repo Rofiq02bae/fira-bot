@@ -43,18 +43,32 @@ def _run_step(label: str, fn) -> bool:
         logger.error(f"❌ Failed: {label} ({e})")
         return False
 
-def run_pipeline(continue_on_error: bool = False, convert_response_json: bool = False) -> dict:
+def run_pipeline(
+    continue_on_error: bool = False,
+    convert_response_json: bool = False,
+    validate_response_json: bool = False,
+    paths: PipelinePaths | None = None,
+) -> dict:
     """
     Run the complete data cleaning and validation pipeline.
     
     Args:
         continue_on_error: If True, continue pipeline even if a step fails
         convert_response_json: If True, convert 'response' column to JSON format
+        validate_response_json: If True, validate that 'response' column is valid JSON
+        paths: Custom input/output paths. If None, uses PipelinePaths.defaults().
         
     Returns:
         dict: Results summary with success/failure counts
     """
-    paths = _default_paths()
+    paths = paths or _default_paths()
+
+    # Convenience: if user asks to validate JSON responses, ensure we also convert them
+    # during the clean step (unless the dataset already contains JSON strings).
+    if validate_response_json and not convert_response_json:
+        logger.info("ℹ️  --validate-response-json enabled → auto-enabling --convert-response-json")
+        convert_response_json = True
+
     logger.info("🚀 Memulai pipeline pembersihan dan validasi data (ringkas)...")
     logger.info(f"📂 Input : {paths.input_raw}")
     logger.info(f"📄 Clean : {paths.output_clean}")
@@ -62,12 +76,14 @@ def run_pipeline(continue_on_error: bool = False, convert_response_json: bool = 
     logger.info(f"📄 Train : {paths.output_train}")
     if convert_response_json:
         logger.info("ℹ️  Mode: Convert Response to JSON")
+    if validate_response_json:
+        logger.info("ℹ️  Mode: Validate Response JSON")
 
     steps = [
         ("Clean dataset", lambda: clean_dataset(paths.input_raw, paths.output_clean, convert_response_json=convert_response_json)),
         ("Deduplicate patterns", lambda: deduplicate_patterns(paths.output_clean, paths.output_dedup)),
         ("Split patterns (training format)", lambda: split_patterns(paths.output_dedup, paths.output_train)),
-        ("Validate final dataset", lambda: validate_dataset(paths.output_train, validate_response_json=convert_response_json)),
+        ("Validate final dataset", lambda: validate_dataset(paths.output_train, validate_response_json=validate_response_json)),
     ]
 
     logger.info(f"📋 Total steps: {len(steps)}")
@@ -143,6 +159,16 @@ if __name__ == "__main__":
         help='Convert response column to JSON format'
     )
     parser.add_argument(
+        '--validate-response-json',
+        action='store_true',
+        help='Validate that response column is valid JSON (auto-enables --convert-response-json)'
+    )
+    defaults = _default_paths()
+    parser.add_argument('--input', default=str(defaults.input_raw), help='Input raw dataset CSV')
+    parser.add_argument('--clean', default=str(defaults.output_clean), help='Output cleaned CSV')
+    parser.add_argument('--dedup', default=str(defaults.output_dedup), help='Output deduplicated CSV')
+    parser.add_argument('--train', default=str(defaults.output_train), help='Output training CSV')
+    parser.add_argument(
         '--list',
         action='store_true',
         help='List all pipeline steps'
@@ -162,9 +188,17 @@ if __name__ == "__main__":
         list_steps()
         logger.info("\nNo scripts will be executed.")
     else:
+        paths = PipelinePaths(
+            input_raw=Path(args.input),
+            output_clean=Path(args.clean),
+            output_dedup=Path(args.dedup),
+            output_train=Path(args.train),
+        )
         results = run_pipeline(
             continue_on_error=args.continue_on_error,
-            convert_response_json=args.convert_response_json
+            convert_response_json=args.convert_response_json,
+            validate_response_json=args.validate_response_json,
+            paths=paths,
         )
         
         # Exit with error code if any step failed

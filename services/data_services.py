@@ -23,9 +23,12 @@ class DataService:
                 logger.error(f"❌ Dataset file not found: {dataset_path}")
                 # Try alternative paths
                 alternative_paths = [
-                    "dataset/dataset_training.csv",
-                    "./dataset/dataset_training.csv",
-                    "dataset_training.csv"
+                    "dataset/data/dataset_training_lstm.csv",
+                    "./dataset/data/dataset_training_lstm.csv",
+                    "dataset_training_lstm.csv",
+                    "dataset/data/dataset_training_bert.csv",
+                    "./dataset/data/dataset_training_bert.csv",
+                    "dataset_training_bert.csv"
                 ]
                 
                 for alt_path in alternative_paths:
@@ -37,7 +40,10 @@ class DataService:
                     logger.error("❌ No valid dataset path found")
                     return False
             
-            self.df = pd.read_csv(dataset_path, encoding='utf-8')
+            self.df = pd.read_csv(dataset_path, encoding='utf-8', keep_default_na=False)
+            if 'intent' in self.df.columns:
+                self.df['intent'] = self.df['intent'].astype(str).str.strip()
+                self.df = self.df[self.df['intent'].str.lower() != 'intent']
             logger.info(f"📊 Dataset loaded: {len(self.df)} rows")
             
             # Create intent mappings
@@ -56,8 +62,20 @@ class DataService:
         
         for intent in self.df['intent'].unique():
             intent_data = self.df[self.df['intent'] == intent]
+            response_type = 'static'
+            if 'response_type' in intent_data.columns:
+                response_type = str(intent_data['response_type'].iloc[0]).strip().lower() or 'static'
+
+            is_master = False
+            if 'is_master' in intent_data.columns:
+                is_master = any(
+                    str(v).strip().lower() in {"1", "true", "yes", "y"}
+                    for v in intent_data['is_master'].tolist()
+                )
+
             self.intent_mappings[intent] = {
-                'response_type': intent_data['response_type'].iloc[0] if 'response_type' in intent_data.columns else 'static',
+                'response_type': response_type,
+                'is_master': is_master,
                 'patterns': intent_data['pattern'].tolist(),
                 'responses': intent_data['response'].tolist() if 'response' in intent_data.columns else ["Response not available"]
             }

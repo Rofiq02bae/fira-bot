@@ -1,7 +1,9 @@
 # Environment variables
 .env
+.env.test
 .env.local
 .env.*.local
+.env.*
 
 # Python
 __pycache__/
@@ -111,3 +113,6 @@ data/dataset/lstm_models.zip
 data/models/bert_model.zip
 data/bert_optimized_model.zip
 data/bert_optimized_finetuned.zip
+*.safetensors
+*.zip
+
