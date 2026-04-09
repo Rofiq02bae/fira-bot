@@ -1,12 +1,13 @@
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 from typing import Dict, List, Optional, Any
-from fastapi.responses import JSONResponse
+from fastapi.responses import JSONResponse, FileResponse
 import uvicorn
 import logging
 import os
 from datetime import datetime
 from dotenv import load_dotenv
+from pathlib import Path
 
 # Load environment variables from .env file BEFORE importing settings
 load_dotenv()
@@ -40,6 +41,7 @@ class ChatResponse(BaseModel):
     confidence: float
     response: str
     options: Optional[List[Dict[str, Any]]] = []
+    formulir: Optional[List[Dict[str, str]]] = []
     method_used: str
     processing_time: float
     timestamp: str
@@ -73,6 +75,9 @@ app = FastAPI(
 # Global service instance
 nlu_service = None
 rag_service = None
+
+# Path ke folder downloads
+DOWNLOADS_FOLDER = Path(__file__).parent / "downloads"
 
 @app.on_event("startup")
 async def startup_event():
@@ -133,6 +138,44 @@ async def startup_event():
         import traceback
         traceback.print_exc()
         nlu_service = None
+
+# ============================================================
+# DOWNLOAD FILE ENDPOINT
+# ============================================================
+
+@app.get("/download/{filename}")
+async def download_file(filename: str):
+    """
+    Download file formulir - Contoh: /download/f101.pdf
+    
+    File akan langsung ter-download saat link diklik.
+    Format nama file: f101.pdf, f102.pdf, f103.pdf, dst
+    """
+    # Security: Prevent path traversal attacks
+    if ".." in filename or "/" in filename or "\\" in filename:
+        raise HTTPException(status_code=400, detail="Invalid filename")
+    
+    file_path = DOWNLOADS_FOLDER / filename
+    
+    # Cek apakah file exists
+    if not file_path.exists():
+        raise HTTPException(
+            status_code=404, 
+            detail=f"File tidak ditemukan: {filename}"
+        )
+    
+    logger.info(f"📥 Download file: {filename}")
+    
+    # Return file untuk auto-download
+    return FileResponse(
+        path=file_path,
+        media_type="application/octet-stream",
+        filename=filename
+    )
+
+# ============================================================
+# ROUTES
+# ============================================================
 
 # Routes
 @app.get("/", include_in_schema=False)
@@ -201,16 +244,43 @@ async def chat(user_input: UserInput):
     try:
         # Gunakan method baru yang terintegrasi
         result = await nlu_service.process_query_async(user_input.text)
+        intent = result["intent"]
 
         processing_time = (datetime.now() - start_time).total_seconds() * 1000  # ms
         
+        # Map intent ke formulir yang relevan
+        formulir_map = {
+            "kk_info": ["f101.pdf", "f102.pdf"],
+            "nib_info": ["f103.pdf"],
+            "ak1_info": ["f104.pdf"],
+            "itr_info": ["f105.pdf"],
+            "sls_info": ["f106.pdf"],
+            "akta_lahir_info": ["f107.pdf"],
+            "mati_info": ["f108.pdf"],
+            "ktp_info": ["f109.pdf"],
+            "surat_pindah_luar": ["f110.pdf"],
+            "loakk_info": ["f111.pdf"],
+            "sicantik_info": ["f112.pdf"],
+        }
+        
+        # Get related formulir
+        formulir_links = []
+        for formulir_file in formulir_map.get(intent, []):
+            formulir_path = DOWNLOADS_FOLDER / formulir_file
+            if formulir_path.exists():
+                formulir_links.append({
+                    "name": formulir_file,
+                    "url": f"/download/{formulir_file}",
+                    "display_name": f"📄 {formulir_file}"
+                })
+        
         return ChatResponse(
             original_text=user_input.text,
-            predicted_intent=result["intent"],
+            predicted_intent=intent,
             confidence=result["confidence"],
-            augmented=result.get("augmented", False),
             response=result["response"],
             options=result.get("options", []),
+            formulir=formulir_links,
             method_used=result["method"],
             processing_time=round(processing_time, 2),
             timestamp=datetime.now().isoformat()

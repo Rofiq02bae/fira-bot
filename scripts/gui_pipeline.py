@@ -138,10 +138,7 @@ class DatasetPipelineGUI:
         # --- Paths tab ---
         tab_paths.columnconfigure(1, weight=1)
         self.create_path_entry(tab_paths, "Input Raw CSV", self.input_path, 0, is_input=True)
-        self.create_path_entry(tab_paths, "Output Clean CSV", self.clean_path, 1)
-        self.create_path_entry(tab_paths, "Output Dedup CSV", self.dedup_path, 2)
-        self.create_path_entry(tab_paths, "Output Train CSV", self.train_path, 3)
-        self.create_path_entry(tab_paths, "Output BERT CSV", self.bert_path, 4)
+        self.create_path_entry(tab_paths, "Output Train CSV", self.train_path, 1)
 
         tip = ttk.Label(
             tab_paths,
@@ -150,7 +147,7 @@ class DatasetPipelineGUI:
                 "Pipeline akan membuat folder jika belum ada."
             ),
         )
-        tip.grid(row=5, column=0, columnspan=3, sticky="w", pady=(10, 0))
+        tip.grid(row=2, column=0, columnspan=3, sticky="w", pady=(10, 0))
 
         # --- Options tab ---
         tab_options.columnconfigure(0, weight=1)
@@ -461,9 +458,14 @@ class DatasetPipelineGUI:
                 print(f"❌ Error: {e}")
                 print(traceback.format_exc())
 
+                # Capture 'e' ke local var sebelum closure — Python (PEP 3110)
+                # menghapus variabel except setelah blok selesai, sehingga
+                # closure yang dipanggil via Tkinter event loop akan NameError.
+                _err_msg = str(e)
+
                 def show():
                     self._set_running(False, "Failed")
-                    messagebox.showerror("Pipeline Error", str(e))
+                    messagebox.showerror("Pipeline Error", _err_msg)
 
                 self._ui(show)
             finally:
