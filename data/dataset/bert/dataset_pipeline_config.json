@@ -1,0 +1,10 @@
+{
+  "input_raw": "/media/aas/New Volume1/bot/New folder/data/dataset/bert/data_mentah_bert.csv",
+  "output_clean": "/media/aas/New Volume1/bot/New folder/data/dataset/dataset_clean.csv",
+  "output_dedup": "/media/aas/New Volume1/bot/New folder/data/dataset/data_tanpa_duplikat.csv",
+  "output_train": "/media/aas/New Volume1/bot/New folder/data/dataset/bert/dataset_training_bert.csv",
+  "output_bert": "/media/aas/New Volume1/bot/New folder/data/dataset/dataset_training_bert.csv",
+  "convert_response_json": true,
+  "validate_response_json": true,
+  "generate_bert": false
+}

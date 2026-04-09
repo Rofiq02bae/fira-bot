@@ -116,3 +116,4 @@ data/bert_optimized_finetuned.zip
 *.safetensors
 *.zip
 
+agent/*

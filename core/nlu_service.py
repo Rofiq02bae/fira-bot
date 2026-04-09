@@ -1,9 +1,8 @@
 """
 NLU Service — Hybrid LSTM + IndoBERT
-v3: RAG trigger berbasis kombinasi response_type + is_master
-    - static + is_master=false -> RAG + LLM eksternal (jawaban natural)
-    - static + is_master=true  -> response asli dataset
-    - kb + is_master=false     -> response asli dataset
+v4: RAG (LLM paraphrase) hanya aktif saat response_type == "greetings".
+    Semua response_type lain (kb, static, dll) dikembalikan langsung
+    dari dataset tanpa melalui LLM/FAISS.
 """
 
 import logging
@@ -52,8 +51,7 @@ class HybridNLUService:
         # except ImportError:
         #     logger.warning("⚠️ Pool manager not available, using sync processing")
 
-        # RAG selalu diinisialisasi (tidak lagi bergantung flag global enabled)
-        # Tapi hanya dipanggil untuk intent static non-master.
+        # LLM client untuk paraphrase greetings — tidak menggunakan FAISS.
         self.rag_config = RAGConfig()
         self.rag_service = None
         self._initialize_rag_service()
@@ -180,56 +178,40 @@ class HybridNLUService:
             return False
 
     def _initialize_rag_service(self):
-        """Initialize RAG service — dipanggil hanya untuk intent static non-master."""
+        """Initialize LLM client untuk paraphrase greetings — tanpa FAISS/vector store."""
         try:
-            from services.rag import RAGService, FAISSVectorStore
+            from services.rag import RAGService
 
-            logger.info("🔍 Initializing RAG service...")
-
-            vector_store = FAISSVectorStore(
-                index_path=self.rag_config.faiss_index_path,
-                metadata_path=self.rag_config.faiss_metadata_path
-            )
-
-            if not vector_store.is_available():
-                logger.warning("⚠️ Vector store not available. RAG disabled.")
+            if not (self.rag_config.llm_provider and self.rag_config.llm_api_key):
+                logger.warning("⚠️ LLM provider/key tidak dikonfigurasi. RAG (greetings) disabled.")
                 self.rag_service = None
                 return
 
             llm_client = None
-            if self.rag_config.llm_provider and self.rag_config.llm_api_key:
-                if self.rag_config.llm_provider == "openrouter":
-                    try:
-                        from openai import AsyncOpenAI
-                        llm_client = AsyncOpenAI(
-                            api_key=self.rag_config.llm_api_key,
-                            base_url=self.rag_config.llm_base_url
-                        )
-                        logger.info(f"✅ OpenRouter LLM client initialized (model: {self.rag_config.llm_model})")
-                    except ImportError:
-                        logger.warning("⚠️ OpenAI library not installed.")
-                else:
-                    logger.warning(f"⚠️ Unknown LLM provider: {self.rag_config.llm_provider}")
-
-            rag_embedding_model = self.bert_model
-            try:
-                from sentence_transformers import SentenceTransformer
-                rag_embedding_model = SentenceTransformer(self.rag_config.embedding_model_name)
-                logger.info(f"✅ RAG embedding model initialized: {self.rag_config.embedding_model_name}")
-            except Exception as embedding_error:
-                logger.warning(
-                    "⚠️ Failed to init dedicated RAG embedding model (%s): %s. Fallback to BERT classifier encoder.",
-                    self.rag_config.embedding_model_name,
-                    embedding_error,
-                )
+            if self.rag_config.llm_provider == "openrouter":
+                try:
+                    from openai import AsyncOpenAI
+                    llm_client = AsyncOpenAI(
+                        api_key=self.rag_config.llm_api_key,
+                        base_url=self.rag_config.llm_base_url
+                    )
+                    logger.info(f"✅ LLM client initialized (model: {self.rag_config.llm_model})")
+                except ImportError:
+                    logger.warning("⚠️ OpenAI library not installed. RAG disabled.")
+                    self.rag_service = None
+                    return
+            else:
+                logger.warning(f"⚠️ Unknown LLM provider: {self.rag_config.llm_provider}. RAG disabled.")
+                self.rag_service = None
+                return
 
             self.rag_service = RAGService(
-                vector_store=vector_store,
-                embedding_model=rag_embedding_model,
+                vector_store=None,
+                embedding_model=None,
                 llm_client=llm_client
             )
 
-            logger.info("✅ RAG service initialized — aktif hanya untuk intent static non-master")
+            logger.info("✅ RAG service (LLM only) initialized — aktif eksklusif untuk response_type=greetings")
 
         except Exception as e:
             logger.error(f"❌ RAG initialization failed: {e}")
@@ -288,7 +270,7 @@ class HybridNLUService:
 
     async def process_query_async(self, text: str) -> Dict[str, Any]:
         """
-        Async version — RAG hanya untuk intent static non-master.
+        Async version — RAG (LLM paraphrase) hanya aktif untuk response_type=greetings.
         """
         logger.info(f"🔍 Processing query (async): '{text}'")
 
@@ -302,51 +284,38 @@ class HybridNLUService:
             # 2. Proses intent + response selector
             base_result = self._process_with_predictions(text, lstm_pred, bert_pred)
 
-            # 3. Terapkan aturan routing RAG berbasis response_type + is_master
+            # 3. RAG hanya aktif untuk response_type == "greetings"
             intent_data = self.intent_mappings.get(base_result.get("intent", ""), {})
             response_type = intent_data.get("response_type", "static")
             dataset_response = base_result.get("response", "")
 
-            if self.rag_service and self.rag_service.is_available():
+            if response_type == "greetings" and self.rag_service and self.rag_service.is_available():
+                # Paraphrase dataset response via LLM — tanpa FAISS
+                rag_result = await self.rag_service.generate_response(
+                    query=text,
+                    intent=base_result.get("intent", ""),
+                    retrieved_documents=[],
+                    fallback_response=dataset_response
+                )
+                base_result.update({
+                    "response":   rag_result.get("response", dataset_response),
+                    "augmented":  rag_result.get("augmented", False),
+                    "sources":    [],
+                    "rag_method": rag_result.get("method", "none")
+                })
 
-                if response_type == "kb":
-                    # Prosedur panjang — return langsung, bypass RAG & LLM
-                    pass  # base_result sudah benar dari response_selector
+            # 4. [BETA] Log semua query
+            intent_data_for_log = self.intent_mappings.get(base_result.get("intent", ""), {})
+            self.query_logger.log_query({
+                "text":             text,
+                "intent":           base_result.get("intent", "unknown"),
+                "confidence":       base_result.get("confidence", 0),
+                "method":           base_result.get("method", "unknown"),
+                "response_type":    intent_data_for_log.get("response_type", ""),
+                "augmented":        base_result.get("augmented", False),
+                "rag_method":       base_result.get("rag_method", ""),
+            })
 
-                elif response_type == "static":
-                    # Skip FAISS, langsung paraphrase dataset response via LLM
-                    rag_result = await self.rag_service.generate_response(
-                        query=text,
-                        intent=base_result.get("intent", ""),
-                        retrieved_documents=[],          # ← kosong, skip FAISS
-                        fallback_response=dataset_response
-                    )
-                    base_result.update({
-                        "response":   rag_result.get("response", dataset_response),
-                        "augmented":  rag_result.get("augmented", False),
-                        "sources":    [],
-                        "rag_method": rag_result.get("method", "none")
-                    })
-
-                else:
-                    # Fallback / unknown — baru pakai FAISS
-                    retrieved_docs = await self.rag_service.retrieve_documents(
-                        query_text=text,
-                        k=self.rag_config.top_k_documents,
-                        similarity_threshold=self.rag_config.similarity_threshold
-                    )
-                    rag_result = await self.rag_service.generate_response(
-                        query=text,
-                        intent=base_result.get("intent", ""),
-                        retrieved_documents=retrieved_docs,
-                        fallback_response=dataset_response
-                    )
-                    base_result.update({
-                        "response":   rag_result.get("response", dataset_response),
-                        "augmented":  rag_result.get("augmented", False),
-                        "sources":    rag_result.get("sources", []),
-                        "rag_method": rag_result.get("method", "none")
-                    })
             return base_result
 
         except Exception as e:

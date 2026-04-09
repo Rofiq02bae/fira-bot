@@ -15,6 +15,8 @@ class QueryLogger:
         
         self.log_file = os.path.join(base_dir, "logs", log_file)
         self.csv_file = os.path.join(base_dir, "data", "training_candidates", csv_file)
+        # Log semua query untuk fase beta
+        self.all_queries_file = os.path.join(base_dir, "data", "training_candidates", "all_queries.csv")
         self.low_confidence_threshold = 0.3
         
         # Ensure directory exists
@@ -24,6 +26,39 @@ class QueryLogger:
         logger.info(f"📝 QueryLogger initialized:")
         logger.info(f"   JSON: {self.log_file}")
         logger.info(f"   CSV: {self.csv_file}")
+        logger.info(f"   All queries: {self.all_queries_file}")
+
+    def log_query(self, query_data: Dict[str, Any]):
+        """[BETA] Catat SEMUA user input tanpa filter — untuk evaluasi fase beta."""
+        try:
+            if not isinstance(query_data, dict) or 'text' not in query_data:
+                return
+
+            text = str(query_data.get('text', '')).strip()
+            if not text:
+                return
+
+            row = {
+                'text':             text,
+                'predicted_intent': query_data.get('predicted_intent', query_data.get('intent', 'unknown')),
+                'confidence':       round(float(query_data.get('confidence', 0)), 4),
+                'method_used':      query_data.get('method_used', query_data.get('method', 'unknown')),
+                'response_type':    query_data.get('response_type', ''),
+                'augmented':        query_data.get('augmented', False),
+                'rag_method':       query_data.get('rag_method', ''),
+                'logged_at':        datetime.now().isoformat(),
+            }
+
+            df = pd.DataFrame([row])
+            if os.path.exists(self.all_queries_file):
+                df.to_csv(self.all_queries_file, mode='a', header=False, index=False, encoding='utf-8')
+            else:
+                df.to_csv(self.all_queries_file, index=False, encoding='utf-8')
+
+            logger.debug(f"📋 [beta] Query logged: '{text}'")
+
+        except Exception as e:
+            logger.error(f"❌ Error logging query: {e}")
 
     def log_low_confidence_query(self, query_data: Dict[str, Any]):
         """Log query dengan confidence rendah untuk evaluasi"""
