@@ -1,3 +1,19 @@
 text,predicted_intent,confidence,method_used,response_type,augmented,rag_method,logged_at
 kjyfhjlughjvjv,unknown,0.0,emergency_fallback,,False,,2026-04-09T10:37:49.961996
 hola,salam,0.6312,low_confidence_match,static,False,,2026-04-09T10:38:43.683392
+cara bikin akta lahir,akta_lahir_info,0.9577,lstm_direct,static,False,,2026-04-09T15:02:38.034994
+cara bikin ktp,ktp_info,0.8469,lstm_direct,static,False,,2026-04-09T15:02:55.098265
+cara bikin kk,unknown,0.0,emergency_fallback,,False,,2026-04-09T15:03:05.588981
+bagaimana sop pembuatan aplikasi,unknown,0.0,emergency_fallback,,False,,2026-04-09T15:03:27.383345
+bagaimana sop pembuatan aplikasi web,standar_teknis_aplikasi_berbasis_web,0.4549,low_confidence_match,static,False,,2026-04-09T15:04:05.298654
+bagaimana sop pembuatan splikasi mobile,unknown,0.0,emergency_fallback,,False,,2026-04-09T15:04:36.999017
+bagaimana sop pembuatan aplikasi mobile,sop_rilis_aplikasi_berbasis_mobile,0.4238,fusion_weighted_avg,kb,False,,2026-04-09T15:04:59.013536
+hola,salam,0.6312,low_confidence_match,static,False,,2026-04-09T19:37:42.092316
+siapa kamu,bot_info,0.8621,lstm_direct,static,False,,2026-04-09T19:38:10.333403
+hola,salam,0.6312,low_confidence_match,static,False,,2026-04-09T19:39:49.925060
+siapa kamu,bot_info,0.8621,lstm_direct,static,False,,2026-04-09T19:40:34.878746
+siapa pembuat chatbot fira,dev_info,0.621,fusion_agreement,static,False,,2026-04-09T19:41:41.888572
+bagaimana cara buat ktp,ktp_info,0.8304,lstm_direct,static,False,,2026-04-09T19:42:37.702550
+bagaimana cara buat ktp,ktp_info,0.8304,lstm_direct,static,False,,2026-04-09T19:45:17.687265
+bagaimana cara buat kk,unknown,0.0,emergency_fallback,,False,,2026-04-09T19:45:59.537979
+bagaimana cara buat kk dan ktp,ktp_info,0.6196,lstm_direct,static,False,,2026-04-09T19:46:54.547744
