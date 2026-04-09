@@ -433,12 +433,217 @@ class TelegramBot:
         rendered = "\n".join(formatted_lines).strip()
         return rendered or html.escape(text.strip())
 
+    # ── Keyword heading section di response dataset ──────────────────────────
+    _SECTION_KEYWORDS = re.compile(
+        r"^(persyaratan|syarat\s*utama|syarat\s*dokumen|prosedur|langkah\s*\-?\s*langkah"
+        r"|dokumen|keterangan|proses|biaya|tarif|waktu|catatan|informasi"
+        r"|pihak yang terlibat|tujuan|ruang lingkup|tahap pelaksanaan"
+        r"|dokumen pendamping|syarat)\b",
+        re.IGNORECASE,
+    )
+
+    @staticmethod
+    def _needs_rich_format(text: str) -> bool:
+        """
+        Deteksi otomatis apakah teks perlu diformat penuh.
+        True jika mengandung:
+          - pipe separator `|`
+          - literal \\n
+          - **markdown bold** (lebih dari satu token)
+          - bullet * atau angka di awal baris
+          - lebih dari 2 baris nyata
+        """
+        if "|" in text:
+            return True
+        if "\\n" in text:
+            return True
+        lines = [l for l in text.split("\n") if l.strip()]
+        if len(lines) > 2:
+            return True
+        bold_count = len(re.findall(r"\*\*", text))
+        if bold_count >= 4:          # minimal 2 pasang **
+            return True
+        if re.search(r"(?m)^\s*[\*\-•]\s", text):  # bullet di awal baris
+            return True
+        return False
+
+    def _format_dataset_response(self, raw: str) -> str:
+        """
+        Formatter universal untuk response dari dataset.
+
+        - Kalimat sederhana (tidak ada pipe/\\n/markdown multi-item)
+          → dikembalikan apa adanya (hanya HTML escape + inline markdown).
+        - Teks kaya (ada pipe, \\n literal, bullet, bold multi-item)
+          → dipecah per segmen, tiap segmen jadi bullet atau heading.
+        """
+        if not raw:
+            return ""
+
+        # Normalisasi \\n literal → newline nyata
+        raw = raw.replace("\\n", "\n").replace("\r\n", "\n").replace("\r", "\n")
+
+        # Jika tidak perlu format kaya, kembalikan sebagai teks biasa
+        if not self._needs_rich_format(raw):
+            return self._apply_inline_markdown(raw.strip())
+
+        # ── Mode format kaya ──
+
+        # Lindungi URL agar pipe di dalamnya tidak ikut dipecah
+        _url_stash: dict = {}
+
+        def _stash_url(m: re.Match) -> str:
+            key = f"\x00U{len(_url_stash)}\x00"
+            # Potong trailing punctuation ) ] yang bukan bagian URL
+            url_raw = m.group(0)
+            url = re.sub(r'[\)\]]+$', '', url_raw)
+            _url_stash[key] = url
+            return key + url_raw[len(url):]
+
+        raw = re.sub(r"https?://\S+", _stash_url, raw)
+
+        # Pecah berdasarkan |
+        segments = [s.strip() for s in raw.split("|")]
+
+        # Restore URL di tiap segmen
+        def _restore(s: str) -> str:
+            for k, v in _url_stash.items():
+                s = s.replace(k, v)
+            return s
+
+        segments = [_restore(s) for s in segments]
+
+        # Pecah lagi segmen yang mengandung newline ATAU pola ** heading: ** di tengah
+        expanded: list = []
+        for seg in segments:
+            # Pertama pecah per newline
+            sub_segs = []
+            if "\n" in seg:
+                sub_segs = [s.strip() for s in seg.split("\n") if s.strip()]
+            else:
+                sub_segs = [seg] if seg else []
+
+            # Kemudian pecah juga berdasarkan ** kata: ** heading yang tertanam
+            # Contoh: "intro. **Persyaratan:** item * item * item **Prosedur:** item"
+            for sub in sub_segs:
+                # Pisahkan pada batas ** yang diikuti kata heading lalu **
+                # Pattern: split sebelum ** (jika ada teks di depannya)
+                parts_md = re.split(r'(?=\*\*[A-Za-z\s]{1,30}:\*\*)', sub)
+                for p in parts_md:
+                    p = p.strip()
+                    if p:
+                        # Dalam tiap bagian, pecah juga * item di tengah
+                        # "**Persyaratan:** * item1 * item2" → heading + 2 bullet
+                        inner_split = re.split(r'\s\*\s+', p)
+                        if len(inner_split) > 1:
+                            expanded.append(inner_split[0].strip())
+                            for item in inner_split[1:]:
+                                item = item.strip()
+                                if item:
+                                    expanded.append(item)
+                        else:
+                            expanded.append(p)
+
+        # Render tiap segmen
+        result_lines: list = []
+        prev_is_heading = False
+        for seg in expanded:
+            if not seg:
+                continue
+
+            # Bersihkan bullet teks yang sudah ada (* atau • di awal/akhir)
+            seg = re.sub(r"^[\*\-•]\s+", "", seg)   # strip bullet di awal
+            seg = re.sub(r"\s+\*$", "", seg)          # strip asterisk sisa di akhir
+            seg = seg.strip()
+
+            # Inline markdown → HTML
+            rendered = self._apply_inline_markdown(seg)
+
+            # Cek heading: periksa plain text (tanpa tag HTML)
+            plain = re.sub(r'<[^>]+>', '', rendered).strip()
+            is_heading = plain.endswith(":") or bool(self._SECTION_KEYWORDS.match(plain))
+
+            # Heading yang panjang (>60 char) tidak dijadikan heading
+            if is_heading and len(plain) > 60:
+                is_heading = False
+
+            if is_heading:
+                # Jika heading punya ekor teks setelah ':' → pisah heading + bullet
+                # Contoh: "**Prosedur:** Pemohon mengisi" → "Prosedur:" + "Pemohon mengisi"
+                colon_idx = plain.find(":")
+                if colon_idx != -1 and colon_idx < len(plain) - 1:
+                    heading_text = plain[:colon_idx + 1].strip()
+                    tail_text = plain[colon_idx + 1:].strip()
+                    if result_lines and not prev_is_heading:
+                        result_lines.append("")
+                    result_lines.append(f"<b>{html.escape(heading_text)}</b>")
+                    if tail_text:
+                        result_lines.append(f"\u2022 {html.escape(tail_text)}")
+                else:
+                    if result_lines and not prev_is_heading:
+                        result_lines.append("")
+                    result_lines.append(f"<b>{html.escape(plain)}</b>")
+            else:
+                result_lines.append(f"\u2022 {rendered}")
+
+            prev_is_heading = is_heading
+
+        rendered_final = "\n".join(result_lines).strip()
+        return re.sub(r"\n{3,}", "\n\n", rendered_final)
+
+    def _apply_inline_markdown(self, text: str) -> str:
+        """Konversi **bold** *italic* URL telanjang → HTML Telegram-safe."""
+        if not text:
+            return ""
+
+        # Lindungi URL sebelum escape
+        _urls: dict = {}
+
+        def _stash(m: re.Match) -> str:
+            key = f"\x01L{len(_urls)}\x01"
+            # Potong trailing punctuation ) ] , . yang bukan bagian URL
+            url_raw = m.group(0)
+            url = re.sub(r'[\)\]\.\,]+$', '', url_raw)
+            _urls[key] = url
+            return key + url_raw[len(url):]
+
+        text = re.sub(r"https?://\S+", _stash, text)
+
+        # Pecah per token markdown (greedy terpendek)
+        parts = re.split(r"(\*\*\*.*?\*\*\*|\*\*.*?\*\*|__.*?__|(?<!\*)\*(?!\*).*?(?<!\*)\*(?!\*))", text)
+        out = []
+        for part in parts:
+            if re.fullmatch(r"\*\*\*(.+?)\*\*\*", part, re.DOTALL):
+                out.append(f"<b><i>{html.escape(part[3:-3])}</i></b>")
+            elif re.fullmatch(r"\*\*(.+?)\*\*", part, re.DOTALL):
+                out.append(f"<b>{html.escape(part[2:-2])}</b>")
+            elif re.fullmatch(r"__(.+?)__", part, re.DOTALL):
+                out.append(f"<b>{html.escape(part[2:-2])}</b>")
+            elif re.fullmatch(r"\*(.+?)\*", part, re.DOTALL):
+                # Hanya jadikan italic jika isinya bukan URL/simbol murni
+                inner = part[1:-1]
+                if re.search(r"[a-zA-Z]", inner):
+                    out.append(f"<i>{html.escape(inner)}</i>")
+                else:
+                    out.append(html.escape(part))
+            else:
+                out.append(html.escape(part))
+
+        result = "".join(out)
+
+        # Restore URL → tautan yang bisa diklik
+        for key, url in _urls.items():
+            safe = html.escape(url)
+            display = html.escape(url if len(url) <= 55 else url[:52] + "\u2026")
+            result = result.replace(html.escape(key), f'<a href="{safe}">{display}</a>')
+
+        return result
+
     def _render_json_response_html(self, data: Dict[str, Any]) -> str:
         r_type = str(data.get("type", "text")).strip().lower()
 
         if r_type == "text":
             body = str(data.get("body", "")).strip()
-            return self._format_text_as_html(body)
+            return self._format_dataset_response(body)
 
         if r_type == "list":
             title = str(data.get("title", "")).strip()
@@ -446,24 +651,24 @@ class TelegramBot:
 
             lines = []
             if title:
-                lines.append(f"<b>{html.escape(title)}</b>")
+                lines.append(self._format_dataset_response(title))
 
             if isinstance(items, list):
                 for item in items:
                     item_text = str(item).strip()
                     if item_text:
-                        lines.append(f"• {html.escape(item_text)}")
+                        lines.append(f"\u2022 {self._apply_inline_markdown(item_text)}")
             else:
                 item_text = str(items).strip()
                 if item_text:
-                    lines.append(f"• {html.escape(item_text)}")
+                    lines.append(f"\u2022 {self._apply_inline_markdown(item_text)}")
 
-            return "\n".join(lines).strip() or self._format_text_as_html(str(data))
+            return "\n".join(lines).strip() or self._format_dataset_response(str(data))
 
         body_fallback = str(data.get("body", "")).strip()
         if body_fallback:
-            return self._format_text_as_html(body_fallback)
-        return self._format_text_as_html(str(data))
+            return self._format_dataset_response(body_fallback)
+        return self._format_dataset_response(str(data))
 
     async def _send_response(self, update: Update, result: Dict[str, Any]):
         api_response_raw = result.get("response", "")
@@ -475,12 +680,10 @@ class TelegramBot:
         if isinstance(api_response, dict):
             # Response dari dataset (JSON format)
             text = self._render_json_response_html(api_response)
-        elif is_llm_augmented:
-            # Output LLM — gunakan formatter yang handle markdown
-            text = self._format_llm_text_as_html(str(api_response))
         else:
-            # Plain text dari dataset
-            text = self._format_text_as_html(str(api_response))
+            # Semua string response — termasuk LLM dan plain dataset
+            # _format_dataset_response mendeteksi otomatis apakah perlu format kaya
+            text = self._format_dataset_response(str(api_response))
 
         if not text:
             text = "Maaf, belum ada jawaban yang bisa ditampilkan."
