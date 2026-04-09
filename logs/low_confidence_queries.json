@@ -950,5 +950,61 @@
     "logged_at": "2026-03-20T09:04:59.915849",
     "evaluated": false,
     "added_to_dataset": false
+  },
+  {
+    "text": "cara bikin kk",
+    "predicted_intent": "unknown",
+    "confidence": 0.0,
+    "method_used": "emergency_fallback",
+    "fallback_reason": "complete_failure",
+    "lstm_prediction": "surat_pindah_dalam",
+    "bert_prediction": "surat_pindah_dalam",
+    "lstm_confidence": 0.16934995353221893,
+    "bert_confidence": 0.10217379033565521,
+    "logged_at": "2026-04-09T15:03:05.552127",
+    "evaluated": false,
+    "added_to_dataset": false
+  },
+  {
+    "text": "bagaimana sop pembuatan aplikasi",
+    "predicted_intent": "unknown",
+    "confidence": 0.0,
+    "method_used": "emergency_fallback",
+    "fallback_reason": "complete_failure",
+    "lstm_prediction": "standar_teknis_aplikasi",
+    "bert_prediction": "sop_rilis_aplikasi_berbasis_mobile",
+    "lstm_confidence": 0.1140153557062149,
+    "bert_confidence": 0.13903170824050903,
+    "logged_at": "2026-04-09T15:03:27.344521",
+    "evaluated": false,
+    "added_to_dataset": false
+  },
+  {
+    "text": "bagaimana sop pembuatan splikasi mobile",
+    "predicted_intent": "unknown",
+    "confidence": 0.0,
+    "method_used": "emergency_fallback",
+    "fallback_reason": "complete_failure",
+    "lstm_prediction": "sop_rilis_aplikasi_berbasis_mobile",
+    "bert_prediction": "sop_splp_sop_pengajuan_api_dari_splp",
+    "lstm_confidence": 0.1427965760231018,
+    "bert_confidence": 0.1771954745054245,
+    "logged_at": "2026-04-09T15:04:36.947125",
+    "evaluated": false,
+    "added_to_dataset": false
+  },
+  {
+    "text": "bagaimana cara buat kk",
+    "predicted_intent": "unknown",
+    "confidence": 0.0,
+    "method_used": "emergency_fallback",
+    "fallback_reason": "complete_failure",
+    "lstm_prediction": "surat_pindah_dalam",
+    "bert_prediction": "surat_pindah_dalam",
+    "lstm_confidence": 0.15349912643432617,
+    "bert_confidence": 0.15599879622459412,
+    "logged_at": "2026-04-09T19:45:59.430834",
+    "evaluated": false,
+    "added_to_dataset": false
   }
 ]
