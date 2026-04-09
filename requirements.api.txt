@@ -13,6 +13,7 @@ scikit-learn
 nltk
 numpy==1.26.4
 
+tensorflow-cpu==2.21.0
 # LSTM inference — gunakan tensorflow-cpu di container
 # tensorflow di-install terpisah di Dockerfile (bukan dari sini)
 
