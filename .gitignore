@@ -117,3 +117,4 @@ data/bert_optimized_finetuned.zip
 *.zip
 
 agent/*
+data/lstm_models/*

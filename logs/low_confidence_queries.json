@@ -1006,5 +1006,33 @@
     "logged_at": "2026-04-09T19:45:59.430834",
     "evaluated": false,
     "added_to_dataset": false
+  },
+  {
+    "text": "Info Dev",
+    "predicted_intent": "unknown",
+    "confidence": 0.0,
+    "method_used": "emergency_fallback",
+    "fallback_reason": "complete_failure",
+    "lstm_prediction": "salam",
+    "bert_prediction": "salam",
+    "lstm_confidence": 0.08047374337911606,
+    "bert_confidence": 0.27818018198013306,
+    "logged_at": "2026-04-10T20:21:55.829287",
+    "evaluated": false,
+    "added_to_dataset": false
+  },
+  {
+    "text": "Kabar",
+    "predicted_intent": "unknown",
+    "confidence": 0.0,
+    "method_used": "emergency_fallback",
+    "fallback_reason": "complete_failure",
+    "lstm_prediction": "kabar",
+    "bert_prediction": "kabar",
+    "lstm_confidence": 0.20057758688926697,
+    "bert_confidence": 0.38728082180023193,
+    "logged_at": "2026-04-10T23:09:16.311803",
+    "evaluated": false,
+    "added_to_dataset": false
   }
 ]
