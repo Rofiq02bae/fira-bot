@@ -17,3 +17,103 @@ bagaimana cara buat ktp,ktp_info,0.8304,lstm_direct,static,False,,2026-04-09T19:
 bagaimana cara buat ktp,ktp_info,0.8304,lstm_direct,static,False,,2026-04-09T19:45:17.687265
 bagaimana cara buat kk,unknown,0.0,emergency_fallback,,False,,2026-04-09T19:45:59.537979
 bagaimana cara buat kk dan ktp,ktp_info,0.6196,lstm_direct,static,False,,2026-04-09T19:46:54.547744
+Cara Membuat KTP,ktp_info,0.9307,lstm_direct,static,False,,2026-04-10T20:21:28.140338
+Cara Membuat KTP,ktp_info,0.9307,lstm_direct,static,False,,2026-04-10T20:21:30.702738
+siapa kamu,bot_info,0.675,lstm_direct,static,False,,2026-04-10T20:21:42.378841
+Info Dev,unknown,0.0,emergency_fallback,,False,,2026-04-10T20:21:55.869912
+📄 Akta Kelahiran,clarification_needed,1.0,master_intent_check,,False,,2026-04-10T20:22:34.422495
+akta kelahiran,clarification_needed,1.0,master_intent_check,,False,,2026-04-10T20:22:40.279681
+📂 Lainnya,salam,0.7793,low_confidence_match,static,False,,2026-04-10T20:23:03.840141
+👨‍👩‍👧 KK,kk_info,0.6217,fusion_conflict_pattern_win_lstm,static,False,,2026-04-10T20:23:07.588674
+📄 Akta Kelahiran,clarification_needed,1.0,master_intent_check,,False,,2026-04-10T20:23:19.463809
+🤖 Bot Info,miss_info,0.4487,low_confidence_match,static,False,,2026-04-10T20:24:23.386693
+🤖 Bot Info,miss_info,0.4487,low_confidence_match,static,False,,2026-04-10T20:24:54.059084
+cara membuat KTP,ktp_info,0.9307,lstm_direct,static,False,,2026-04-10T20:28:04.796726
+cara membuat akta kelahiran,akta_lahir_info,0.9648,fusion_agreement,static,False,,2026-04-10T20:28:37.807527
+siapa kamu,bot_info,0.675,lstm_direct,static,False,,2026-04-10T20:28:51.212192
+cara membuat kartu keluarga,kk_info,0.9029,lstm_direct,static,False,,2026-04-10T20:28:55.940531
+Cara Membuat Akta Mati,akta_general,0.4681,fusion_weighted_avg,disambiguation,False,,2026-04-10T20:29:07.997197
+Cara Membuat Akta Mati,akta_general,0.4681,fusion_weighted_avg,disambiguation,False,,2026-04-10T20:29:12.057713
+Cara Membuat ITR,itr_info,0.9663,lstm_direct,static,False,,2026-04-10T20:29:23.302745
+Info Sicantik,sicantik_info,0.9359,fusion_agreement,static,False,,2026-04-10T20:29:42.040239
+SOP Akses Fisik Petugas,sop_akses_fisik_petugas,0.9886,lstm_direct,kb,False,,2026-04-10T20:30:11.730062
+Info Kominfo,miss_info,0.7277,fusion_agreement,static,False,,2026-04-10T20:30:36.112510
+Cara Membuat Loakk,loakk_info,0.972,fusion_agreement,static,False,,2026-04-10T20:31:14.032750
+Info Jam Buka,miss_info,0.903,bert_with_pattern,static,False,,2026-04-10T20:31:19.143166
+jam buka bapenda,jam_buka_info,0.9638,bert_with_pattern,static,False,,2026-04-10T20:31:31.083078
+Surat Pindah Dalam,clarification_needed,1.0,master_intent_check,,False,,2026-04-10T20:31:51.975375
+surat pindah dalam kabupaten,surat_pindah_dalam,0.9332,lstm_direct,static,False,,2026-04-10T20:31:56.343140
+surat pindah masuk ke kabupaten,surat_pindah_masuk,0.972,lstm_direct,static,False,,2026-04-10T20:32:02.484915
+Cara Membuat KTP,ktp_info,0.9307,lstm_direct,static,False,,2026-04-10T20:32:20.618583
+siapa pembuat chatbot fira,dev_info,0.6528,fusion_agreement,static,False,,2026-04-10T20:32:48.867106
+siapa kamu,bot_info,0.675,lstm_direct,static,False,,2026-04-10T20:33:04.655186
+Info Dev,unknown,0.0,emergency_fallback,,False,,2026-04-10T20:33:18.164350
+cara membuat kartu keluarga,kk_info,0.9602,lstm_direct,static,False,,2026-04-10T21:13:40.369146
+cara membuat KTP,ktp_info,0.6372,lstm_direct,static,False,,2026-04-10T21:13:42.964948
+siapa kamu,bot_info,0.8822,lstm_direct,static,False,,2026-04-10T21:13:52.467422
+cara membuat akta kelahiran,akta_lahir_info,0.9648,fusion_agreement,static,False,,2026-04-10T21:13:59.665138
+Cara Membuat Akta Mati,akta_general,0.4201,fusion_weighted_avg,disambiguation,False,,2026-04-10T21:14:20.060097
+Cara Membuat Akta Mati,akta_general,0.4201,fusion_weighted_avg,disambiguation,False,,2026-04-10T21:14:23.809947
+akta mati,clarification_needed,1.0,master_intent_check,,False,,2026-04-10T21:14:32.761337
+akta kematian,clarification_needed,1.0,master_intent_check,,False,,2026-04-10T21:14:36.134788
+siapa kamu,bot_info,0.8388,lstm_direct,static,False,,2026-04-10T22:25:02.211169
+siapa kamu,bot_info,0.8388,lstm_direct,static,False,,2026-04-10T22:25:04.519486
+cara membuat akta kelahiran,akta_lahir_info,0.9648,fusion_agreement,static,False,,2026-04-10T22:25:09.635083
+Cara Membuat Akta Lahir,akta_lahir_info,0.9637,lstm_direct,static,False,,2026-04-10T22:25:22.294677
+Cara Membuat AK1,ak1_info,0.6151,fusion_weighted_avg,static,False,,2026-04-10T22:25:25.206377
+Cara Membuat Akta Mati,akta_general,0.522,fusion_weighted_avg,disambiguation,False,,2026-04-10T22:26:01.026948
+Cara Membuat Akta Mati,akta_general,0.522,fusion_weighted_avg,disambiguation,False,,2026-04-10T22:26:06.643015
+Cara Membuat Akta Mati,akta_general,0.522,fusion_weighted_avg,disambiguation,False,,2026-04-10T22:26:09.195707
+Cara Membuat Akta Mati,akta_general,0.522,fusion_weighted_avg,disambiguation,False,,2026-04-10T22:26:11.760193
+Cara Membuat Akta Mati,miss_info,0.5683,lstm_direct,static,False,,2026-04-10T22:52:36.236149
+siapa kamu,bot_info,0.811,lstm_direct,static,False,,2026-04-10T22:53:06.856790
+cara membuat KTP,ktp_info,0.8594,lstm_direct,static,False,,2026-04-10T22:53:11.111013
+cara membuat kartu keluarga,ak1_info,0.9482,fusion_bert_dominant,static,False,,2026-04-10T22:53:14.897944
+cara membuat akta kelahiran,akta_lahir_info,0.9648,fusion_agreement,static,False,,2026-04-10T22:53:18.042910
+cara membuat kartu keluarga,ak1_info,0.9482,fusion_bert_dominant,static,False,,2026-04-10T22:53:20.660540
+cara membuat kartu keluarga,ak1_info,0.9482,fusion_conflict_default_bert,static,False,,2026-04-10T23:05:30.444949
+cara membuat akta kelahiran,akta_lahir_info,0.9648,fusion_agreement,static,False,,2026-04-10T23:05:56.675896
+cara membuat KTP,ktp_info,0.9305,lstm_direct,static,False,,2026-04-10T23:06:03.424232
+siapa kamu,bot_info,0.659,lstm_direct,static,False,,2026-04-10T23:06:06.390413
+Info Bot,miss_info,0.5574,low_confidence_match,static,False,,2026-04-10T23:06:18.333836
+Info Dev,unknown,0.0,emergency_fallback,,False,,2026-04-10T23:06:28.187009
+🤖 Bot Info,miss_info,0.4487,low_confidence_match,static,False,,2026-04-10T23:07:11.672267
+👨‍👩‍👧 KK,kk_info,0.8456,fusion_conflict_pattern_win_lstm,static,False,,2026-04-10T23:07:21.156360
+📄 Akta Kelahiran,akta_lahir_info,0.9828,lstm_direct,static,False,,2026-04-10T23:07:27.158137
+📂 Lainnya,salam,0.7793,low_confidence_match,static,False,,2026-04-10T23:07:33.252149
+📂 Lainnya,salam,0.7793,low_confidence_match,static,False,,2026-04-10T23:07:36.601390
+🪪 KTP,ktp_info,0.915,lstm_direct,static,False,,2026-04-10T23:07:48.146873
+📂 Lainnya,salam,0.7793,low_confidence_match,static,False,,2026-04-10T23:07:51.300840
+Info Bot,miss_info,0.5574,low_confidence_match,static,False,,2026-04-10T23:08:28.452325
+Info Dev,unknown,0.0,emergency_fallback,,False,,2026-04-10T23:08:34.615342
+📂 Lainnya,salam,0.7793,low_confidence_match,static,False,,2026-04-10T23:08:38.453844
+Salam,salam,0.9127,fusion_bert_dominant,static,False,,2026-04-10T23:09:12.701833
+Kabar,unknown,0.0,emergency_fallback,,False,,2026-04-10T23:09:16.354366
+📂 Lainnya,salam,0.7793,low_confidence_match,static,False,,2026-04-10T23:09:20.170937
+👨‍👩‍👧 KK,kk_info,0.8456,fusion_conflict_pattern_win_lstm,static,False,,2026-04-10T23:09:39.089066
+📄 Akta Kelahiran,akta_lahir_info,0.9828,lstm_direct,static,False,,2026-04-10T23:09:43.311090
+📂 Lainnya,salam,0.7793,low_confidence_match,static,False,,2026-04-10T23:09:45.759342
+📂 Lainnya,salam,0.7793,low_confidence_match,static,False,,2026-04-10T23:09:48.098773
+📂 Lainnya,salam,0.7793,low_confidence_match,static,False,,2026-04-10T23:09:50.167830
+📂 Lainnya,salam,0.7793,low_confidence_match,static,False,,2026-04-10T23:09:52.263098
+📂 Lainnya,salam,0.7793,low_confidence_match,static,False,,2026-04-10T23:09:54.194387
+📂 Lainnya,salam,0.7793,low_confidence_match,static,False,,2026-04-10T23:09:56.239714
+📂 Lainnya,salam,0.7793,low_confidence_match,static,False,,2026-04-10T23:09:58.190005
+SOP Akses Remot,sop_akses_remot,0.9794,lstm_direct,kb,False,,2026-04-10T23:10:22.155173
+siapa kamu,bot_info,0.659,lstm_direct,static,False,,2026-04-10T23:10:51.904403
+cara membuat kartu keluarga,ak1_info,0.9482,fusion_conflict_default_bert,static,False,,2026-04-10T23:10:55.939555
+cara membuat akta kelahiran,akta_lahir_info,0.9648,fusion_agreement,static,False,,2026-04-10T23:11:00.037992
+cara membuat KTP,ktp_info,0.9305,lstm_direct,static,False,,2026-04-10T23:11:03.482321
+hola,salam,0.6312,low_confidence_match,static,False,,2026-04-10T23:11:11.480699
+yuhu,salam,0.882,lstm_direct,static,False,,2026-04-10T23:11:15.135832
+terimakasih,terimakasih,0.7598,lstm_direct,static,False,,2026-04-10T23:11:25.097139
+assalamualaikum,terimakasih,0.4944,low_confidence_match,static,False,,2026-04-10T23:11:34.267197
+siapa kamu,bot_info,0.659,lstm_direct,static,False,,2026-04-10T23:12:06.460839
+siapa pembuat chatbot fira,dev_info,0.7485,fusion_agreement,static,False,,2026-04-10T23:12:16.505036
+halo,salam,0.8251,lstm_direct,static,False,,2026-04-13T09:30:40.871326
+cara membuat kartu keluarga,ak1_info,0.9482,fusion_conflict_default_bert,static,False,,2026-04-13T09:30:57.525191
+cara membuat kartu keluarga,ak1_info,0.9482,fusion_conflict_default_bert,static,False,,2026-04-13T09:31:21.971635
+cara membuat kartu keluarga,ak1_info,0.9482,fusion_conflict_default_bert,static,False,,2026-04-13T09:37:25.487808
+cara membuat kartu keluarga,kk_info,0.936,lstm_direct,static,False,,2026-04-13T10:03:39.430759
+cara membuat KTP,ktp_info,0.9305,lstm_direct,static,False,,2026-04-13T10:05:00.529273
+cara membuat akta kelahiran,akta_lahir_info,0.963,fusion_agreement,static,False,,2026-04-13T10:05:04.631630

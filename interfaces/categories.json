@@ -1,0 +1,135 @@
+{
+
+    "KTP": [
+        "ktp_info"
+    ],
+
+    "KK": [
+        "kk_info"
+    ],
+
+    "Akta Kelahiran": [
+        "akta_lahir_info",
+        "ak1_info"
+    ],
+
+    "Akta Kematian": [
+        "akta_mati_info"
+    ],
+
+    "Perpindahan Penduduk": [
+        "pindah_general",
+        "surat_pindah_dalam",
+        "surat_pindah_masuk"
+    ],
+
+    "Perizinan & Usaha": [
+        "nib_manfaat",
+        "itr_info",
+        "lkpm_info",
+        "sicantik_info"
+    ],
+
+    "Informasi Umum": [
+        "jam_buka_info",
+        "kominfo_info",
+        "loakk_info"
+    ],
+
+    "Bot & Interaksi": [
+        "bot_info",
+        "dev_info",
+        "salam",
+        "kabar",
+        "terimakasih"
+    ],
+
+    "Standar & SOP": [
+        "sop_akses_fisik_petugas",
+        "sop_akses_fisik_tamu",
+        "sop_akses_fisik_vendor",
+        "sop_akses_remot",
+        "sop_backup_data",
+        "sop_backup_file",
+        "sop_evaluasi_sistem",
+        "sop_identifikasi_kebutuhan_dan_analisis",
+        "sop_instalasi_jaringan_interkoneksi_jipd",
+        "sop_instalasi_jaringan_intra_pemerintah_daerah",
+        "sop_instalasi_perangkat_keras",
+        "sop_instalasi_perangkat_lunak",
+        "sop_instalasi_sarana_pendukung_pusat_data",
+        "sop_interkoneksi_memanfaatkan_data_dari_splp_ippd_lain",
+        "sop_interkoneksi_membagikan_data_pada_splp_ippd lain",
+        "sop_interkoneksi_pusat_data_pemerintah",
+        "sop_konfigurasi_perangkat",
+        "sop_migrasi_dari_sistem_lama_ke_sistem_baru",
+        "sop_monitoring_jaringan_interkoneksi",
+        "sop_monitoring_pengaturan_suhu_pusat_data",
+        "sop_monitoring_perawatan_catu_daya_pusat_data",
+        "sop_monitoring_perawatan_jaringan_pusat_data",
+        "sop_monitoring_perawatan_sumber_daya_perangkat",
+        "sop_pelabelan_perangkat",
+        "sop_pembuatan_baris_kode_program_coding",
+        "sop_pembuatan_dokumentasi_teknis_sistem",
+        "sop_pemeliharaan_insidental_jaringan_intra",
+        "sop_pemeliharaan_rutin_jipd_kabupaten_tegal",
+        "sop_penghapusan_backup_file",
+        "sop_penghentian_dismantle_perangkat_keras",
+        "sop_penghentian_jaringan_interkoneksi_jipd",
+        "sop_penghentian_sistem_berdasarkan_evaluasi",
+        "sop_penghentian_sistem_berdasarkan_usulan_permintaan",
+        "sop_peningkatan_perangkat_keras",
+        "sop_peningkatan_sistem_operasi",
+        "sop_perancangan_antarmuka_sistem",
+        "sop_perancangan_pemodelan_sistem",
+        "sop_perawatan_dan_perbaikan",
+        "sop_perencanaan_integrasi_sistem",
+        "sop_perencanaan_pengadopsian_sistem",
+        "sop_perencanaan_pengembangan_sistem",
+        "sop_perencanaan_sistem_baru",
+        "sop_pra_instalasi_perangkat_keras",
+        "sop_restore_data",
+        "sop_restore_file",
+        "sop_rilis_aplikasi_berbasis_mobile",
+        "sop_rilis_aplikasi_berbasis_web_pemilihan_nama_subdomain",
+        "sop_sosialisasi_dan_pelatihan",
+        "sop_splp_sop_pengajuan_api_dari_splp",
+        "sop_uji_coba_fungsi",
+        "sop_user_acceptance_test",
+        "sop_verifikasi_dan_validasi_serta_penerbitan_konten"
+    ],
+
+    "Standar Teknis": [
+        "standar_teknis_aplikasi",
+        "standar_teknis_aplikasi_berbasis_mobile",
+        "standar_teknis_aplikasi_berbasis_mobile_autentikasi_dan_manajemen_sesi",
+        "standar_teknis_aplikasi_berbasis_mobile_interaksi_platform",
+        "standar_teknis_aplikasi_berbasis_mobile_ketahanan",
+        "standar_teknis_aplikasi_berbasis_mobile_ketentuan_lain",
+        "standar_teknis_aplikasi_berbasis_mobile_komunikasi_jaringan",
+        "standar_teknis_aplikasi_berbasis_mobile_kriptografi",
+        "standar_teknis_aplikasi_berbasis_mobile_kualitas_kode_dan_pengaturan_build",
+        "standar_teknis_aplikasi_berbasis_mobile_penyimpanan_data_dan_persyaratan_privasi",
+        "standar_teknis_aplikasi_berbasis_web",
+        "standar_teknis_aplikasi_berbasis_web_autentikasi",
+        "standar_teknis_aplikasi_berbasis_web_file",
+        "standar_teknis_aplikasi_berbasis_web_keamanan_api_dan_web_service",
+        "standar_teknis_aplikasi_berbasis_web_keamanan_komunikasi",
+        "standar_teknis_aplikasi_berbasis_web_keamanan_konfigurasi",
+        "standar_teknis_aplikasi_berbasis_web_ketentuan_lain",
+        "standar_teknis_aplikasi_berbasis_web_kriptografi_pada_verifikasi_statis",
+        "standar_teknis_aplikasi_berbasis_web_logika_bisnis",
+        "standar_teknis_aplikasi_berbasis_web_manajemen_sesi",
+        "standar_teknis_aplikasi_berbasis_web_penanganan_error_dan_pencatatan_log",
+        "standar_teknis_aplikasi_berbasis_web_pengendalian_kode_berbahaya",
+        "standar_teknis_aplikasi_berbasis_web_persyaratan_kontrol_akses",
+        "standar_teknis_aplikasi_berbasis_web_proteksi_data",
+        "standar_teknis_aplikasi_berbasis_web_validasi_input"
+    ],
+
+    "Fallback": [
+        "akta_general",
+        "miss_info",
+        "out_of_topic"
+    ]
+}

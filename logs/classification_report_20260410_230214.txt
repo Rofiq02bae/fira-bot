@@ -1,0 +1,164 @@
+LSTM Model Classification Report
+Timestamp: 2026-04-10 23:02:14
+Dataset: /media/aas/New Volume1/bot/New folder/data/dataset/lstm/dataset_training_lstm.csv
+Training Accuracy: 0.9965
+Validation Accuracy: 0.9170
+
+================================================================================
+                                                                                     precision    recall  f1-score   support
+
+                                                                           ak1_info     0.5000    0.5000    0.5000         2
+                                                                    akta_lahir_info     1.0000    1.0000    1.0000         2
+                                                                     akta_mati_info     1.0000    1.0000    1.0000         2
+                                                                   bank_jateng_info     0.5000    1.0000    0.6667         2
+                                                                    bank_tegal_info     1.0000    0.5000    0.6667         2
+                                                                            bantuan     0.0000    0.0000    0.0000         1
+                                                                      bappenda_info     1.0000    1.0000    1.0000         2
+                                                                           bot_info     0.5000    0.5000    0.5000         2
+                                                                    bpjs_kerja_info     1.0000    0.5000    0.6667         2
+                                                                    bpjs_sehat_info     1.0000    0.5000    0.6667         2
+                                                                           dev_info     1.0000    1.0000    1.0000         3
+                                                                        dinsos_info     0.6667    1.0000    0.8000         2
+                                                                   disdukcapil_info     0.5000    0.5000    0.5000         2
+                                                                       dpmptsp_info     0.0000    0.0000    0.0000         0
+                                                                         hukum_info     1.0000    1.0000    1.0000         2
+                                                                      imigrasi_info     1.0000    1.0000    1.0000         2
+                                                                           itr_info     1.0000    0.5000    0.6667         2
+                                                                         jaksa_info     0.5000    0.5000    0.5000         2
+                                                                              kabar     1.0000    1.0000    1.0000         1
+                                                                            keluhan     0.0000    0.0000    0.0000         0
+                                                                       kemenag_info     1.0000    1.0000    1.0000         2
+                                                                            kk_info     0.6000    1.0000    0.7500         3
+                                                                       kominfo_info     1.0000    1.0000    1.0000         1
+                                                                      koperasi_info     1.0000    0.5000    0.6667         2
+                                                                           kpp_info     0.5000    1.0000    0.6667         2
+                                                                           ktp_info     0.7500    1.0000    0.8571         3
+                                                                          lkpm_info     1.0000    1.0000    1.0000         2
+                                                                         loakk_info     1.0000    1.0000    1.0000         2
+                                                                          miss_info     0.0000    0.0000    0.0000         1
+                                                                           mpp_info     1.0000    1.0000    1.0000         2
+                                                                           nib_info     0.6667    1.0000    0.8000         2
+                                                                        nib_manfaat     1.0000    0.5000    0.6667         2
+                                                                       out_of_topic     0.0000    0.0000    0.0000         2
+                                                                          pdam_info     1.0000    1.0000    1.0000         2
+                                                               perintransnaker_info     1.0000    0.5000    0.6667         2
+                                                                     pindah_general     0.0000    0.0000    0.0000         1
+                                                                            pn_info     1.0000    1.0000    1.0000         2
+                                                                        polres_info     1.0000    1.0000    1.0000         2
+                                                                           pos_info     1.0000    1.0000    1.0000         2
+                                                                          pupr_info     1.0000    1.0000    1.0000         2
+                                                                              salam     0.0000    0.0000    0.0000         2
+                                                                        samsat_info     0.6667    1.0000    0.8000         2
+                                                                              saran     0.0000    0.0000    0.0000         0
+                                                                      sicantik_info     0.6667    1.0000    0.8000         2
+                                                                           sls_info     0.5000    0.5000    0.5000         2
+                                                                         sls_syarat     1.0000    0.5000    0.6667         2
+                                                            sop_akses_fisik_petugas     0.6667    1.0000    0.8000         2
+                                                               sop_akses_fisik_tamu     1.0000    1.0000    1.0000         2
+                                                             sop_akses_fisik_vendor     1.0000    1.0000    1.0000         2
+                                                                    sop_akses_remot     1.0000    1.0000    1.0000         2
+                                                                    sop_backup_data     1.0000    1.0000    1.0000         2
+                                                                    sop_backup_file     1.0000    1.0000    1.0000         2
+                                                                sop_evaluasi_sistem     1.0000    1.0000    1.0000         2
+                                            sop_identifikasi_kebutuhan_dan_analisis     1.0000    1.0000    1.0000         2
+                                           sop_instalasi_jaringan_interkoneksi_jipd     1.0000    1.0000    1.0000         2
+                                     sop_instalasi_jaringan_intra_pemerintah_daerah     1.0000    1.0000    1.0000         2
+                                                      sop_instalasi_perangkat_keras     1.0000    1.0000    1.0000         2
+                                                      sop_instalasi_perangkat_lunak     1.0000    1.0000    1.0000         2
+                                          sop_instalasi_sarana_pendukung_pusat_data     1.0000    1.0000    1.0000         2
+                             sop_interkoneksi_memanfaatkan_data_dari_splp_ippd_lain     1.0000    1.0000    1.0000         2
+                               sop_interkoneksi_membagikan_data_pada_splp_ippd lain     1.0000    1.0000    1.0000         2
+                                             sop_interkoneksi_pusat_data_pemerintah     1.0000    1.0000    1.0000         2
+                                                          sop_konfigurasi_perangkat     1.0000    1.0000    1.0000         2
+                                        sop_migrasi_dari_sistem_lama_ke_sistem_baru     1.0000    1.0000    1.0000         2
+                                               sop_monitoring_jaringan_interkoneksi     1.0000    1.0000    1.0000         2
+                                          sop_monitoring_pengaturan_suhu_pusat_data     1.0000    1.0000    1.0000         2
+                                      sop_monitoring_perawatan_catu_daya_pusat_data     1.0000    1.0000    1.0000         2
+                                       sop_monitoring_perawatan_jaringan_pusat_data     1.0000    1.0000    1.0000         2
+                                     sop_monitoring_perawatan_sumber_daya_perangkat     1.0000    1.0000    1.0000         2
+                                                            sop_pelabelan_perangkat     1.0000    1.0000    1.0000         2
+                                            sop_pembuatan_baris_kode_program_coding     1.0000    1.0000    1.0000         2
+                                            sop_pembuatan_dokumentasi_teknis_sistem     1.0000    1.0000    1.0000         2
+                                         sop_pemeliharaan_insidental_jaringan_intra     1.0000    1.0000    1.0000         2
+                                        sop_pemeliharaan_rutin_jipd_kabupaten_tegal     1.0000    1.0000    1.0000         2
+                                                        sop_penghapusan_backup_file     1.0000    1.0000    1.0000         2
+                                          sop_penghentian_dismantle_perangkat_keras     1.0000    1.0000    1.0000         2
+                                         sop_penghentian_jaringan_interkoneksi_jipd     1.0000    1.0000    1.0000         2
+                                        sop_penghentian_sistem_berdasarkan_evaluasi     1.0000    1.0000    1.0000         2
+                               sop_penghentian_sistem_berdasarkan_usulan_permintaan     1.0000    1.0000    1.0000         2
+                                                    sop_peningkatan_perangkat_keras     1.0000    1.0000    1.0000         2
+                                                     sop_peningkatan_sistem_operasi     1.0000    1.0000    1.0000         2
+                                                   sop_perancangan_antarmuka_sistem     1.0000    1.0000    1.0000         2
+                                                   sop_perancangan_pemodelan_sistem     1.0000    1.0000    1.0000         2
+                                                        sop_perawatan_dan_perbaikan     1.0000    1.0000    1.0000         2
+                                                   sop_perencanaan_integrasi_sistem     1.0000    1.0000    1.0000         2
+                                                sop_perencanaan_pengadopsian_sistem     1.0000    1.0000    1.0000         2
+                                                sop_perencanaan_pengembangan_sistem     1.0000    1.0000    1.0000         2
+                                                        sop_perencanaan_sistem_baru     1.0000    1.0000    1.0000         2
+                                                  sop_pra_instalasi_perangkat_keras     1.0000    1.0000    1.0000         2
+                                                                   sop_restore_data     1.0000    1.0000    1.0000         2
+                                                                   sop_restore_file     1.0000    1.0000    1.0000         2
+                                                 sop_rilis_aplikasi_berbasis_mobile     1.0000    1.0000    1.0000         2
+                           sop_rilis_aplikasi_berbasis_web_pemilihan_nama_subdomain     1.0000    1.0000    1.0000         2
+                                                      sop_sosialisasi_dan_pelatihan     1.0000    1.0000    1.0000         2
+                                               sop_splp_sop_pengajuan_api_dari_splp     1.0000    1.0000    1.0000         2
+                                                                sop_uji_coba_fungsi     1.0000    1.0000    1.0000         2
+                                                           sop_user_acceptance_test     1.0000    1.0000    1.0000         2
+                                sop_verifikasi_dan_validasi_serta_penerbitan_konten     1.0000    1.0000    1.0000         2
+                                                            standar_teknis_aplikasi     1.0000    1.0000    1.0000         2
+                                            standar_teknis_aplikasi_berbasis_mobile     1.0000    1.0000    1.0000         2
+             standar_teknis_aplikasi_berbasis_mobile_autentikasi_dan_manajemen_sesi     1.0000    1.0000    1.0000         2
+                         standar_teknis_aplikasi_berbasis_mobile_interaksi_platform     1.0000    1.0000    1.0000         2
+                                  standar_teknis_aplikasi_berbasis_mobile_ketahanan     1.0000    1.0000    1.0000         2
+                             standar_teknis_aplikasi_berbasis_mobile_ketentuan_lain     1.0000    1.0000    1.0000         2
+                        standar_teknis_aplikasi_berbasis_mobile_komunikasi_jaringan     1.0000    1.0000    1.0000         2
+                                standar_teknis_aplikasi_berbasis_mobile_kriptografi     1.0000    1.0000    1.0000         2
+         standar_teknis_aplikasi_berbasis_mobile_kualitas_kode_dan_pengaturan_build     1.0000    1.0000    1.0000         2
+   standar_teknis_aplikasi_berbasis_mobile_penyimpanan_data_dan_persyaratan_privasi     1.0000    1.0000    1.0000         2
+                                               standar_teknis_aplikasi_berbasis_web     1.0000    1.0000    1.0000         2
+                                   standar_teknis_aplikasi_berbasis_web_autentikasi     1.0000    1.0000    1.0000         2
+                                          standar_teknis_aplikasi_berbasis_web_file     1.0000    1.0000    1.0000         2
+                  standar_teknis_aplikasi_berbasis_web_keamanan_api_dan_web_service     1.0000    1.0000    1.0000         2
+                           standar_teknis_aplikasi_berbasis_web_keamanan_komunikasi     0.6667    1.0000    0.8000         2
+                          standar_teknis_aplikasi_berbasis_web_keamanan_konfigurasi     1.0000    1.0000    1.0000         2
+                                standar_teknis_aplikasi_berbasis_web_ketentuan_lain     1.0000    1.0000    1.0000         2
+            standar_teknis_aplikasi_berbasis_web_kriptografi_pada_verifikasi_statis     1.0000    1.0000    1.0000         2
+                                 standar_teknis_aplikasi_berbasis_web_logika_bisnis     1.0000    1.0000    1.0000         2
+                                standar_teknis_aplikasi_berbasis_web_manajemen_sesi     1.0000    1.0000    1.0000         2
+           standar_teknis_aplikasi_berbasis_web_penanganan_error_dan_pencatatan_log     1.0000    1.0000    1.0000         2
+                   standar_teknis_aplikasi_berbasis_web_pengendalian_kode_berbahaya     1.0000    1.0000    1.0000         2
+                     standar_teknis_aplikasi_berbasis_web_persyaratan_kontrol_akses     1.0000    1.0000    1.0000         2
+                                 standar_teknis_aplikasi_berbasis_web_proteksi_data     1.0000    1.0000    1.0000         2
+                                standar_teknis_aplikasi_berbasis_web_validasi_input     1.0000    1.0000    1.0000         2
+                                                     standar_teknis_aplikasi_khusus     1.0000    1.0000    1.0000         2
+                                     standar_teknis_aplikasi_khusus_evaluasi_sistem     1.0000    1.0000    1.0000         2
+                 standar_teknis_aplikasi_khusus_identifikasi_kebutuhan_dan_analisis     1.0000    1.0000    1.0000         2
+             standar_teknis_aplikasi_khusus_migrasi_dari_sistem_lama_ke_sistem_baru     1.0000    1.0000    1.0000         2
+                 standar_teknis_aplikasi_khusus_pembuatan_baris_kode_program_coding     1.0000    1.0000    1.0000         2
+               standar_teknis_aplikasi_khusus_pembuatan_dokumentasi_teknis_aplikasi     1.0000    1.0000    1.0000         2
+             standar_teknis_aplikasi_khusus_penghentian_sistem_berdasarkan_evaluasi     1.0000    1.0000    1.0000         2
+    standar_teknis_aplikasi_khusus_penghentian_sistem_berdasarkan_usulan_permintaan     1.0000    1.0000    1.0000         2
+                        standar_teknis_aplikasi_khusus_perancangan_antarmuka_sistem     1.0000    1.0000    1.0000         2
+                        standar_teknis_aplikasi_khusus_perancangan_pemodelan_sistem     1.0000    1.0000    1.0000         2
+                             standar_teknis_aplikasi_khusus_perawatan_dan_perbaikan     1.0000    1.0000    1.0000         2
+                        standar_teknis_aplikasi_khusus_perencanaan_integrasi_sistem     0.6667    1.0000    0.8000         2
+                     standar_teknis_aplikasi_khusus_perencanaan_pengadopsian_sistem     1.0000    1.0000    1.0000         2
+                     standar_teknis_aplikasi_khusus_perencanaan_pengembangan_sistem     1.0000    1.0000    1.0000         2
+                             standar_teknis_aplikasi_khusus_perencanaan_sistem_baru     1.0000    1.0000    1.0000         2
+                      standar_teknis_aplikasi_khusus_rilis_aplikasi_berbasis_mobile     1.0000    0.5000    0.6667         2
+standar_teknis_aplikasi_khusus_rilis_aplikasi_berbasis_web_pemilihan_nama_subdomain     0.6667    1.0000    0.8000         2
+                           standar_teknis_aplikasi_khusus_sosialisasi_dan_pelatihan     1.0000    1.0000    1.0000         2
+                                     standar_teknis_aplikasi_khusus_uji_coba_fungsi     1.0000    1.0000    1.0000         2
+                            standar_teknis_aplikasi_khusus_user_acceptance_test_uat     1.0000    1.0000    1.0000         2
+     standar_teknis_aplikasi_khusus_verifikasi_dan_validasi_serta_penerbitan_konten     1.0000    1.0000    1.0000         2
+                                                                 surat_pindah_dalam     0.4000    1.0000    0.5714         2
+                                                                  surat_pindah_luar     1.0000    0.5000    0.6667         2
+                                                                 surat_pindah_masuk     1.0000    0.5000    0.6667         2
+                                                                        taspen_info     1.0000    1.0000    1.0000         2
+                                                                        terimakasih     0.0000    0.0000    0.0000         1
+
+                                                                           accuracy                         0.9170       289
+                                                                          macro avg     0.8898    0.8859    0.8775       289
+                                                                       weighted avg     0.9187    0.9170    0.9069       289
+
+================================================================================
